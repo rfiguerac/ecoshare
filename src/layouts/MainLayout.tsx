@@ -1,0 +1,18 @@
+import { Outlet } from "react-router-dom";
+import { Navbar } from "../components/Navbar";
+
+export const MainLayout = () => {
+  return (
+    <div className="place-items-center">
+      <main className="container">
+        <div className="pt-8">
+          <Navbar />
+        </div>
+
+        <div className="container pt-2">
+          <Outlet />
+        </div>
+      </main>
+    </div>
+  );
+};
