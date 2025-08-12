@@ -1,6 +1,6 @@
 export const Navbar = () => {
   return <>
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-sm px-15">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -25,15 +25,17 @@ export const Navbar = () => {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li><a>Explore</a></li>
-          <li><a>Map</a></li>
-          <li><a>Saved</a></li>
+          <li><a><i className="fa-solid fa-magnifying-glass"></i> Explore</a></li>
+          <li><a><i className="fa-solid fa-location-dot"></i> Map</a></li>
+          <li><a><i className="fa-regular fa-heart"></i> Saved</a></li>
         </ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end gap-x-5">
+        <i className="fa-regular fa-bell"></i>
         <a className="btn bg-[#28A745] text-white hover:bg-[#218838]"> + New donation</a>
-      </div>
-    </div>
+        <i className="fa-regular fa-user"></i>
+      </div> 
+    </div> 
   </>
   {/* </> <div className="">Navbar</div>; */ }
 };
