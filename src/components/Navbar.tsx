@@ -20,7 +20,7 @@ export const Navbar = () => {
             <li><a>Saved</a></li>
           </ul>
         </div>
-        <img src="src\ecoshare-icon.png" width={50}/>
+        <img src="src\assets\ecoshare-icon.png" width={50}/>
         <a className="btn btn-ghost text-xl">EcoShare</a>
       </div>
       <div className="navbar-center hidden lg:flex">
