@@ -26,20 +26,12 @@ export const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li><a>Explore</a></li>
-          <li>
-            <details>
-              <summary>Map</summary>
-              <ul className="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
-              </ul>
-            </details>
-          </li>
+          <li><a>Map</a></li>
           <li><a>Saved</a></li>
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn"> + New donation</a>
+        <a className="btn bg-[#28A745] text-white hover:bg-[#218838]"> + New donation</a>
       </div>
     </div>
   </>
