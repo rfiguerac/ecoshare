@@ -1,3 +1,9 @@
+import BrowseCategory from "../components/Main/BrowseCategory";
+import FeaturedDonation from "../components/Main/FeaturedDonation";
+
 export const MainPage = () => {
-  return <div>MainPage</div>;
+  return <div>
+    <BrowseCategory />
+    <FeaturedDonation />
+  </div>;
 };

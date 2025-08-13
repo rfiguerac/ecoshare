@@ -1,6 +1,5 @@
 import type { Location } from "./Location";
 
-
 type donationState = "Available" | "Reserved" | "closed";
 
  
