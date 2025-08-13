@@ -11,6 +11,7 @@ export interface Donation {
     idCategory: number;
     description: string;
     state: donationState;
+    urgent?: boolean;
     imageUrl: string;
     location: Location;
     expiryDate?: Date;

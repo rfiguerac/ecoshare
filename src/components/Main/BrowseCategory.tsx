@@ -21,8 +21,6 @@ const BrowseCategory = () => {
             <CardCategory category={category} quantity={1024} bgColor={color} key={category.id} />
         )
     });
-
-
     return (
 
         <MainCard title="Browse Categories"  description="Find exactly what you need discover something unexpected. Every category helps reduce waste and build communities." >
