@@ -1,3 +1,7 @@
+import BrowseCategory from "../components/Main/BrowseCategory";
+
 export const MainPage = () => {
-  return <div>MainPage</div>;
+  return <div>
+    <BrowseCategory />
+  </div>;
 };
