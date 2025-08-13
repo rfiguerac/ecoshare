@@ -1,8 +1,8 @@
-import { Search, Bell, User, MapPin, Funnel } from 'lucide-react';
+import { Search, Bell, User, Plus } from 'lucide-react';
 export const Navbar = () => {
   return <>
-    <div className="navbar bg-base-100 shadow-sm lg:px-10">
-      <div className="navbar-start">
+    <div className="navbar bg-base-100 shadow-sm lg:px-15">
+      <div className="navbar-start w-[30%] sm:w-1/2">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
@@ -10,57 +10,39 @@ export const Navbar = () => {
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-            <li><a><Bell size={18}/> Notifications</a></li>
-            <li><a><User size={18}/>Profile</a></li>
-            <li><a>Saved</a></li>
+            <li className='sm:hidden'><a><Plus /> New donation</a></li>
+            <li><a><Bell size={18} /> Notifications</a></li>
+            <li><a><User size={18} />Profile</a></li>
           </ul>
         </div>
         <div className="flex-none">
-          <img src="src\assets\ecoshare-icon.png" width={50} alt="EcoShare logo"  className='w-8 md:w-12 lg:w-16'/>
+          <img src="src\assets\ecoshare-icon.png" alt="EcoShare logo" className='w-10 md:w-12 lg:w-16' />
         </div>
         <div className="flex-col items-start ml-4">
-          <a className="text-sm md:text-base lg:text-lg font-bold">EcoShare</a>
+          <a className="text-sm md:text-base lg:text-lg font-bold hidden lg:flex">EcoShare</a>
           <p className="text-sm text-gray-500 mt-0.5 hidden lg:block">Reduce • Reuse • Share</p>
         </div>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center">
 
-        <div className=" w-full max-w-4xl mx-auto">
-          <form action="" method="get" className="flex items-center w-full bg-white rounded-3xl shadow-lg p-2">
-
-            <div className="flex-shrink-0 p-2 text-gray-500">
-              <Search size={24} />
-            </div>
-
+        <div className="mx-auto">
+          <form action="" method="get" className="flex items-center bg-white border border-black rounded-3xl p-2">
             <input
               type="text"
               placeholder="Search for items, food, clothing..."
-              className="w-full h-10 px-4 text-gray-700 bg-transparent border-none focus:outline-none"
+              className=" md:w-sm xl:min-w-md 2xl:min-w-3xl h-5 lg:h-10 px-4 text-sm md:text-base lg:text-lg text-gray-700 bg-transparent border-none focus:outline-none "
             />
 
-            <div className="flex items-center p-2 text-gray-600 cursor-pointer hover:bg-gray-100 rounded-full transition-colors">
-              <MapPin strokeWidth={1.5} size={20} />
-              <span className="ml-1 text-sm font-medium hidden md:inline">Near me</span>
-            </div>
-
-            <div className="flex items-center p-2 text-gray-600 cursor-pointer hover:bg-gray-100 rounded-full transition-colors">
-              <Funnel strokeWidth={1.5} size={20} />
-              <span className="ml-1 text-sm font-medium hidden md:inline">Filters</span>
-            </div>
-
-            <input
-              type="submit"
-              value="Search"
-              className="btn ml-2 bg-[#28A745] text-white hover:bg-[#218838] rounded-full min-w-[100px] font-bold"
-            />
+            <button type="submit" className="flex-shrink-0 p-2 text-gray-500">
+              <Search size={16} />
+            </button>
           </form>
         </div>
-       
       </div>
-      <div className="navbar-end gap-x-5">
-        <Bell size={18} className='hidden lg:block'/>
+      <div className="navbar-end gap-x-5 hidden sm:flex">
         <a className="btn btn-sm md:btn-md bg-[#28A745] text-white hover:bg-[#218838]"> + New donation</a>
-        <User size={18} className='hidden lg:block'/>
+        <Bell size={18} className='hidden lg:block' />
+        <User size={18} className='hidden lg:block' />
       </div>
     </div >
   </>
