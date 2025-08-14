@@ -9,7 +9,7 @@ interface BannerCardProps {
 
 export const BannerCard = ({ title, description, button1, button2 }: BannerCardProps) => {
   return (
-    <div className="mx-auto mt-10 p-12 w-full rounded-2xl text-center bg-gradient-to-r from-green-500 to-blue-600 shadow-lg">
+    <div className="mt-10 p-12  rounded-2xl text-center bg-gradient-to-r from-green-500 to-blue-600 shadow-lg">
       <h2 className="text-3xl md:text-4xllg:text-5xl font-bold tracking-tight text-white">
         {title}
       </h2>
