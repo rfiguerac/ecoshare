@@ -1,4 +1,4 @@
-import { Heart, Share2, MapPin, MessageCircle} from "lucide-react";
+import { Heart, Share2, MapPin, MessageCircle, Star} from "lucide-react";
 
 export const DonationInfo = () => {
 
@@ -20,7 +20,16 @@ export const DonationInfo = () => {
                 <p className="font-bold mt-4">Donated by</p>
                 <div className="flex gap-2">
                     <img src="src\assets\user-icono.png" alt="user icon" className="w-8 h-8 rounded-full"/>
-                    <p className="font-bold">Maria Gonzáles</p>
+                    <div className="flex flex-col">
+                         <p className="font-bold">Maria Gonzáles</p>
+                         <div className="flex">
+                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                        </div>
+                    </div>
                 </div>
                 <div className="flex mt-4 gap-3">
                     <button className="btn bg-[#28A745] text-white hover:bg-[#218838] px-10"> <MessageCircle size={15}/>Contact Dono</button>

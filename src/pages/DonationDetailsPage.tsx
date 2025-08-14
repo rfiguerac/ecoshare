@@ -1,6 +1,7 @@
 import { DonationInfo } from '../components/DonationDetails/DonationInfo';
 import { AditionalInformation } from "../components/DonationDetails/AditionalInformation";
 import { ContactDonor } from "../components/DonationDetails/ContatDonor";
+import { AboutDonor } from "../components/DonationDetails/AboutDonor";
 
 export const DonationDetailsPage = () => {
 
@@ -8,5 +9,6 @@ export const DonationDetailsPage = () => {
     <DonationInfo />
     <AditionalInformation />
     <ContactDonor />
+    <AboutDonor/>
   </div>;
 };
