@@ -11,12 +11,12 @@ export const DonationInfo = () => {
             </figure>
             <div className="card-body">
                 <div className=" card-actions justify-end gap-5"> 
-                    <Heart/>
-                    <Share2/>
+                    <Heart size={16} color="grey"/>
+                    <Share2 size={16} color="grey"/>
                 </div>
-                <h2 className="card-title">Card Title</h2>
-                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                <p className="flex gap-1 items-center text-xs mt-4"><MapPin/> 123 Green St, NYC</p>
+                <h2 className="card-title mt-4">Card Title</h2>
+                <p className="text-[#d9fa1]">A card component has a figure, a body part, and inside body there are title and actions parts</p>
+                <p className="flex gap-1 items-center text-xs text-[#d9fa1] mt-4"><MapPin size={16}/> 123 Green St, NYC</p>
                 <p className="font-bold mt-4">Donated by</p>
                 <div className="flex gap-2">
                     <img src="src\assets\user-icono.png" alt="user icon" className="w-8 h-8 rounded-full"/>
