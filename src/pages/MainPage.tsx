@@ -1,6 +1,8 @@
 import BrowseCategory from "../components/Main/BrowseCategory";
 import FeaturedDonation from "../components/Main/FeaturedDonation";
 import UrgentDonation from "../components/Main/UrgentDonation";
+import Banner from "../components/Main/Banner";
+
 
 import { donations } from "../components/donations";
 
@@ -10,5 +12,6 @@ export const MainPage = () => {
     <BrowseCategory />
     <UrgentDonation donations={donations} /> 
     <FeaturedDonation />
+    <Banner />
   </div>;
 };
