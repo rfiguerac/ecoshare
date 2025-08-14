@@ -1,0 +1,52 @@
+import { MapPin, Clock4 } from "lucide-react";
+
+export const AditionalInformation = () => {
+    return <>
+        <div className="card bg-base-100 w-90 shadow-sm">
+            <div className="card-body">
+                <h2 className="card-title">Aditional Information</h2>
+                <p className="font-bold mt-2 mb-2">Items Details</p>
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600 font-medium">Category</span>
+                    <span className="text-gray-900 font-semibold">Food</span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600 font-medium">Condition</span>
+                    <span className="text-gray-900 font-semibold">Excellent</span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600 font-medium">Pickup Required</span>
+                    <span className="text-gray-900 font-semibold">Yes</span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600 font-medium">Posted</span>
+                    <span className="text-gray-900 font-semibold">12/12/2024</span>
+                </div>
+                <p className="font-bold mt-2 mb-2">Pickup Information</p>
+                <div className="flex items-start space-x-2">
+                    <MapPin size={16} color="grey" className="mt-1" />
+                    <div className="flex flex-col">
+                        <span className="text-gray-900 font-semibold">123 Green St, NYC</span>
+                        <span className="text-gray-500 text-sm">Pickup location</span>
+                    </div>
+                </div>
+                <div className="flex items-start space-x-2">
+                    <Clock4 size={16} color="grey" className="mt-1" />
+                    <div className="flex flex-col">
+                        <span className="text-gray-900 font-semibold">Flexible hours</span>
+                        <span className="text-gray-500 text-sm">Contact donor to arrange</span>
+                    </div>
+                </div>
+                <div className="bg-blue-50 p-6 rounded-xl mt-4">
+                    <h2 className="text-blue-800 font-bold  mb-4">Saftey Guidelines</h2>
+                    <ul className="list-disc list-inside space-y-2 text-blue-800">
+                        <li>Meet in public places when possible</li>
+                        <li>Inspect items before pickup</li>
+                        <li>Follow food safety guidelines for perishables</li>
+                        <li>Report any issues to our support team</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </>
+}
