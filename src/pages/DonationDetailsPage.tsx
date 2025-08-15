@@ -5,19 +5,18 @@ import { AboutDonor } from "../components/DonationDetails/AboutDonor";
 
 export const DonationDetailsPage = () => {
 
-  return <div className="bg-[#EAF6EF] grid grid-cols-1 lg:grid-cols-2 lg:gap-0 justify-items-center md:justify-items-start">
-    <div className="lg:col-start-1 mb-8 md:mt-8 md:ml-8">
-      <DonationInfo />
-    </div>
-    <div className="lg:col-start-1 mb-8 md:mt-8 md:ml-8">
-      <AditionalInformation />
-    </div>
-    <div className="lg:col-start-2 lg:row-start-1  md:mt-8 ">
-      <ContactDonor />
-    </div>
+ return (
+    <div className="bg-[#EAF6EF] grid grid-cols-1 lg:grid-cols-[auto_auto] gap-8 2xl:gap-0 p-8 items-start">
+ 
+      <div className="space-y-8 justify-self-center">
+        <DonationInfo />
+        <AditionalInformation />
+      </div>
 
-    <div className="lg:col-start-2 mb-4">
-      <AboutDonor />
+      <div className="space-y-8 justify-self-center">
+        <ContactDonor />
+        <AboutDonor />
+      </div>
     </div>
-  </div>;
+  );
 };
