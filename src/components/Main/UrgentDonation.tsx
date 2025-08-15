@@ -32,7 +32,7 @@ const UrgentDonation = ({ donations }: UrgentDonationsProps) => {
             </div>}
             description="These items are about to expire. Grab them now!"
             bgColor="bg-yellow-50"
-            button={<button className="btn border-0 bg-yellow-50 hover:border-1">View All <MoveRight /></button>}
+            button={<button className="btn border-0 p-1 bg-transparent text-sm hover:border-1">View All <MoveRight size={15} /></button>}
         >
             {urgentDonationCards}
         </MainCard>
