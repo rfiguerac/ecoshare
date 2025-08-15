@@ -1,7 +1,7 @@
 import { Star, MapPin, CalendarDays } from 'lucide-react'
 export const AboutDonor = () => {
     return <>
-        <div className="card bg-base-100 w-90 shadow-sm mb-4">
+        <div className="card bg-base-100 w-90 shadow-sm mb-4 md:max-h-40">
             <p className='flex-start font-bold mt-4 ml-4'>About the Donor</p>
             <div className="flex items-center gap-4 ml-8">
                 <div className="avatar online">

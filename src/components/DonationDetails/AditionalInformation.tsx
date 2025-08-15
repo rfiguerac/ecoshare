@@ -2,7 +2,7 @@ import { MapPin, Clock4 } from "lucide-react";
 
 export const AditionalInformation = () => {
     return <>
-        <div className="card bg-base-100 w-90 shadow-sm">
+        <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
             <div className="card-body">
                 <h2 className="card-title">Aditional Information</h2>
                 <p className="font-bold mt-2 mb-2">Items Details</p>

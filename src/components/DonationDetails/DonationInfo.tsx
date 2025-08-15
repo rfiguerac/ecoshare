@@ -3,7 +3,7 @@ import { Heart, Share2, MapPin, MessageCircle, Star} from "lucide-react";
 export const DonationInfo = () => {
 
     return <>
-        <div className="card bg-base-100 w-90 shadow-sm mt-4">
+        <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
             <figure>
                 <img
                     src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
