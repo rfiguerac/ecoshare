@@ -15,25 +15,25 @@ export const DonationInfo = () => {
                     <Share2 size={16} className="text-gray-500 cursor-pointer hover:text-black"/>
                 </div>
                 <h2 className="card-title mt-4">Card Title</h2>
-                <p className="text-[#d9fa1]">A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                <p className="flex gap-1 items-center text-xs text-[#d9fa1] mt-4"><MapPin size={16}/> 123 Green St, NYC</p>
+                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+                <p className="flex gap-1 items-center text-xs mt-4"><MapPin size={16}/> 123 Green St, NYC</p>
                 <p className="font-bold mt-4">Donated by</p>
                 <div className="flex gap-2">
                     <img src="src\assets\user-icono.png" alt="user icon" className="w-8 h-8 rounded-full"/>
                     <div className="flex flex-col">
                          <p className="font-bold">Maria Gonzáles</p>
                          <div className="flex">
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
                         </div>
                     </div>
                 </div>
                 <div className="flex mt-4 gap-3">
-                    <button className="btn bg-[#28A745] text-white hover:bg-[#218838] px-10"> <MessageCircle size={15}/>Contact Dono</button>
-                    <button className="btn"> View on Map</button>
+                    <button className="btn btn-primary hover:btn-secondary active:btn-accent px-10 px-10"> <MessageCircle size={15}/>Contact Dono</button>
+                    <button className="btn">View on Map</button>
                 </div>
             </div>
         </div>

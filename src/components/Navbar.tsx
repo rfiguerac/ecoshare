@@ -40,7 +40,7 @@ export const Navbar = () => {
         </div>
       </div>
       <div className="navbar-end gap-x-5 hidden sm:flex">
-        <a className="btn btn-sm md:btn-md bg-[#28A745] text-white hover:bg-[#218838]"> + New donation</a>
+        <a className="btn btn-primary btn-sm md:btn-md hover:btn-secondary active:btn-accent"> + New donation</a>
         <Bell size={18} className='hidden lg:block' />
         <User size={18} className='hidden lg:block' />
       </div>
