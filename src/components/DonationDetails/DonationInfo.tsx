@@ -1,22 +1,26 @@
 import { Heart, Share2, MapPin, MessageCircle, Star} from "lucide-react";
+import type { Donation } from "../../interfaces/Donation";
 
-export const DonationInfo = () => {
+interface DonationInfoProps {
+    donation: Donation}
+
+export const DonationInfo = ({ donation }: DonationInfoProps) => {
 
     return <>
         <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
             <figure>
                 <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Shoes" />
+                    src={donation.imageUrl}
+                    alt={`Image of ${donation.title}` }/>
             </figure>
             <div className="card-body">
                 <div className=" card-actions justify-end gap-5"> 
                     <Heart size={16} className="text-gray-500 cursor-pointer rounded-lg transition duration-200 hover:text-black"/>
                     <Share2 size={16} className="text-gray-500 cursor-pointer hover:text-black"/>
                 </div>
-                <h2 className="card-title mt-4">Card Title</h2>
-                <p className="text-[#d9fa1]">A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                <p className="flex gap-1 items-center text-xs text-[#d9fa1] mt-4"><MapPin size={16}/> 123 Green St, NYC</p>
+                <h2 className="card-title mt-4">{donation.title}</h2>
+                <p className="text-[#d9fa1]">{donation.description}</p>
+                <p className="flex gap-1 items-center text-xs text-[#d9fa1] mt-4"><MapPin size={16}/> </p>
                 <p className="font-bold mt-4">Donated by</p>
                 <div className="flex gap-2">
                     <img src="src\assets\user-icono.png" alt="user icon" className="w-8 h-8 rounded-full"/>
