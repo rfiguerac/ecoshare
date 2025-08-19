@@ -1,7 +1,7 @@
-import { MainCard } from "../components/Main/MainCard";
-import BrowseCategory from "../components/Main/BrowseCategory";
-import { CardCategory } from "../components/Main/CardCategory";
-import categories from "../data/categories";
+
+// Update the import path if the file is named 'BrowseCategory.tsx' or 'BrowseCategory.jsx' and check casing
+import BrowseCategory from "../components/category/BrowseCategory.tsx";
+
 
 
 export const CategoryPage = () => {

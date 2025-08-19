@@ -1,8 +1,8 @@
 
 import { CardDonation } from "./CardDonation";
-import { donations } from "../../data/donations";
+import { donations } from "../../../data/donations";
 
-import { MainCard } from "./MainCard";
+import { MainCard } from "../../Main/MainCard";
 
 
 const FeaturedDonation = () => {

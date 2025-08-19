@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { User as UserIcon, UploadCloud, X } from 'lucide-react';
-import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
+import {  UploadCloud, X } from 'lucide-react';
 
 // The data structure for a new user profile
 interface UserProfile {
@@ -78,17 +77,6 @@ const ProfileCreationForm = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       setIsSubmitting(true);
-      
-      // Simulate API call and image upload
-      setTimeout(() => {
-        const newProfile = {
-          ...formData,
-          profilePictureUrl: file ? file.preview : '',
-        };
-        console.log('User Profile created:', newProfile);
-        setIsSubmitting(false);
-        alert('Profile created successfully!');
-      }, 1500);
     }
   };
 
@@ -119,6 +107,52 @@ const ProfileCreationForm = () => {
           <label htmlFor="bio" className="block text-sm font-semibold text-gray-700">Bio</label>
           <textarea name="bio" value={formData.bio} onChange={handleChange} rows={3}
                     className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
+        </div>
+
+        {/* Profile Picture Upload */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Profile Picture</label>
+          <div
+            {...getRootProps({
+              className:
+                "border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transition-colors " +
+                (isDragActive ? "border-green-500 bg-green-50" : "border-gray-300 bg-gray-50"),
+            })}
+          >
+            <input {...getInputProps()} />
+            {file ? (
+              <div className="relative w-32 h-32">
+                <img
+                  src={file.preview}
+                  alt="Profile Preview"
+                  className="object-cover w-full h-full rounded-full"
+                />
+                <button
+                  type="button"
+                  onClick={removeFile}
+                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                  aria-label="Remove image"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center">
+                <UploadCloud size={32} className="text-gray-400 mb-2" />
+                <span className="text-gray-500">
+                  {isDragActive
+                    ? "Drop the image here..."
+                    : "Drag & drop an image, or click to select"}
+                </span>
+                <span className="text-xs text-gray-400 mt-1">
+                  (JPEG/PNG, max 5MB)
+                </span>
+              </div>
+            )}
+          </div>
+          {errors.profilePicture && (
+            <p className="mt-1 text-sm text-red-600">{errors.profilePicture}</p>
+          )}
         </div>
 
         {/* Submit Button */}

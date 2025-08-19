@@ -29,14 +29,6 @@ const Login = () => {
 
         if (Object.keys(validationErrors).length === 0) {
             setIsSubmitting(true);
-            
-            // Simulate API call for login
-            setTimeout(() => {
-                console.log('Login submitted:', formData);
-                setIsSubmitting(false);
-                alert('Logged in successfully!');
-                // Here you would handle successful login and redirect
-            }, 1500);
         }
     };
 
