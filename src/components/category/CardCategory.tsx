@@ -1,5 +1,5 @@
 import type { Category } from "../../interfaces/Category"
-import { DynamicIcon } from "../DynamicIcon";
+import { DynamicIcon } from "../Main/DynamicIcon";
 
 
 

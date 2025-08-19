@@ -1,7 +1,7 @@
 // src/components/UrgentDonations.tsx
-import type { Donation } from "../../interfaces/Donation";
+import type { Donation } from "../../../interfaces/Donation";
 import { CardDonation } from "./CardDonation";
-import { MainCard } from "./MainCard";
+import { MainCard } from "../../Main/MainCard";
 
 import { MoveRight, Zap } from "lucide-react";
 
@@ -13,7 +13,6 @@ const UrgentDonation = ({ donations }: UrgentDonationsProps) => {
 
     // Filter to get only donations with an expiryDate or urgent flag set to true
     const urgentDonations = donations.filter((donation) => donation.expiryDate || donation.urgent === true);
-    console.log("urgentDonations", urgentDonations);
 
     // Map the filtered donations to CardDonation components
     const urgentDonationCards = urgentDonations.map((donation) => (

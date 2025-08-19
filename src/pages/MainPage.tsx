@@ -1,7 +1,7 @@
-import BrowseCategory from "../components/Main/BrowseCategory";
-import FeaturedDonation from "../components/Main/FeaturedDonation";
-import UrgentDonation from "../components/Main/UrgentDonation";
-import Banner from "../components/Main/Banner";
+import BrowseCategory from "../components/category/BrowseCategory";
+import FeaturedDonation from "../components/donation/donation/FeaturedDonation";
+import UrgentDonation from "../components/donation/donation/UrgentDonation";
+import Banner from "../components/Main/banner/Banner";
 import HeroSection from "../components/Main/HeroSection";
 
 

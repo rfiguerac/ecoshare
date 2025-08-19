@@ -7,6 +7,7 @@ import CreateDonationPage  from "../pages/CreateDonationPage";
 import ProfileCreationPage from "../pages/CreateProfilePage";
 import LoginPage from "../pages/LoginPage";
 import  CategoryPage  from "../pages/CategoryPage";
+import { DonationSearchPage } from "../pages/DonationSearchPage";
 
 
 export default function AppRouter() {
@@ -20,6 +21,7 @@ export default function AppRouter() {
           <Route path="login" element={<LoginPage />} />
           <Route path="CreateProfile" element={<ProfileCreationPage />} />
           <Route path="category" element={<CategoryPage />} />
+          <Route path="donationSearch" element={<DonationSearchPage />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>
