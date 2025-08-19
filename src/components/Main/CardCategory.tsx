@@ -1,19 +1,18 @@
-import type { Category } from "../../interfaces/Category"
+import type { Category } from "../../domain/interfaces/Category";
 import { DynamicIcon } from "../DynamicIcon";
 
-
-
 interface CardCategoryProps {
-  category: Category
-  quantity?: number
-  bgColor?: string
+  category: Category;
+  quantity?: number;
+  bgColor?: string;
 }
 
 export const CardCategory = (props: CardCategoryProps) => {
-  const { title, icon, } = props.category
+  const { title, icon } = props.category;
   return (
     <div className="card border border-gray-200 rounded-lg flex flex-col w-48 md:w-56 p-4 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:cursor-pointer flex-shrink-0">
-      <div className={`w-16 h-16 mx-auto rounded-xl flex items-center justify-center mb-1 p-1 ${props.bgColor}`}>
+      <div
+        className={`w-16 h-16 mx-auto rounded-xl flex items-center justify-center mb-1 p-1 ${props.bgColor}`}>
         <DynamicIcon name={icon} size={32} />
       </div>
       <div className="card-body items-center text-center">
@@ -21,5 +20,5 @@ export const CardCategory = (props: CardCategoryProps) => {
         <p className="text-gray-600 text-sm">{props.quantity} Items</p>
       </div>
     </div>
-  )
-}
+  );
+};
