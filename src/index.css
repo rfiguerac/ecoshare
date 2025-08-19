@@ -1,2 +1,51 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "ecoshare";
+  default: true;              
+  prefersdark: false;         
+  color-scheme: light;        
+
+  --color-base-100: #FFFFFF;  /* Fondo principal */
+  --color-base-200: #ECFDF5;  /* Fondo suave */
+  --color-base-300: #D1FAE5;  /* Fondo más marcado */
+  --color-base-content: #111827; /* Texto oscuro principal */
+
+  --color-primary: #28A745;   /* Verde EcoShare */
+  --color-primary-content: #FFFFFF;
+
+  --color-secondary: #218838; /* Verde más oscuro */
+  --color-secondary-content: #FFFFFF;
+
+  --color-accent: #B4FF00;    /* Verde neón (acento) */
+  --color-accent-content: #111827;
+
+  --color-neutral: #111827;   /* Texto fuerte / neutro */
+  --color-neutral-content: #FFFFFF;
+
+  --color-info: #EFF6FF;      /* Azul info */
+  --color-info-content: #1E40AF;
+
+  --color-success: #22C55E;   /* Verde éxito */
+  --color-success-content: #FFFFFF;
+
+  --color-warning: #F59E0B;   /* Amarillo advertencia */
+  --color-warning-content: #111827;
+
+  --color-error: #EF4444;     /* Rojo error */
+  --color-error-content: #FFFFFF;
+}
+
+@layer components {
+  .text-gray {
+    @apply text-gray-600;
+  }
+
+  .text-darkgray {
+    @apply text-gray-900;
+  }
+
+  .star{
+    @apply text-yellow-400 fill-yellow-400;
+  }
+}
