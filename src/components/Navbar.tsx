@@ -25,7 +25,7 @@ export const Navbar = () => {
           <Link to='/'>
             <div className="flex-none">
               <img
-                src="src\assets\ecoshare-icon.png" alt="EcoShare logo" className='w-10 md:w-12 lg:w-16' />
+                src="\src\assets\ecoshare-icon.png" alt="EcoShare logo" className='w-10 md:w-12 lg:w-16' />
             </div>
           </Link>
           <div className="flex-col items-start ml-4">
@@ -50,7 +50,7 @@ export const Navbar = () => {
           </div>
         </div>
         <div className="navbar-end gap-x-5 hidden sm:flex">
-          <Link to="/CreateDonation" className="btn btn-sm md:btn-md bg-[#28A745] text-white hover:bg-[#218838]">
+          <Link to="/CreateDonation" className="btn btn-sm md:btn-md btn-primary hover:btn-secondary active:btn-accent">
             + New donation
           </Link>
           <Bell size={18} className='hidden lg:block' />

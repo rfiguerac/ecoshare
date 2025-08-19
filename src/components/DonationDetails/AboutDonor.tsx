@@ -13,11 +13,11 @@ export const AboutDonor = () => {
                     <h2 className="text-xl font-bold">Maria González</h2>
                     <div className="flex items-center gap-2 text-gray-500">
                         <div className="flex">
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
+                            <Star size={16} className="star" />
                         </div>
                         <span className="font-semibold text-gray-800">4.8</span>
                         <span className="text-sm">• 127 donations</span>
