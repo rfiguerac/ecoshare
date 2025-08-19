@@ -1,9 +1,9 @@
-import { DonationInfo } from '../components/DonationDetails/DonationInfo';
-import { AditionalInformation } from "../components/DonationDetails/AditionalInformation";
-import { ContactDonor } from "../components/DonationDetails/ContatDonor";
-import { AboutDonor } from "../components/DonationDetails/AboutDonor";
+import { DonationInfo } from '../components/Donation/DonationDetails/DonationInfo';
+import { AditionalInformation } from "../components/Donation/DonationDetails/AditionalInformation";
+import { ContactDonor } from "../components/Donation/DonationDetails/ContatDonor";
+import { AboutDonor } from "../components/Donation/DonationDetails/AboutDonor";
 
-import { donations } from "../components/donations";
+import { donations } from "../data/donations";
 
 import { useParams } from "react-router-dom";
 

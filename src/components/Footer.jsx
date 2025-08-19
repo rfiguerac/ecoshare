@@ -11,9 +11,11 @@ export const Footer = () => {
                 {/* This column spans 2 columns on small screens, pushing the others to the next row */}
                 <div className="flex flex-col space-y-4 sm:col-span-2 md:col-span-1">
                     <div className="flex items-center space-x-2">
-                        <div className="flex-none">
-                            <img src="src\assets\ecoshare-icon.png" alt="EcoShare logo" className='w-10 md:w-12 lg:w-16' />
-                        </div>
+                        <Link to="/" className="hover:text-blue-600 transition-colors">
+                            <div className="flex-none">
+                                <img src="src\assets\ecoshare-icon.png" alt="EcoShare logo" className='w-10 md:w-12 lg:w-16' />
+                            </div>
+                        </Link>
                         <span className="text-2xl font-bold">EcoShare</span>
                     </div>
                     <p className="text-gray-600 text-sm max-w-sm">
@@ -26,7 +28,7 @@ export const Footer = () => {
                     <h4 className="text-lg font-semibold">Quick Links</h4>
                     <ul className="space-y-2 text-sm">
                         <li><Link to="/how-it-works" className="hover:text-blue-600 transition-colors">How It Works</Link></li>
-                        <li><Link to="/categories" className="hover:text-blue-600 transition-colors">Categories</Link></li>
+                        <li><Link to="/category" className="hover:text-blue-600 transition-colors">Categories</Link></li>
                         <li><Link to="/our-impact" className="hover:text-blue-600 transition-colors">Our Impact</Link></li>
                     </ul>
                 </div>

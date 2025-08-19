@@ -1,5 +1,5 @@
 import { Heart, Share2, MapPin, MessageCircle, Star} from "lucide-react";
-import type { Donation } from "../../interfaces/Donation";
+import type { Donation } from "../../../interfaces/Donation";
 
 interface DonationInfoProps {
     donation: Donation}

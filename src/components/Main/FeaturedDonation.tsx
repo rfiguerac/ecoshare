@@ -1,6 +1,6 @@
 
 import { CardDonation } from "./CardDonation";
-import { donations } from "../donations";
+import { donations } from "../../data/donations";
 
 import { MainCard } from "./MainCard";
 

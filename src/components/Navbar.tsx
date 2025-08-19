@@ -18,8 +18,8 @@ export const Navbar = () => {
               <li className='sm:hidden'><Link to="/CreateDonation">
                 <Plus /> New donation
               </Link></li>
-              <li><a><Bell size={18} /> Notifications</a></li>
-              <li><a><User size={18} />Profile</a></li>
+              <li><Link to="/Notifications"><Bell size={18} /> Notifications</Link></li>
+              <li><Link to="/Login"><User size={18} />Profile</Link></li>
             </ul>
           </div>
           <Link to='/'>
@@ -54,7 +54,10 @@ export const Navbar = () => {
             + New donation
           </Link>
           <Bell size={18} className='hidden lg:block' />
-          <User size={18} className='hidden lg:block' />
+
+          <Link to="/Login">
+            <User size={18} className='hidden lg:block' />
+          </Link>
         </div>
       </div>
     </div >

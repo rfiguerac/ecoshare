@@ -5,7 +5,7 @@ import Banner from "../components/Main/Banner";
 import HeroSection from "../components/Main/HeroSection";
 
 
-import { donations } from "../components/donations";
+import { donations } from "../data/donations";
 
 export const MainPage = () => {
 
