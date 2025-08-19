@@ -1,6 +1,6 @@
-import { Home, Users, Settings, FileWarning, Tags } from "lucide-react";
+import { Home, Users, Settings, FileWarning, Tags, Bookmark, HandHeart, Package } from "lucide-react";
 
-export const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+export const DashboardLayout = ({ children, isAdmin }: { children: React.ReactNode, isAdmin: boolean }) => {
 
     return (
         <div className="drawer lg:drawer-open">
@@ -23,24 +23,51 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
                             Inicio
                         </a>
                     </li>
-                    <li>
-                        <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                            <FileWarning size={20} />
-                            Reportes
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                            <Tags size={20} />
-                            Categorias
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                            <Users size={20} />
-                            Usuarios
-                        </a>
-                    </li>
+                    {isAdmin ?
+                        (<>
+                            <li>
+                                <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+                                    <FileWarning size={20} />
+                                    Reportes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+                                    <Tags size={20} />
+                                    Categorias
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+                                    <Users size={20} />
+                                    Usuarios
+                                </a>
+                            </li>
+                        </>
+                        )
+                        :
+                        (
+                            <>
+                                <li>
+                                    <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+                                        <HandHeart size={20} />
+                                        Mis donaciones
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+                                        <Package size={20} />
+                                        Donaciones recibidas
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+                                        <Bookmark size={20} />
+                                        Donaciones guardadas
+                                    </a>
+                                </li>
+                            </>
+                        )}
                     <li>
                         <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
                             <Settings size={20} />
