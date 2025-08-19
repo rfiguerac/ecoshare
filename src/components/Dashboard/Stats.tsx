@@ -6,7 +6,7 @@ export const Stats = ({ title, value, icon, color }: { title: string; value: str
           <h2 className="text-xl font-bold">{value}</h2>
           <p className="text-sm text-base-content/80">{title}</p>
         </div>
-        <div className="text-3xl text-base-content/60">
+        <div className="text-3xl text-base-content">
           {icon}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Home, LayoutGrid, BarChart, Users, Settings, Menu } from "lucide-react";
+import { Home, Users, Settings, FileWarning, Tags } from "lucide-react";
 
 export const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
@@ -25,14 +25,14 @@ export const DashboardLayout = ({ children }: { children: React.ReactNode }) => 
                     </li>
                     <li>
                         <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                            <LayoutGrid size={20} />
-                                
+                            <FileWarning size={20} />
+                            Reportes
                         </a>
                     </li>
                     <li>
                         <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                            <BarChart size={20} />
-                            Analíticas
+                            <Tags size={20} />
+                            Categorias
                         </a>
                     </li>
                     <li>

@@ -13,7 +13,7 @@ export const Dashboard = () => {
                         <Stats title="Donaciones Activas" value="1.000" icon={<HandHeart />} color="bg-primary/20 text-primary" />
                         <Stats title="Donaciones Cerrdas" value="2.000" icon={<Archive />} color="bg-secondary/20 text-secondary" />
                         <Stats title="Usuarios Registrados" value="4.000" icon={<Users />} color="bg-accent/20 text-accent" />
-                        <Stats title="Reportes sin revisar" value="50" icon={<FileWarning />} color="bg-info/20 text-info" />
+                        <Stats title="Reportes sin revisar" value="50" icon={<FileWarning />} color="bg-info/20 text-base" />
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

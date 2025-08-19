@@ -12,6 +12,7 @@ export default function AppRouter() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<MainPage />} />
           <Route path="donation/:id" element={<DonationDetailsPage />} />
+          <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
