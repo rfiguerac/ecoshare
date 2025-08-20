@@ -6,6 +6,7 @@ import { DonationDetailsPage } from "../pages/DonationDetailsPage";
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { DashboardHome } from "../pages/DashboardHomePage";
 import { DashboardCategory } from "../pages/DashboardCategoryPage";
+import { DashboardDonationsPage } from "../pages/DashboardDonatiosPage";
 
 export default function AppRouter() {
   return (
@@ -19,6 +20,7 @@ export default function AppRouter() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
             <Route path="category" element={<DashboardCategory />} />
+            <Route path="donations/:title" element={<DashboardDonationsPage />} />
           </Route>
 
         </Route>

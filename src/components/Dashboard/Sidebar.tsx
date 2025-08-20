@@ -2,7 +2,7 @@ import { Home, Users, Settings, FileWarning, Tags, Bookmark, HandHeart, Package,
 
 export const Sidebar = ({children} : {children: React.ReactNode}) => {
 
-    const isAdmin = true;
+    const isAdmin = false;
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
