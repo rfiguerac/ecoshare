@@ -1,12 +1,6 @@
-
 import type { Category } from "../../domain/interfaces/Category";
-
-
-
+import { MainCard } from "../Main/MainCard";
 import { CardCategory } from "./CardCategory";
-import { MainCard } from "../../components/Main/MainCard";
-
-
 
 const BrowseCategory = () => {
   const categories: Category[] = [
@@ -18,7 +12,6 @@ const BrowseCategory = () => {
     { id: 6, title: "Electronics", icon: "Computer" },
   ];
 
-<<<<<<< HEAD:src/components/Main/BrowseCategory.tsx
   const colors = [
     "bg-green-400",
     "bg-orange-400",
@@ -27,28 +20,18 @@ const BrowseCategory = () => {
     "bg-yellow-400",
     "bg-red-400",
   ];
-  const category = categories.map((category, index) => {
+  const category = categories.map((categoryItem, index) => {
     const color = colors[index % colors.length];
-=======
-
-
-    const colors = ["bg-green-400", "bg-orange-400", "bg-blue-400", "bg-purple-400", "bg-yellow-400", "bg-red-400"]
-    const category = categories.map((category, index) => {
-        const color = colors[index % colors.length];
-        return (
-            <CardCategory category={category} quantity={1024} bgColor={color} key={category.idCategory} />
-        )
-    });
->>>>>>> feature/homepage:src/components/category/BrowseCategory.tsx
     return (
       <CardCategory
-        category={category}
+        category={categoryItem}
         quantity={1024}
         bgColor={color}
-        key={category.id}
+        key={categoryItem.id}
       />
     );
   });
+
   return (
     <MainCard
       title="Browse Categories"
