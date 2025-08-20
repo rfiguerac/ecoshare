@@ -3,7 +3,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../pages/MainPage";
 import { NotFound } from "../pages/NotFound";
 import { DonationDetailsPage } from "../pages/DonationDetailsPage";
-import { Dashboard } from "../pages/DashboardPage";
+import { Dashboard } from "../pages/DashboardHomePage";
 
 export default function AppRouter() {
   return (

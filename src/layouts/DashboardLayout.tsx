@@ -1,4 +1,4 @@
-import { Home, Users, Settings, FileWarning, Tags, Bookmark, HandHeart, Package } from "lucide-react";
+import { Home, Users, Settings, FileWarning, Tags, Bookmark, HandHeart, Package, AlignJustify } from "lucide-react";
 
 export const DashboardLayout = ({ children, isAdmin }: { children: React.ReactNode, isAdmin: boolean }) => {
 
@@ -6,13 +6,12 @@ export const DashboardLayout = ({ children, isAdmin }: { children: React.ReactNo
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col items-center">
+                 <label htmlFor="my-drawer-2" className="drawer-button lg:hidden self-start mb-4 ml-2">
+                    <AlignJustify />
+                </label>
 
                 {children}
 
-
-                <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">
-                    Open drawer
-                </label>
             </div>
             <div className="drawer-side">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
