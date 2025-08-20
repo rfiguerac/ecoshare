@@ -20,6 +20,7 @@ export const DonationDetailsPage = () => {
     <div className="bg-[#EAF6EF] grid grid-cols-1 lg:grid-cols-[auto_auto] gap-8 2xl:gap-0 p-8 items-start">
       <div className="space-y-8 justify-self-center">
         <DonationInfo donation={donation} />
+        //todo: los componentes no estan adaptados para recibir props
         <AditionalInformation donation={donation} />
       </div>
 
