@@ -17,7 +17,6 @@ export const MainLayout = () => {
         <div className="container pt-2">
           <Footer />
         </div>
-
       </main>
     </div>
   );
