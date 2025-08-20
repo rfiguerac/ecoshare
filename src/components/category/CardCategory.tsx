@@ -1,5 +1,6 @@
 import type { Category } from "../../domain/interfaces/Category";
-import { DynamicIcon } from "../DynamicIcon";
+
+import { DynamicIcon } from "../Main/DynamicIcon";
 
 interface CardCategoryProps {
   category: Category;
