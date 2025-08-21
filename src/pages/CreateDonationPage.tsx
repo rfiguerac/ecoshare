@@ -1,13 +1,11 @@
-
-import CreateDonationForm from '../components/Donation/CreateDonationForm';
-
+import CreateDonationForm from "../components/Donation/CreateDonationForm";
 
 const CreateDonationPage = () => {
-    return (
-        <div className="min-h-screen bg-gray-100 py-12">
-            <CreateDonationForm />
-        </div>
-    );
+  return (
+    <div className="min-h-screen py-12">
+      <CreateDonationForm />
+    </div>
+  );
 };
 
 export default CreateDonationPage;

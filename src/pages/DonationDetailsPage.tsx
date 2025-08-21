@@ -1,11 +1,11 @@
 import { DonationInfo } from "../components/Donation/DonationDetails/DonationInfo";
 import { AditionalInformation } from "../components/Donation/DonationDetails/AditionalInformation";
-import { ContactDonor } from "../components/Donation/DonationDetails/ContatDonor";
-import { AboutDonor } from "../components/Donation/DonationDetails/AboutDonor";
 
 import { donations } from "../data/donations";
 
 import { useParams } from "react-router-dom";
+import { ContactDonor } from "../components/donor/ContatDonor";
+import { AboutDonor } from "../components/donor/AboutDonor";
 
 export const DonationDetailsPage = () => {
   const { id } = useParams();

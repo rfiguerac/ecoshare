@@ -1,9 +1,9 @@
 // src/components/UrgentDonations.tsx
 
-import { MainCard } from "../../Main/MainCard";
+import { MainCard } from "../Main/MainCard";
 
 import { MoveRight, Zap } from "lucide-react";
-import type { Donation } from "../../../domain/interfaces/Donation";
+import type { Donation } from "../../domain/interfaces/Donation";
 import { CardDonation } from "./CardDonation";
 
 interface UrgentDonationsProps {
@@ -14,7 +14,6 @@ const UrgentDonation = ({ donations }: UrgentDonationsProps) => {
   const urgentDonations = donations.filter(
     (donation) => donation.expiryDate || donation.urgent === true
   );
-  console.log("urgentDonations", urgentDonations);
 
   // Map the filtered donations to CardDonation components
   const urgentDonationCards = urgentDonations.map((donation) => (

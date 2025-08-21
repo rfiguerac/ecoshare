@@ -5,8 +5,8 @@ import Banner from "../components/Main/banner/Banner";
 import HeroSection from "../components/Main/HeroSection";
 import { donations } from "../data/donations";
 import { useCategoryStore } from "../store/CategoryStore";
-import UrgentDonation from "../components/Donation/donation/UrgentDonation";
-import FeaturedDonation from "../components/Donation/donation/FeaturedDonation";
+import UrgentDonation from "../components/Donation/UrgentDonation";
+import FeaturedDonation from "../components/Donation/FeaturedDonation";
 
 export const MainPage = () => {
   const { categories, fetchCategories } = useCategoryStore();
@@ -14,8 +14,6 @@ export const MainPage = () => {
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
-
-  console.log(categories);
 
   return (
     <div>

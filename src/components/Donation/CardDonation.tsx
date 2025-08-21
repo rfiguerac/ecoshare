@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import categories from "../../../data/categories.ts";
-import type { Donation } from "../../../domain/interfaces/Donation.ts";
+import categories from "../../data/categories";
+import type { Donation } from "../../domain/interfaces/Donation";
 
 interface CardDonationProps {
   donation: Donation;
