@@ -1,9 +1,10 @@
 // src/components/UrgentDonations.tsx
-import type { Donation } from "../../domain/interfaces/Donation";
-import { CardDonation } from "./CardDonation";
-import { MainCard } from "./MainCard";
+
+import { MainCard } from "../../Main/MainCard";
 
 import { MoveRight, Zap } from "lucide-react";
+import type { Donation } from "../../../domain/interfaces/Donation";
+import { CardDonation } from "./CardDonation";
 
 interface UrgentDonationsProps {
   donations: Donation[];

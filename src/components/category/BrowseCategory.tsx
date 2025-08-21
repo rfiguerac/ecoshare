@@ -1,6 +1,6 @@
 import type { Category } from "../../domain/interfaces/Category";
+import { MainCard } from "../Main/MainCard";
 import { CardCategory } from "./CardCategory";
-import { MainCard } from "./MainCard";
 
 const BrowseCategory = () => {
   const categories: Category[] = [
@@ -20,17 +20,18 @@ const BrowseCategory = () => {
     "bg-yellow-400",
     "bg-red-400",
   ];
-  const category = categories.map((category, index) => {
+  const category = categories.map((categoryItem, index) => {
     const color = colors[index % colors.length];
     return (
       <CardCategory
-        category={category}
+        category={categoryItem}
         quantity={1024}
         bgColor={color}
-        key={category.id}
+        key={categoryItem.id}
       />
     );
   });
+
   return (
     <MainCard
       title="Browse Categories"

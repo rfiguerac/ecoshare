@@ -1,12 +1,12 @@
-import BrowseCategory from "../components/Main/BrowseCategory";
-import FeaturedDonation from "../components/Main/FeaturedDonation";
-import UrgentDonation from "../components/Main/UrgentDonation";
-import Banner from "../components/Main/Banner";
-import HeroSection from "../components/Main/HeroSection";
-
-import { donations } from "../components/donations";
-import { useCategoryStore } from "../store/CategoryStore";
 import { useEffect } from "react";
+import BrowseCategory from "../components/category/BrowseCategory";
+
+import Banner from "../components/Main/banner/Banner";
+import HeroSection from "../components/Main/HeroSection";
+import { donations } from "../data/donations";
+import { useCategoryStore } from "../store/CategoryStore";
+import UrgentDonation from "../components/Donation/donation/UrgentDonation";
+import FeaturedDonation from "../components/Donation/donation/FeaturedDonation";
 
 export const MainPage = () => {
   const { categories, fetchCategories } = useCategoryStore();
