@@ -3,9 +3,13 @@ import type { Donation } from "../../../domain/interfaces/Donation";
 
 interface DonationInfoProps {
   donation: Donation;
+  donationSaved: boolean,
+  setDonationSaved: (x: boolean) => void,
+  copyUrl :() => void,
+  direction: string
 }
 
-export const DonationInfo = ({ donation }: DonationInfoProps) => {
+export const DonationInfo = ({ donation, donationSaved, setDonationSaved, copyUrl, direction}: DonationInfoProps) => {
   return (
     <>
       <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
@@ -16,17 +20,22 @@ export const DonationInfo = ({ donation }: DonationInfoProps) => {
           <div className=" card-actions justify-end gap-5">
             <Heart
               size={16}
-              className="text-gray cursor-pointer rounded-lg transition duration-200 hover:text-black"
+              className={`cursor-pointer rounded-lg transition duration-200 
+              ${donationSaved ? "text-red-500 hover:text-red-600" : "text-gray hover:text-black"}`}
+              fill={donationSaved ? "currentColor" : "none"}
+              onClick={() => setDonationSaved(!donationSaved)}
             />
             <Share2
               size={16}
               className="text-gray cursor-pointer hover:text-black"
+              onClick={() => copyUrl()}
             />
           </div>
           <h2 className="card-title mt-4">{donation.title}</h2>
           <p>{donation.description}</p>
           <p className="flex gap-1 items-center text-xs text-[#d9fa1] mt-4">
-            <MapPin size={16} />{" "}
+            <MapPin size={16} />
+            {direction}
           </p>
           <p className="font-bold mt-4">Donated by</p>
           <div className="flex gap-2">
