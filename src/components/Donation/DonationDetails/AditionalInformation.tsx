@@ -1,6 +1,14 @@
 import { MapPin, Clock4 } from "lucide-react";
+import type { Donation } from "../../../domain/interfaces/Donation";
 
-export const AditionalInformation = () => {
+interface AditionalInformationProps {
+    donation: Donation;
+    direction: string
+
+}
+
+export const AditionalInformation = ({ donation, direction }: AditionalInformationProps) => {
+    
     return <>
         <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
             <div className="card-body">
@@ -11,22 +19,24 @@ export const AditionalInformation = () => {
                     <span className="text-darkgray font-semibold">Food</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray font-medium">Condition</span>
-                    <span className="text-darkgray font-semibold">Excellent</span>
+                    <span className="text-gray font-medium">State</span>
+                    <span className="text-darkgray font-semibold">{donation.state}</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray font-medium">Pickup Required</span>
-                    <span className="text-darkgray font-semibold">Yes</span>
+                    <span className="text-gray font-medium">Urgent</span>
+                    <span className="text-darkgray font-semibold">{donation.urgent ? "Yes" : "No"}</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
                     <span className="text-gray font-medium">Posted</span>
-                    <span className="text-darkgray font-semibold">12/12/2024</span>
+                    <span className="text-darkgray font-semibold">
+                        {donation.createdAt ? donation.createdAt.toLocaleString() : "N/A"}
+                    </span>
                 </div>
                 <p className="font-bold mt-2 mb-2">Pickup Information</p>
                 <div className="flex items-start space-x-2">
                     <MapPin size={16} color="grey" className="mt-1" />
                     <div className="flex flex-col">
-                        <span className="text-darkgray font-semibold">123 Green St, NYC</span>
+                        <span className="text-darkgray font-semibold">{direction}</span>
                         <span className="text-gray text-sm">Pickup location</span>
                     </div>
                 </div>
