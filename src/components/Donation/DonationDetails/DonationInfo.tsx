@@ -5,11 +5,22 @@ interface DonationInfoProps {
   donation: Donation;
   donationSaved: boolean,
   setDonationSaved: (x: boolean) => void,
-  copyUrl :() => void,
+  copyUrl: () => void,
   direction: string
 }
 
-export const DonationInfo = ({ donation, donationSaved, setDonationSaved, copyUrl, direction}: DonationInfoProps) => {
+export const DonationInfo = ({ donation, donationSaved, setDonationSaved, copyUrl, direction }: DonationInfoProps) => {
+
+  const user = {
+    id: "u123",
+    name: "Carlos Ramírez",
+    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+    rating: 4.7,
+    donations: 85,
+    joined: "March 2023",
+  };
+
+
   return (
     <>
       <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
@@ -45,13 +56,15 @@ export const DonationInfo = ({ donation, donationSaved, setDonationSaved, copyUr
               className="w-8 h-8 rounded-full"
             />
             <div className="flex flex-col">
-              <p className="font-bold">Maria Gonzáles</p>
+              <p className="font-bold">{user.name}</p>
               <div className="flex">
-                <Star size={16} className="star" />
-                <Star size={16} className="star" />
-                <Star size={16} className="star" />
-                <Star size={16} className="star" />
-                <Star size={16} className="star" />
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    size={16}
+                    className={i < Math.round(user.rating) ? "star fill-yellow-400" : "star"}
+                  />
+                ))}
               </div>
             </div>
           </div>
