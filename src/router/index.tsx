@@ -14,8 +14,10 @@ import { DashboardHome } from "../pages/DashboardHomePage";
 import { DashboardCategory } from "../pages/DashboardCategoryPage";
 import { DashboardDonationsPage } from "../pages/DashboardDonatiosPage";
 import { DashboardUser } from "../pages/DashboardUsersPage";
+import { DashboardReports } from "../pages/DashboardReportsPage";
 
 import { donations } from "../data/donations";
+
 import type { JSX } from "react";
 
 //import { useAuthStore } from "../store/authStore";
@@ -55,6 +57,7 @@ export default function AppRouter() {
           <Route index element={<DashboardHome />} />
           <Route path="category" element={<DashboardCategory />} />
           <Route path="users" element={<DashboardUser />} />
+          <Route path="reports" element={<DashboardReports />} />
           <Route
             path="donations/guardadas"
             element={
