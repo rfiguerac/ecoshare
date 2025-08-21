@@ -9,6 +9,10 @@ import LoginPage from "../pages/LoginPage";
 import  CategoryPage  from "../pages/CategoryPage";
 import { DonationSearchPage } from "../pages/DonationSearchPage";
 
+import { DashboardLayout } from "../layouts/DashboardLayout";
+import { DashboardHome } from "../pages/DashboardHomePage";
+import { DashboardCategory } from "../pages/DashboardCategoryPage";
+import { DashboardDonationsPage } from "../pages/DashboardDonatiosPage";
 
 export default function AppRouter() {
   return (
@@ -24,6 +28,13 @@ export default function AppRouter() {
           <Route path="donationSearch" element={<DonationSearchPage />} />
 
           <Route path="*" element={<NotFound />} />
+
+          <Route path="dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="category" element={<DashboardCategory />} />
+            <Route path="donations/:title" element={<DashboardDonationsPage />} />
+          </Route>
+
         </Route>
       </Routes>
     </BrowserRouter>
