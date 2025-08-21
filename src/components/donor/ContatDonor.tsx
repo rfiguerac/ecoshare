@@ -4,10 +4,11 @@ import { MessageCircle, PhoneIcon, Heart, Share2, FlagIcon } from "lucide-react"
 type ContactDonorProps = {
   setOpen: (x: boolean) => void;
   donationSaved: boolean,
-  setDonationSaved: (x:boolean) => void
+  setDonationSaved: (x:boolean) => void,
+  copyUrl :() => void
 
 };
-export const ContactDonor = ({setOpen, donationSaved, setDonationSaved}: ContactDonorProps) => {
+export const ContactDonor = ({setOpen, donationSaved, setDonationSaved, copyUrl}: ContactDonorProps) => {
     return <>
         <div className="card bg-base-100 w-90 shadow-sm">
             <div className="card-body">
@@ -24,8 +25,11 @@ export const ContactDonor = ({setOpen, donationSaved, setDonationSaved}: Contact
                     <Heart size={16} />
                     <p>Save for Later</p>
                 </div>
-                 <div className="flex items-center gap-2 text-gray font-bold ml-4 cursor-pointer p-2 rounded-lg transition duration-200
-                hover:bg-gray-100 hover:shadow-md hover:scale-105">
+                 <div 
+                 className="flex items-center gap-2 text-gray font-bold ml-4 cursor-pointer p-2 rounded-lg transition duration-200
+                hover:bg-gray-100 hover:shadow-md hover:scale-105"
+                onClick={() => copyUrl()}
+                >
                     <Share2 size={16} />
                     <p>Share with Friends</p>
                  </div>

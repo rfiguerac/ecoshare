@@ -4,10 +4,11 @@ import type { Donation } from "../../../domain/interfaces/Donation";
 interface DonationInfoProps {
   donation: Donation;
   donationSaved: boolean,
-  setDonationSaved: (x: boolean) => void
+  setDonationSaved: (x: boolean) => void,
+  copyUrl :() => void
 }
 
-export const DonationInfo = ({ donation, donationSaved, setDonationSaved }: DonationInfoProps) => {
+export const DonationInfo = ({ donation, donationSaved, setDonationSaved, copyUrl}: DonationInfoProps) => {
   return (
     <>
       <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
@@ -26,6 +27,7 @@ export const DonationInfo = ({ donation, donationSaved, setDonationSaved }: Dona
             <Share2
               size={16}
               className="text-gray cursor-pointer hover:text-black"
+              onClick={() => copyUrl()}
             />
           </div>
           <h2 className="card-title mt-4">{donation.title}</h2>
