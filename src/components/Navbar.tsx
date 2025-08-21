@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, use } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Search, Bell, User, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { donations } from "../data/donations";
@@ -75,7 +75,7 @@ export const Navbar = () => {
       <div className=" flex navbar left-0 fixed bg-white/70 backdrop-blur-sm shadow-sm lg:px-15 z-50 top-0 w-full">
         <div className="container mx-auto flex items-center justify-between">
           <div className="navbar-start w-[30%] sm:w-1/2">
-            <div className="dropdown">
+            <div className="dropdown dropdown-right">
               <div
                 tabIndex={0}
                 role="button"
@@ -99,9 +99,9 @@ export const Navbar = () => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow right-0">
                 <li className="sm:hidden">
-                  <Link to="/CreateDonation">
+                  <button onClick={handleShowModal}>
                     <Plus /> New donation
-                  </Link>
+                  </button>
                 </li>
                 <li>
                   <a>
