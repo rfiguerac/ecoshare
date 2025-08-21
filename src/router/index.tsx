@@ -38,11 +38,11 @@ export default function AppRouter() {
             <Route path="users" element={<DashboardUser />} />
             <Route
               path="donations/guardadas"
-              element={<DashboardDonationsPage title="Donaciones Activas" fetchDonations={donations} />}
+              element={<DashboardDonationsPage title="Donaciones Guardadas" fetchDonations={donations} />}
             />
             <Route
               path="donations/recibidas"
-              element={<DashboardDonationsPage title="Donaciones Finalizadas" fetchDonations={donations} />}
+              element={<DashboardDonationsPage title="Donaciones Recibidas" fetchDonations={donations} />}
             />
             <Route
               path="donations/mis-donaciones"
