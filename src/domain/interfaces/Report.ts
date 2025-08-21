@@ -1,6 +1,6 @@
 export interface Report {
     id?: number,
-    reporter: string,
+    userId: number,
     reportType: string,
     description: string,
     idDonation: number,
