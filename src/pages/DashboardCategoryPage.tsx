@@ -3,7 +3,6 @@ import type { Category } from "../domain/interfaces/Category";
 import { CategoriesTable } from "../components/Dashboard/CategoriesTable";
 import { CategoryForm } from "../components/Dashboard/CategoryForm";
 
-// Datos de ejemplo con IDs numéricas
 const initialCategories: Category[] = [
     {
         id: 1,
