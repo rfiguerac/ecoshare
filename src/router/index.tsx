@@ -3,10 +3,10 @@ import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../pages/MainPage";
 import { NotFound } from "../pages/NotFound";
 import { DonationDetailsPage } from "../pages/DonationDetailsPage";
-import CreateDonationPage  from "../pages/CreateDonationPage";
+import CreateDonationPage from "../pages/CreateDonationPage";
 import ProfileCreationPage from "../pages/CreateProfilePage";
 import LoginPage from "../pages/LoginPage";
-import  CategoryPage  from "../pages/CategoryPage";
+import CategoryPage from "../pages/CategoryPage";
 import { DonationSearchPage } from "../pages/DonationSearchPage";
 
 import { DashboardLayout } from "../layouts/DashboardLayout";
@@ -14,6 +14,8 @@ import { DashboardHome } from "../pages/DashboardHomePage";
 import { DashboardCategory } from "../pages/DashboardCategoryPage";
 import { DashboardDonationsPage } from "../pages/DashboardDonatiosPage";
 import { DashboardUser } from "../pages/DashboardUsersPage";
+
+import { donations } from "../components/donations";
 
 export default function AppRouter() {
   return (
@@ -34,7 +36,18 @@ export default function AppRouter() {
             <Route index element={<DashboardHome />} />
             <Route path="category" element={<DashboardCategory />} />
             <Route path="users" element={<DashboardUser />} />
-            <Route path="donations/:title" element={<DashboardDonationsPage />} />
+            <Route
+              path="donations/guardadas"
+              element={<DashboardDonationsPage title="Donaciones Guardadas" fetchDonations={donations} />}
+            />
+            <Route
+              path="donations/recibidas"
+              element={<DashboardDonationsPage title="Donaciones Recibidas" fetchDonations={donations} />}
+            />
+            <Route
+              path="donations/mis-donaciones"
+              element={<DashboardDonationsPage title="Mis Donaciones" fetchDonations={donations} />}
+            />
           </Route>
 
         </Route>

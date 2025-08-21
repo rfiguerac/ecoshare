@@ -1,8 +1,9 @@
 import { Home, Users, Settings, FileWarning, Tags, Bookmark, HandHeart, Package, AlignJustify } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Sidebar = ({children} : {children: React.ReactNode}) => {
 
-    const isAdmin = false;
+    const isAdmin = true;
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -16,65 +17,65 @@ export const Sidebar = ({children} : {children: React.ReactNode}) => {
             </div>
             <div className="drawer-side">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="space-y-2 min-h-full bg-base-200 min-w-50">
-                    <li>
-                        <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                            <Home size={20} />
-                            Inicio
-                        </a>
-                    </li>
-                    {isAdmin ?
-                        (<>
-                            <li>
-                                <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                                    <FileWarning size={20} />
-                                    Reportes
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                                    <Tags size={20} />
-                                    Categorias
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                                    <Users size={20} />
-                                    Usuarios
-                                </a>
-                            </li>
-                        </>
-                        )
-                        :
-                        (
-                            <>
-                                <li>
-                                    <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                                        <HandHeart size={20} />
-                                        Mis donaciones
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                                        <Package size={20} />
-                                        Donaciones recibidas
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                                        <Bookmark size={20} />
-                                        Donaciones guardadas
-                                    </a>
-                                </li>
-                            </>
-                        )}
-                    <li>
-                        <a href="#" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-                            <Settings size={20} />
-                            Configuración
-                        </a>
-                    </li>
-                </ul>
+                 <ul className="space-y-2 min-h-full bg-base-200 min-w-50 p-2">
+      <li>
+        <Link to="/dashboard" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+          <Home size={20} />
+          Inicio
+        </Link>
+      </li>
+
+      {isAdmin ? (
+        <>
+          <li>
+            <Link to="/dashboard/reports" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+              <FileWarning size={20} />
+              Reportes
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/category" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+              <Tags size={20} />
+              Categorías
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/users" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+              <Users size={20} />
+              Usuarios
+            </Link>
+          </li>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="/dashboard/donations/mis-donaciones" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+              <HandHeart size={20} />
+              Mis donaciones
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/donations/recibidas" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+              <Package size={20} />
+              Donaciones recibidas
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/donations/guardadas" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+              <Bookmark size={20} />
+              Donaciones guardadas
+            </Link>
+          </li>
+        </>
+      )}
+
+      <li>
+        <Link to="/dashboard/settings" className="btn btn-ghost flex items-center justify-start w-full gap-3">
+          <Settings size={20} />
+          Configuración
+        </Link>
+      </li>
+    </ul>
             </div>
         </div>
     )
