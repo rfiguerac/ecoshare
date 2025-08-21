@@ -1,4 +1,4 @@
-import { ReportsTable } from "../components/Dashboard/ReportsTable";
+import { ReportsTable } from "../components/Dashboard/ReportTable";
 import { Stats } from "../components/Dashboard/Stats";
 import { UsersTable } from "../components/Dashboard/UserTable";
 import { DonationDone } from "../components/Dashboard/DonationsDone";

@@ -1,54 +1,61 @@
-export const ReportsTable = () => {
-
-    const tableData = [
-        {
-            reporter: "Juan Pérez",
-            type: "Contenido inapropiado",
-            description: "Publicación ofensiva en el grupo",
-        },
-        {
-            reporter: "María López",
-            type: "Spam",
-            description: "Publicidad repetitiva en comentarios",
-        },
-        {
-            reporter: "Carlos Gómez",
-            type: "Falso perfil",
-            description: "Cuenta sospechosa con fotos robadas",
-        },
-        {
-            reporter: "Ana Torres",
-            type: "Lenguaje de odio",
-            description: "Comentario discriminatorio en una publicación",
-        },
-    ];
+import { Link } from "react-router-dom";
+import type { Report } from "../../domain/interfaces/Report";
 
 
-    return (
-        <div className="card w-full shadow-lg rounded-2xl bg-base-200">
-            <div className="card-body p-6">
-                <h2 className="card-title text-xl font-bold mb-4">Reportes sin revisar</h2>
-                <div className="overflow-x-auto">
-                    <table className="table w-full">
-                        <thead>
-                            <tr>
-                                <th className="font-semibold text-base-content/80">Denunciante</th>
-                                <th className="font-semibold text-base-content/80">Tipo de Reporte</th>
-                                <th className="font-semibold text-base-content/80">Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableData.map((report) => (
-                                <tr key={report.reporter}>
-                                    <td>{report.reporter}</td>
-                                    <td>{report.type}</td>
-                                    <td>{report.description}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    )
+type ReportsTableProps = {
+  reportsRecived: Report[];
+  deleteDonation: (idDonation: number) => void,
+  reportRevised: (idReport: number) => void
+};
+
+export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: ReportsTableProps) => {
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="table w-full table-zebra">
+        <thead>
+          <tr className="bg-base-200">
+            <th>Denunciante</th>
+            <th>Tipo de reporte</th>
+            <th>Descripción</th>
+            <th className="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reportsRecived.map((report) => (
+            <tr key={report.id}>
+              <td>{report.reporter}</td>
+              <td>{report.reportType}</td>
+              <td>{report.description}</td>
+              <td className="flex gap-2 justify-center">
+                <Link to={`/donation/${report.idDonation}`} className="btn btn-sm btn-info text-info-content">
+                  Ver publicación
+                </Link>
+                <button
+                  className="btn btn-sm btn-error text-error-content"
+                  onClick={() => {
+                   
+                      deleteDonation(report.idDonation)
+                   
+                  }}
+                >
+                  Borrar donacion
+                </button>
+                <button
+                  className="btn btn-sm btn-primary"
+                  onClick={() => {
+                    if (report.id) {
+                      reportRevised(report.id);
+                    }
+                  }}
+                >
+                  Revisado
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
 }
