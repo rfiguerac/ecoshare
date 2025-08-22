@@ -164,6 +164,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       get().logout(); // Log out if refresh fails
     }
   },
+
   checkAuth: async () => {
     const accessToken = get().accessToken;
     if (!accessToken) {
@@ -173,8 +174,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     set({ loading: true });
     try {
-      // Deberías implementar un endpoint en el backend para obtener el perfil del usuario a partir del token
-      const userProfile = await service.getProfile(accessToken); // Esto asume que el token contiene el ID del usuario.
+      // Llamada simplificada
+      const userProfile = await service.getProfile(accessToken);
       set({
         user: userProfile,
         isAuthenticated: true,
@@ -182,7 +183,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
     } catch (err: any) {
       console.error("Authentication check failed:", err);
-      get().logout(); // Cierra la sesión si el token no es válido
+      get().logout();
       set({ loading: false });
     }
   },
