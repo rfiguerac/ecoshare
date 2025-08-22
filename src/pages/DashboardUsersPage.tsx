@@ -8,14 +8,14 @@ const initialUsers: User[] = [
     id: "1",
     name: "Juan Pérez",
     email: "juan@example.com",
-    role: "admin",
+    role: "Admin",
     createdAt: new Date(),
   },
   {
     id: "2",
     name: "María Gómez",
     email: "maria@example.com",
-    role: "user",
+    role: "User",
     createdAt: new Date(),
   },
 ];
@@ -48,7 +48,7 @@ export const DashboardUser = () => {
   };
 
   const deleteUser = (idUser: string) => {
-    const confirmDelete = window.confirm("¿Seguro que quieres eliminar este usuario?");
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) return;
 
     setUsers(users.filter((u) => u.id !== idUser));
@@ -58,7 +58,7 @@ export const DashboardUser = () => {
     <div className="container mx-auto p-4 bg-base-100 rounded-box shadow-xl min-h-screen">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-base-content">
-          Gestión de Usuarios
+          User Management
         </h1>
         <button
           className="btn btn-primary"

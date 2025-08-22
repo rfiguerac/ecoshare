@@ -42,15 +42,15 @@ export const DonationRecibed = () => {
     return (
         <div className="card w-full shadow-lg rounded-2xl bg-base-200">
             <div className="card-body p-6">
-                <h2 className="card-title text-xl font-bold mb-4">Donaciones Recibidas</h2>
-                <div className="overflow-x-auto">
+                <h2 className="card-title text-xl font-bold mb-4">Donations Recived</h2>
+                <div className="overflow-x-auto"> 
                     <table className="table w-full">
                         <thead>
                             <tr>
-                                <th className="font-semibold text-base-content/80">Tiutulo</th>
-                                <th className="font-semibold text-base-content/80">Descripcion</th>
-                                <th className="font-semibold text-base-content/80">Categoría</th>
-                                <th className="font-semibold text-base-content/80">Donador</th>
+                                <th className="font-semibold text-base-content/80">Title</th>
+                                <th className="font-semibold text-base-content/80">Description</th>
+                                <th className="font-semibold text-base-content/80">Category</th>
+                                <th className="font-semibold text-base-content/80">Donor</th>
                             </tr>
                         </thead>
                         <tbody>

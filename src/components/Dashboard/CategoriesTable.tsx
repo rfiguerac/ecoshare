@@ -26,7 +26,7 @@ const searchIcon = (iconName: string) : FC<LucideProps> => {
                         <th>Icon</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th className="text-center">Acciones</th>
+                        <th className="text-center">ACtions</th>
                     </tr>
                 </thead>
                 <tbody>

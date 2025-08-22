@@ -27,14 +27,14 @@ export const ReportsTable = () => {
     return (
         <div className="card w-full shadow-lg rounded-2xl bg-base-200">
             <div className="card-body p-6">
-                <h2 className="card-title text-xl font-bold mb-4">Reportes sin revisar</h2>
+                <h2 className="card-title text-xl font-bold mb-4">Unrewied reports</h2>
                 <div className="overflow-x-auto">
                     <table className="table w-full">
                         <thead>
                             <tr>
-                                <th className="font-semibold text-base-content/80">Denunciante</th>
-                                <th className="font-semibold text-base-content/80">Tipo de Reporte</th>
-                                <th className="font-semibold text-base-content/80">Descripción</th>
+                                <th className="font-semibold text-base-content/80">Reporter</th>
+                                <th className="font-semibold text-base-content/80">Report Type</th>
+                                <th className="font-semibold text-base-content/80">Description</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -1,5 +1,4 @@
 import { Star, CalendarDays } from 'lucide-react'
-import type { User } from '../../domain/interfaces/User';
 
 interface AboutDonorProps {
     user: any;
