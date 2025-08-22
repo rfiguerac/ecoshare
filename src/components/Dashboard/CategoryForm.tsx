@@ -18,8 +18,14 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
     const [localCategory, setLocalCategory] = useState<Partial<Category>>({});
 
     useEffect(() => {
-        setLocalCategory(category);
-    }, [category]);
+        if (open) {
+            if (edit) {
+                setLocalCategory(category)
+            } else {
+                setLocalCategory({})
+            }
+        }
+    }, [open, edit, category]);
 
     const handleChange = (field: keyof Category, value: string) => {
         setLocalCategory({ ...localCategory, [field]: value });
@@ -27,13 +33,13 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-         const categoryWithId = {
-        ...localCategory,
-        id: localCategory.id ?? Date.now(), 
-        createdAt: localCategory.createdAt ?? new Date(),
-    };
+        const categoryWithId = {
+            ...localCategory,
+            id: localCategory.id ?? Date.now(),
+            createdAt: localCategory.createdAt ?? new Date(),
+        };
         finishForm(categoryWithId);
-        alert(edit ? "Categoría actualizada" : "Categoría creada");
+        alert(edit ? "Updated category" : "Created category");
         setOpen(false);
     };
 
@@ -42,7 +48,7 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
             {open && (
                 <dialog id="my_modal" className="modal modal-open">
                     <div className="modal-box">
-                        <h3 className="font-bold text-lg mb-4">{edit ? "Editar Categoría" : "Crear categoría"}</h3>
+                        <h3 className="font-bold text-lg mb-4">{edit ? "Edit category" : "Create category"}</h3>
 
                         <form
                             method="dialog"
@@ -51,7 +57,7 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
                         >
                             <div>
                                 <label className="label">
-                                    <span className="label-text">Nombre</span>
+                                    <span className="label-text">Name</span>
                                 </label>
                                 <input
                                     type="text"
@@ -65,7 +71,7 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
 
                             <div>
                                 <label className="label">
-                                    <span className="label-text">Icono</span>
+                                    <span className="label-text">Icon</span>
                                 </label>
                                 <select
                                     name="icon"
@@ -85,7 +91,7 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
 
                             <div>
                                 <label className="label">
-                                    <span className="label-text">Descripción</span>
+                                    <span className="label-text">Description</span>
                                 </label>
                                 <textarea
                                     className="textarea textarea-bordered w-full"
@@ -101,14 +107,14 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
                                     type="submit"
                                     className="btn btn-primary"
                                 >
-                                    {edit ? "Actualizar" : "Crear"}
+                                    {edit ? "Update" : "Create"}
                                 </button>
                                 <button
                                     type="button"
                                     className="btn"
                                     onClick={() => setOpen(false)}
                                 >
-                                    Cerrar
+                                    Close
                                 </button>
                             </div>
                         </form>

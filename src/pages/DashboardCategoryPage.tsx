@@ -68,13 +68,13 @@ export const DashboardCategory = () => {
         <div className="container mx-auto p-4 bg-base-100 rounded-box shadow-xl min-h-screen">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold text-base-content">
-                    Gestión de Categorías
+                    Category Management
                 </h1>
                 <button className="btn btn-primary" onClick={() => {
                     setModalOpen(true)
                     setEditing(false)
                 }}>
-                    Crear Categoría
+                    Create Category
                 </button>
             </div>
 
