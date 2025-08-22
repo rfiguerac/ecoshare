@@ -1,12 +1,9 @@
-import React, { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { X, UploadCloud } from "lucide-react";
 import { useCreateDonation } from "../../hooks/donation/useCreateDonation";
 
 // A new type to represent the file with a preview URL
-interface FileWithPreview extends File {
-  preview: string;
-}
 
 interface ModalProps {
   handleShowModal: () => void;
@@ -15,11 +12,18 @@ interface ModalProps {
 const CreateDonationForm = (props: ModalProps) => {
   const { handleShowModal } = props;
 
-  const { formData, setFormData, errorLocation } = useCreateDonation();
-
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const {
+    formData,
+    errorLocation,
+    isSubmitting,
+    handleChange,
+    handleCheckboxChange,
+    handleSubmit,
+    errors,
+    files,
+    setFiles,
+    removeFile,
+  } = useCreateDonation();
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -48,45 +52,14 @@ const CreateDonationForm = (props: ModalProps) => {
     multiple: true,
   });
 
-  const removeFile = (fileToRemove: FileWithPreview) => {
-    setFiles((prevFiles) => prevFiles.filter((file) => file !== fileToRemove));
-    URL.revokeObjectURL(fileToRemove.preview); // Clean up the preview URL
-  };
-
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.title) newErrors.title = "Title is required.";
-    if (files.length === 0)
-      newErrors.images = "At least one image is required.";
-    return newErrors;
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevState) => ({ ...prevState, urgent: e.target.checked }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
-  };
-
   return (
     <div>
       <dialog open className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">
-            <h2 className="text-3xl font-bold text-center text-gray-800">
+          <div className="font-bold text-lg">
+            <p className="text-3xl font-bold text-center text-gray-800">
               Donate an Item
-            </h2>
+            </p>
             <p className="text-gray-600 text-center">
               Fill out the form below to donate an item.
             </p>
@@ -96,7 +69,7 @@ const CreateDonationForm = (props: ModalProps) => {
               </div>
             )}
             <p className="text-red-400">{errorLocation}</p>
-          </h3>
+          </div>
           <div className="mb-4">
             <form onSubmit={handleSubmit} className="space-y-4">
               <fieldset disabled={isSubmitting}>
@@ -256,8 +229,8 @@ const CreateDonationForm = (props: ModalProps) => {
                     Cancelar
                   </button>
                   <button
-                    //type="submit"
-                    onClick={() => setIsSubmitting(!isSubmitting)}
+                    type="submit"
+                    //onClick={() => setIsSubmitting(!isSubmitting)}
                     className="btn btn-primary">
                     {isSubmitting ? "Creating..." : "Create Donation"}
                   </button>
