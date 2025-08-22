@@ -1,10 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"; // Importa Navigate
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../pages/MainPage";
 import { NotFound } from "../pages/NotFound";
 import { DonationDetailsPage } from "../pages/DonationDetailsPage";
 
 import ProfileCreationPage from "../pages/CreateProfilePage";
+
 import CategoryPage from "../pages/CategoryPage";
 import { DonationSearchPage } from "../pages/DonationSearchPage";
 
@@ -18,16 +19,24 @@ import { DashboardReports } from "../pages/DashboardReportsPage";
 import { donations } from "../data/donations";
 
 import type { JSX } from "react";
-
-//import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../store/AuthStore"; // Importa el store de autenticación
+import LoginPage from "../pages/LoginPage";
 
 // Componente para proteger rutas privadas
 function ProtectedRoute({ children }: { children: JSX.Element }) {
-  //const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  //return isAuthenticated ? children : <Navigate to="/login" replace />;
-  {
-    return <>{children}</>;
+  const { isAuthenticated, loading } = useAuthStore(); // Usa el store para obtener el estado de autenticación
+
+  if (loading) {
+    // Puedes mostrar un spinner de carga mientras se verifica el token
+    return <div>Cargando...</div>;
   }
+
+  if (!isAuthenticated) {
+    // Si no está autenticado, redirige al usuario a la página de login
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
 }
 
 export default function AppRouter() {
@@ -38,6 +47,7 @@ export default function AppRouter() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<MainPage />} />
           <Route path="donation/:id" element={<DonationDetailsPage />} />
+          <Route path="login" element={<LoginPage />} />
           <Route path="createProfile" element={<ProfileCreationPage />} />
           <Route path="category" element={<CategoryPage />} />
           <Route path="donationSearch" element={<DonationSearchPage />} />

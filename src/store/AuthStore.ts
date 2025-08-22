@@ -22,6 +22,7 @@ interface AuthState {
   changePassword: (passwords: PasswordChange) => Promise<void>;
   deleteAccount: () => Promise<void>;
   refreshAuthToken: () => Promise<void>;
+  checkAuth: () => Promise<void>;
 }
 
 const service = userService();
@@ -29,7 +30,7 @@ const service = userService();
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
-  loading: false,
+  loading: true,
   error: null,
   accessToken: localStorage.getItem("accessToken"),
   refreshToken: localStorage.getItem("refreshToken"),
@@ -161,6 +162,28 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } catch (err: any) {
       set({ loading: false, error: "Failed to refresh token." });
       get().logout(); // Log out if refresh fails
+    }
+  },
+  checkAuth: async () => {
+    const accessToken = get().accessToken;
+    if (!accessToken) {
+      set({ isAuthenticated: false, loading: false });
+      return;
+    }
+
+    set({ loading: true });
+    try {
+      // Deberías implementar un endpoint en el backend para obtener el perfil del usuario a partir del token
+      const userProfile = await service.getProfile(accessToken); // Esto asume que el token contiene el ID del usuario.
+      set({
+        user: userProfile,
+        isAuthenticated: true,
+        loading: false,
+      });
+    } catch (err: any) {
+      console.error("Authentication check failed:", err);
+      get().logout(); // Cierra la sesión si el token no es válido
+      set({ loading: false });
     }
   },
 }));

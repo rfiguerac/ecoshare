@@ -5,6 +5,7 @@ import { donations } from "../data/donations";
 import CreateDonationForm from "./Donation/CreateDonationForm";
 import CreateProfileForm from "./Profile/CreateProfileForm";
 import LoginForm from "./Profile/LoginForm";
+import { useAuthStore } from "../store/AuthStore";
 
 // Sugerencias de búsqueda simuladas
 const mockSuggestions = donations.map((donation) => donation.title);
@@ -18,6 +19,8 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const { isAuthenticated, user } = useAuthStore();
 
   // Filtra las sugerencias basadas en la consulta del usuario
   const filteredSuggestions = mockSuggestions.filter((item) =>
@@ -78,7 +81,8 @@ export const Navbar = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
   }
 
-  const [isCreateProfileModalOpen, setIsCreateProfileModalOpen] = useState(false);
+  const [isCreateProfileModalOpen, setIsCreateProfileModalOpen] =
+    useState(false);
   function handleShowCreateProfileModal(): void {
     setIsCreateProfileModalOpen(!isCreateProfileModalOpen);
   }
@@ -87,12 +91,6 @@ export const Navbar = () => {
     handleShowLoginModal();
     handleShowCreateProfileModal();
   };
-
-
-
-
-
-
 
   return (
     <>
@@ -133,8 +131,18 @@ export const Navbar = () => {
                   </button>
                 </li>
                 <li>
+                  {isAuthenticated ? (
+                    <button onClick={handleShowLoginModal}>
+                      <User size={18} /> {user?.name}
+                    </button>
+                  ) : (
+                    <button onClick={handleShowLoginModal}>
+                      <User size={18} /> Login
+                    </button>
+                  )}
                   <button onClick={handleShowLoginModal}>
-                    <User size={18} />Profile
+                    <User size={18} />
+                    Profile
                   </button>
                 </li>
               </ul>
@@ -221,17 +229,22 @@ export const Navbar = () => {
               + New donation
             </button>
             <Bell size={18} className="hidden lg:block" />
-            <button
-              onClick={handleShowLoginModal}>
+            <button onClick={handleShowLoginModal}>
               <User size={18} className="hidden lg:block" />
             </button>
           </div>
         </div>
       </div>
       {isModalOpen && <CreateDonationForm handleShowModal={handleShowModal} />}
-      {isLoginModalOpen && <LoginForm handleShowModal={handleShowLoginModal} handleRegisterShowModal={handleRegisterShowModal} />}
-      {isCreateProfileModalOpen && <CreateProfileForm handleShowModal={handleShowCreateProfileModal} />}
+      {isLoginModalOpen && (
+        <LoginForm
+          handleShowModal={handleShowLoginModal}
+          handleRegisterShowModal={handleRegisterShowModal}
+        />
+      )}
+      {isCreateProfileModalOpen && (
+        <CreateProfileForm handleShowModal={handleShowCreateProfileModal} />
+      )}
     </>
   );
 };
-
