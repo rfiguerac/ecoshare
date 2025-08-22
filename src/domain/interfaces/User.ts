@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "user";
+export type UserRole = "Admin" | "User";
 
 export interface User {
   id: string;
@@ -33,5 +33,4 @@ export interface PasswordChange {
   newPassword: string;
 }
 
-export interface NewUser
-  extends Omit<User, "id"| "createdAt" | "updatedAt"> {}
+export interface NewUser extends Omit<User, "id" | "createdAt" | "updatedAt"> {}

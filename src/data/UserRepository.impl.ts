@@ -21,12 +21,12 @@ const getAuthHeaders = () => {
 
 export const userRepositoryImpl: UserRepository = {
   login: async (credentials: UserCredential): Promise<User> => {
-    const response = await ecoshareApi.post("/auth/login", credentials);
+    const response = await ecoshareApi.post("/users/login", credentials);
     return response.data;
   },
 
   register: async (newUser: NewUser): Promise<User> => {
-    const response = await ecoshareApi.post("/auth/register", newUser);
+    const response = await ecoshareApi.post("/users/register", newUser);
     return response.data;
   },
 
@@ -36,7 +36,7 @@ export const userRepositoryImpl: UserRepository = {
   },
 
   refreshToken: async (token: string): Promise<{ accessToken: string }> => {
-    const response = await ecoshareApi.post("/auth/refresh", {
+    const response = await ecoshareApi.post("/users/refresh", {
       refreshToken: token,
     });
     return response.data;

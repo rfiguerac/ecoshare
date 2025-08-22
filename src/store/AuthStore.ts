@@ -73,11 +73,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         refreshToken: registeredUser.refreshToken!,
       });
     } catch (err: any) {
+      // Captura el mensaje de error específico del backend
+
+      const errorMessage =
+        err.response.data.message || "Registration failed. Please try again.";
       set({
         user: null,
         isAuthenticated: false,
         loading: false,
-        error: "Registration failed. Please try again.",
+        error: errorMessage,
         accessToken: null,
         refreshToken: null,
       });

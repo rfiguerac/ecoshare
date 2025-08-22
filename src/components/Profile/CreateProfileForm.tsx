@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 
-
-import { useCreateProfile } from '../../hooks/user/useCreateProfile';
+import { useCreateProfile } from "../../hooks/user/useCreateProfile";
+import { useEffect } from "react";
 
 interface ModalProps {
   handleShowModal: () => void;
 }
 
-
-
 const CreateProfileForm = (props: ModalProps) => {
   const { handleShowModal } = props;
 
-  const { formData, setFormData } = useCreateProfile();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const {
+    formData,
+    confirmPassword,
+    setConfirmPassword,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    setErrors,
+  } = useCreateProfile();
 
   useEffect(() => {
     // Create a temporary object to hold validation errors for this render
@@ -27,65 +27,24 @@ const CreateProfileForm = (props: ModalProps) => {
 
     // Validate password
     if (formData.password && formData.password.length < 5) {
-      newErrors.password = 'Password must be at least 5 characters long.';
+      newErrors.password = "Password must be at least 5 characters long.";
     } else if (formData.password && !/[a-zA-Z]/.test(formData.password)) {
-      newErrors.password = 'Password must contain at least one letter.';
+      newErrors.password = "Password must contain at least one letter.";
     }
 
     // Validate confirm password
     if (confirmPassword && formData.password !== confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match.';
+      newErrors.confirmPassword = "Passwords do not match.";
     }
 
     // Use a function to merge the new errors, ensuring we keep other errors (e.g., name/email)
     // but overwrite the password and confirmPassword errors correctly.
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       password: newErrors.password,
       confirmPassword: newErrors.confirmPassword,
     }));
-
   }, [formData.password, confirmPassword]);
-
-
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.name) newErrors.name = 'Name is required.';
-    if (!formData.email) newErrors.email = 'Email is required.';
-    if (!formData.password) newErrors.password = 'Password is required.';
-    // --- Password validation logic ---
-    if (!formData.password) {
-      newErrors.password = 'Password is required.';
-    } else if (formData.password.length < 5) {
-      // Rule 1: Minimum length check
-      newErrors.password = 'Password must be at least 5 characters long.';
-    } else if (!/[a-zA-Z]/.test(formData.password)) {
-      // Rule 2: Check for at least one letter using a regular expression
-      newErrors.password = 'Password must contain at least one letter.';
-    }
-
-    if (formData.password !== confirmPassword) newErrors.confirmPassword = 'Passwords do not match.';
-    return newErrors;
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      setIsSubmitting(true);
-    }
-  };
-
-
-
-
 
   return (
     <div>
@@ -93,7 +52,10 @@ const CreateProfileForm = (props: ModalProps) => {
         <div className="modal-box">
           <h2 className="text-3xl font-bold text-center text-gray-800">
             Create Your Profile
-            <X onClick={handleShowModal} className="float-right text-gray-400 cursor-pointer hover:text-gray-600" />
+            <X
+              onClick={handleShowModal}
+              className="float-right text-gray-400 cursor-pointer hover:text-gray-600"
+            />
           </h2>
           <p className="text-gray-600 text-center">
             Tell us about yourself to join the community.
@@ -106,55 +68,98 @@ const CreateProfileForm = (props: ModalProps) => {
 
           <div className="mb-4">
             <form onSubmit={handleSubmit} className="space-y-4">
-              <fieldset disabled={isSubmitting}></fieldset>
-              {/* Name */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-gray-700">Name</label>
-                <input type="text" name="name" value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Full Name"
-                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
-                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-              </div>
+              <fieldset disabled={isSubmitting}>
+                {/* Name */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-semibold text-gray-700">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3"
+                  />
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                  )}
+                </div>
 
-              {/* Email */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email</label>
-                <input type="email" name="email" value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
-                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-              </div>
+                {/* Email */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-semibold text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3"
+                  />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                  )}
+                </div>
 
-              {/* Password */}
-              <div>
-                <label htmlFor="password" className="block text-sm font-semibold text-gray-700">Password</label>
-                <input type="password" name="password" value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Password"
-                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
-                {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
-              </div>
+                {/* Password */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-semibold text-gray-700">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3"
+                  />
+                  {errors.password && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.password}
+                    </p>
+                  )}
+                </div>
 
-
-              {/* Confirm Password */}
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700">Confirm Password</label>
-                <input type="password" name="confirmPassword" value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm Password"
-                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3 " />
-                {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
-              </div>
-              {/* <div>
+                {/* Confirm Password */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="block text-sm font-semibold text-gray-700">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm Password"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3 "
+                  />
+                  {errors.confirmPassword && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.confirmPassword}
+                    </p>
+                  )}
+                </div>
+                {/* <div>
                 <label htmlFor="bio" className="block text-sm font-semibold text-gray-700">Bio</label>
                 <textarea name="bio" onChange={handleChange} rows={3}
                   className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
               </div> */}
 
-              {/* Profile Picture Upload */}
-              {/* <div>
+                {/* Profile Picture Upload */}
+                {/* <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Profile Picture</label>
                   <div
                     {...getRootProps({
@@ -199,17 +204,19 @@ const CreateProfileForm = (props: ModalProps) => {
                   )}
                 </div> */}
 
-              {/* Submit Button */}
-              <button type="submit" disabled={isSubmitting}
-                className="w-full py-3 px-4 rounded-lg bg-green-600 text-white font-semibold shadow-md transition-colors duration-300 hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed">
-                {isSubmitting ? 'Creating Profile...' : 'Create Profile'}
-              </button>
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3 px-4 rounded-lg bg-green-600 text-white font-semibold shadow-md transition-colors duration-300 hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed">
+                  {isSubmitting ? "Creating Profile..." : "Create Profile"}
+                </button>
+              </fieldset>
             </form>
           </div>
         </div>
       </dialog>
     </div>
-
   );
 };
 
