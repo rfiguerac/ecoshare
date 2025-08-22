@@ -22,6 +22,7 @@ interface AuthState {
   changePassword: (passwords: PasswordChange) => Promise<void>;
   deleteAccount: () => Promise<void>;
   refreshAuthToken: () => Promise<void>;
+  checkAuth: () => Promise<void>;
 }
 
 const service = userService();
@@ -29,7 +30,7 @@ const service = userService();
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
-  loading: false,
+  loading: true,
   error: null,
   accessToken: localStorage.getItem("accessToken"),
   refreshToken: localStorage.getItem("refreshToken"),
@@ -40,6 +41,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const loggedInUser = await service.login(credentials);
       localStorage.setItem("accessToken", loggedInUser.accessToken!);
       localStorage.setItem("refreshToken", loggedInUser.refreshToken!);
+
       set({
         user: loggedInUser,
         isAuthenticated: true,
@@ -161,6 +163,29 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } catch (err: any) {
       set({ loading: false, error: "Failed to refresh token." });
       get().logout(); // Log out if refresh fails
+    }
+  },
+
+  checkAuth: async () => {
+    const accessToken = get().accessToken;
+    if (!accessToken) {
+      set({ isAuthenticated: false, loading: false });
+      return;
+    }
+
+    set({ loading: true });
+    try {
+      // Llamada simplificada
+      const userProfile = await service.getProfile(accessToken);
+      set({
+        user: userProfile,
+        isAuthenticated: true,
+        loading: false,
+      });
+    } catch (err: any) {
+      console.error("Authentication check failed:", err);
+      get().logout();
+      set({ loading: false });
     }
   },
 }));

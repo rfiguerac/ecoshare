@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Bell, User, Plus } from "lucide-react";
+import { Search, Bell, User, Plus, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { donations } from "../data/donations";
 import CreateDonationForm from "./Donation/CreateDonationForm";
 import CreateProfileForm from "./Profile/CreateProfileForm";
 import LoginForm from "./Profile/LoginForm";
+import { useAuthStore } from "../store/AuthStore";
 
 // Sugerencias de búsqueda simuladas
 const mockSuggestions = donations.map((donation) => donation.title);
@@ -18,6 +19,8 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const { isAuthenticated, logout } = useAuthStore();
 
   // Filtra las sugerencias basadas en la consulta del usuario
   const filteredSuggestions = mockSuggestions.filter((item) =>
@@ -78,7 +81,8 @@ export const Navbar = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
   }
 
-  const [isCreateProfileModalOpen, setIsCreateProfileModalOpen] = useState(false);
+  const [isCreateProfileModalOpen, setIsCreateProfileModalOpen] =
+    useState(false);
   function handleShowCreateProfileModal(): void {
     setIsCreateProfileModalOpen(!isCreateProfileModalOpen);
   }
@@ -88,11 +92,9 @@ export const Navbar = () => {
     handleShowCreateProfileModal();
   };
 
-
-
-
-
-
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -133,9 +135,15 @@ export const Navbar = () => {
                   </button>
                 </li>
                 <li>
-                  <button onClick={handleShowLoginModal}>
-                    <User size={18} />Profile
-                  </button>
+                  {isAuthenticated ? (
+                    <button onClick={handleLogout}>
+                      <LogOut size={18} /> LogOut
+                    </button>
+                  ) : (
+                    <button onClick={handleShowLoginModal}>
+                      <User size={18} /> login
+                    </button>
+                  )}
                 </li>
               </ul>
             </div>
@@ -220,18 +228,35 @@ export const Navbar = () => {
               className="btn btn-sm md:btn-md btn-primary hover:btn-secondary active:btn-accent">
               + New donation
             </button>
-            <Bell size={18} className="hidden lg:block" />
-            <button
-              onClick={handleShowLoginModal}>
-              <User size={18} className="hidden lg:block" />
+            <button className="btn btn-square btn-ghost">
+              <Bell size={18} className="hidden lg:block" />
             </button>
+            {isAuthenticated ? (
+              <button
+                className="btn btn-square btn-ghost"
+                onClick={handleLogout}>
+                <LogOut size={18} />
+              </button>
+            ) : (
+              <button
+                className="btn btn-square btn-ghost"
+                onClick={handleShowLoginModal}>
+                <User size={18} />
+              </button>
+            )}
           </div>
         </div>
       </div>
       {isModalOpen && <CreateDonationForm handleShowModal={handleShowModal} />}
-      {isLoginModalOpen && <LoginForm handleShowModal={handleShowLoginModal} handleRegisterShowModal={handleRegisterShowModal} />}
-      {isCreateProfileModalOpen && <CreateProfileForm handleShowModal={handleShowCreateProfileModal} />}
+      {isLoginModalOpen && (
+        <LoginForm
+          handleShowModal={handleShowLoginModal}
+          handleRegisterShowModal={handleRegisterShowModal}
+        />
+      )}
+      {isCreateProfileModalOpen && (
+        <CreateProfileForm handleShowModal={handleShowCreateProfileModal} />
+      )}
     </>
   );
 };
-

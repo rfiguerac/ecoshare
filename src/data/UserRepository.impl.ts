@@ -9,16 +9,6 @@ import type {
 } from "../domain/interfaces/User";
 import type { UserRepository } from "../domain/repositories/userRepository";
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("accessToken");
-  if (!token) throw new Error("No access token found");
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-};
-
 export const userRepositoryImpl: UserRepository = {
   login: async (credentials: UserCredential): Promise<User> => {
     const response = await ecoshareApi.post("/users/login", credentials);
@@ -30,8 +20,8 @@ export const userRepositoryImpl: UserRepository = {
     return response.data;
   },
 
-  getById: async (id: string): Promise<User> => {
-    const response = await ecoshareApi.get(`/users/${id}`, getAuthHeaders());
+  getById: async (): Promise<User> => {
+    const response = await ecoshareApi.get("/users/profile");
     return response.data;
   },
 
@@ -43,11 +33,7 @@ export const userRepositoryImpl: UserRepository = {
   },
 
   update: async (id: string, user: UserUpdate): Promise<User> => {
-    const response = await ecoshareApi.put(
-      `/users/${id}`,
-      user,
-      getAuthHeaders()
-    );
+    const response = await ecoshareApi.put(`/users/${id}`, user);
     return response.data;
   },
 
@@ -55,14 +41,10 @@ export const userRepositoryImpl: UserRepository = {
     id: string,
     passwords: PasswordChange
   ): Promise<void> => {
-    await ecoshareApi.patch(
-      `/users/${id}/password`,
-      passwords,
-      getAuthHeaders()
-    );
+    await ecoshareApi.patch(`/users/${id}/password`, passwords);
   },
 
   delete: async (id: string): Promise<void> => {
-    await ecoshareApi.delete(`/users/${id}`, getAuthHeaders());
+    await ecoshareApi.delete(`/users/${id}`);
   },
 };
