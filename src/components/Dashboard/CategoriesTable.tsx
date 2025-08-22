@@ -15,9 +15,9 @@ export const CategoriesTable = ({ categoriesRecived, setEdit, setOpen, deleteCat
                 <thead>
                     <tr className="bg-base-200">
                         <th>ID</th>
-                        <th>Icono</th>
-                        <th>Título</th>
-                        <th>Descripción</th>
+                        <th>Icon</th>
+                        <th>Title</th>
+                        <th>Description</th>
                         <th className="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@ export const CategoriesTable = ({ categoriesRecived, setEdit, setOpen, deleteCat
                                             }
                                         }}
                                     >
-                                        Editar
+                                        Edit
                                     </button>
                                     <button
                                         className="btn btn-sm btn-error text-error-content"
@@ -52,7 +52,7 @@ export const CategoriesTable = ({ categoriesRecived, setEdit, setOpen, deleteCat
                                             }
                                         }}
                                     >
-                                        Eliminar
+                                        Delete
                                     </button>
                                 </td>
                             </tr>
