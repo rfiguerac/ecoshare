@@ -41,6 +41,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const loggedInUser = await service.login(credentials);
       localStorage.setItem("accessToken", loggedInUser.accessToken!);
       localStorage.setItem("refreshToken", loggedInUser.refreshToken!);
+
       set({
         user: loggedInUser,
         isAuthenticated: true,
@@ -176,7 +177,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       // Llamada simplificada
       const userProfile = await service.getProfile(accessToken);
-      console.log("User profile:", userProfile);
       set({
         user: userProfile,
         isAuthenticated: true,
