@@ -14,6 +14,7 @@ import { DashboardCategory } from "../pages/DashboardCategoryPage";
 import { DashboardDonationsPage } from "../pages/DashboardDonatiosPage";
 import { DashboardUser } from "../pages/DashboardUsersPage";
 import { DashboardReports } from "../pages/DashboardReportsPage";
+import { DashboardConfiguration } from "../pages/DashboardConfigurationPage";
 
 import { donations } from "../data/donations";
 
@@ -56,6 +57,7 @@ export default function AppRouter() {
           <Route path="category" element={<DashboardCategory />} />
           <Route path="users" element={<DashboardUser />} />
           <Route path="reports" element={<DashboardReports />} />
+          <Route path="settings" element={<DashboardConfiguration />} />
           <Route
             path="donations/guardadas"
             element={
