@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Bell, User, Plus } from "lucide-react";
+import { Search, Bell, User, Plus, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { donations } from "../data/donations";
 import CreateDonationForm from "./Donation/CreateDonationForm";
@@ -20,7 +20,7 @@ export const Navbar = () => {
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, logout } = useAuthStore();
 
   // Filtra las sugerencias basadas en la consulta del usuario
   const filteredSuggestions = mockSuggestions.filter((item) =>
@@ -92,6 +92,10 @@ export const Navbar = () => {
     handleShowCreateProfileModal();
   };
 
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <>
       <div className=" flex navbar left-0 fixed bg-white/70 backdrop-blur-sm shadow-sm lg:px-15 z-50 top-0 w-full">
@@ -132,18 +136,14 @@ export const Navbar = () => {
                 </li>
                 <li>
                   {isAuthenticated ? (
-                    <button onClick={handleShowLoginModal}>
-                      <User size={18} /> {user?.name}
+                    <button onClick={handleLogout}>
+                      <LogOut size={18} /> LogOut
                     </button>
                   ) : (
                     <button onClick={handleShowLoginModal}>
-                      <User size={18} /> Login
+                      <User size={18} /> login
                     </button>
                   )}
-                  <button onClick={handleShowLoginModal}>
-                    <User size={18} />
-                    Profile
-                  </button>
                 </li>
               </ul>
             </div>
@@ -228,10 +228,22 @@ export const Navbar = () => {
               className="btn btn-sm md:btn-md btn-primary hover:btn-secondary active:btn-accent">
               + New donation
             </button>
-            <Bell size={18} className="hidden lg:block" />
-            <button onClick={handleShowLoginModal}>
-              <User size={18} className="hidden lg:block" />
+            <button className="btn btn-square btn-ghost">
+              <Bell size={18} className="hidden lg:block" />
             </button>
+            {isAuthenticated ? (
+              <button
+                className="btn btn-square btn-ghost"
+                onClick={handleLogout}>
+                <LogOut size={18} />
+              </button>
+            ) : (
+              <button
+                className="btn btn-square btn-ghost"
+                onClick={handleShowLoginModal}>
+                <User size={18} />
+              </button>
+            )}
           </div>
         </div>
       </div>

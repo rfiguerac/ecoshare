@@ -22,6 +22,7 @@ export const userRepositoryImpl: UserRepository = {
 
   getById: async (): Promise<User> => {
     const response = await ecoshareApi.get("/users/profile");
+    console.log("User profile:", response.data);
     return response.data;
   },
 
