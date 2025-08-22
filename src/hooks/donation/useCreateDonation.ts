@@ -34,9 +34,8 @@ export const useCreateDonation = () => {
   const [formData, setFormData] = useState<NewDonation>({
     title: "",
     description: "",
-    idCategory: 1,
-    state: "Available",
-    imageUrl: "",
+    categoryId: 1,
+    donorId: 1,
     urgent: false,
     latitude: 41.3851, // valor por defecto inicial
     longitude: 2.1734, // valor por defecto inicial

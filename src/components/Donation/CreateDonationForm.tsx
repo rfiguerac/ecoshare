@@ -122,7 +122,7 @@ const CreateDonationForm = (props: ModalProps) => {
                   </label>
                   <select
                     name="idCategory"
-                    value={formData.idCategory}
+                    value={formData.categoryId}
                     onChange={handleChange}
                     className="select select-bordered ">
                     <option value={1}>Clothing</option>

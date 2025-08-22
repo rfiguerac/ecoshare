@@ -1,14 +1,11 @@
-type donationState = "Available" | "Reserved" | "closed";
-
 export interface Donation {
   id?: number;
   title: string;
-  idDoner: number;
-  idCategory: number;
+  donorId: number;
+  categoryId: number;
   description: string;
-  state: donationState;
   urgent?: boolean;
-  imageUrl: string;
+  imageUrl: string[];
   longitude: number;
   latitude: number;
   expiryDate?: Date | null;
@@ -17,4 +14,4 @@ export interface Donation {
 }
 
 export interface NewDonation
-  extends Omit<Donation, "id" | "idDoner" | "createdAt" | "updatedAt"> {}
+  extends Omit<Donation, "id" | "createdAt" | "updatedAt" | "imageUrl"> {}
