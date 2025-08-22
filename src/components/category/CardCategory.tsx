@@ -8,6 +8,8 @@ interface CardCategoryProps {
   bgColor?: string;
 }
 
+
+// filter category based on category clicked
 export const CardCategory = (props: CardCategoryProps) => {
   const { title, icon } = props.category;
   return (

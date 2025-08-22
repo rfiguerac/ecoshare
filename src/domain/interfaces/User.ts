@@ -32,3 +32,6 @@ export interface PasswordChange {
   oldPassword: string;
   newPassword: string;
 }
+
+export interface NewUser
+  extends Omit<User, "id"| "createdAt" | "updatedAt"> {}
