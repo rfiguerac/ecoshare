@@ -72,25 +72,25 @@ export const DashboardHome = () => {
           {isAdmin ? (
             <>
               <Stats
-                title="Donaciones Activas"
+                title="Active Donations"
                 value={adminStats?.activeDonations.toString() ?? "0"}
                 icon={<HandHeart />}
                 color="bg-primary/20 text-primary"
               />
               <Stats
-                title="Donaciones Cerrdas"
+                title="Closed Donations"
                 value={adminStats?.closedDonations.toString() ?? "0"}
                 icon={<Archive />}
                 color="bg-secondary/20 text-secondary"
               />
               <Stats
-                title="Usuarios Registrados"
+                title="Registered Users"
                 value={adminStats?.users.toString() ?? "0"}
                 icon={<Users />}
                 color="bg-accent/20 text-accent"
               />
               <Stats
-                title="Reportes sin revisar"
+                title="Unreviwed    "
                 value={adminStats?.reports.toString() ?? "0"}
                 icon={<FileWarning />}
                 color="bg-info/20 text-base"
@@ -99,19 +99,19 @@ export const DashboardHome = () => {
           ) : (
             <>
               <Stats
-                title="Donaciones Publicadas"
+                title="Published Donations"
                 value={userStats?.publishedDonations.toString() ?? "0"}
                 icon={<HandHeart />}
                 color="bg-primary/20 text-primary"
               />
               <Stats
-                title="Donaciones Cerrdas"
+                title="Closed Donations"
                 value={userStats?.closedDonations.toString() ?? "0"}
                 icon={<Archive />}
                 color="bg-secondary/20 text-secondary"
               />
               <Stats
-                title="Donaciones Guardadas"
+                title="Saved Donations"
                 value={userStats?.savedDonations.toString() ?? "0"}
                 icon={<Bookmark />}
                 color="bg-accent/20 text-accent"

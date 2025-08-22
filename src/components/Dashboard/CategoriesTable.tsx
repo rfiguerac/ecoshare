@@ -1,4 +1,7 @@
+import type { FC } from "react";
 import type { Category } from "../../domain/interfaces/Category";
+import type { LucideProps } from "lucide-react";
+import * as Icons from "lucide-react";
 
 type CategoriesTableProps = {
     categoriesRecived: Category[],
@@ -7,8 +10,13 @@ type CategoriesTableProps = {
     deleteCategory: (idCat: number) => void
 };
 
-export const CategoriesTable = ({ categoriesRecived, setEdit, setOpen, deleteCategory }: CategoriesTableProps ) => {
+export const CategoriesTable = ({ categoriesRecived, setEdit, setOpen, deleteCategory }: CategoriesTableProps) => {
 
+const searchIcon = (iconName: string) : FC<LucideProps> => {
+
+        const iconComponent = (Icons as any)[iconName]
+        return iconComponent
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table w-full table-zebra">
@@ -18,17 +26,17 @@ export const CategoriesTable = ({ categoriesRecived, setEdit, setOpen, deleteCat
                         <th>Icon</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th className="text-center">Acciones</th>
+                        <th className="text-center">ACtions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {categoriesRecived.map((category) => {
-
+                        const Icon = searchIcon(category.icon)
                         return (
                             <tr key={category.id}>
                                 <td>{category.id}</td>
                                 <td>
-                                    icono
+                                    <Icon className="w-5 h-5" />
                                 </td>
                                 <td>{category.title}</td>
                                 <td>{category.description}</td>

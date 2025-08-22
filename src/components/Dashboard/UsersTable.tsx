@@ -14,10 +14,10 @@ export const UsersTable = ({ usersRecived, setEdit, setOpen, deleteUser }: Users
         <thead>
           <tr className="bg-base-200">
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Name</th>
             <th>Email</th>
-            <th>Rol</th>
-            <th className="text-center">Acciones</th>
+            <th>Role</th>
+            <th className="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@ export const UsersTable = ({ usersRecived, setEdit, setOpen, deleteUser }: Users
                     }
                   }}
                 >
-                  Editar
+                  Edit
                 </button>
                 <button
                   className="btn btn-sm btn-error text-error-content"
@@ -47,7 +47,7 @@ export const UsersTable = ({ usersRecived, setEdit, setOpen, deleteUser }: Users
                     }
                   }}
                 >
-                  Eliminar
+                  Delete
                 </button>
               </td>
             </tr>

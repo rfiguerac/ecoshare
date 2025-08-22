@@ -30,7 +30,7 @@ export const UserForm = ({ open, setOpen, edit, user, finishForm }: UserFormProp
     } as User;
 
     finishForm(userWithId);
-    alert(edit ? "Usuario actualizado" : "Usuario creado");
+    alert(edit ? "User updated" : "User created");
     setOpen(false);
   };
 
@@ -40,17 +40,17 @@ export const UserForm = ({ open, setOpen, edit, user, finishForm }: UserFormProp
         <dialog id="user_modal" className="modal modal-open">
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-4">
-              {edit ? "Editar Usuario" : "Crear Usuario"}
+              {edit ? "Edit User" : "Create User"}
             </h3>
 
             <form method="dialog" className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="label">
-                  <span className="label-text">Nombre</span>
+                  <span className="label-text">Name</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="Nombre del usuario"
+                  placeholder="Name of the user"
                   className="input input-bordered w-full"
                   value={localUser.name || ""}
                   onChange={(e) => handleChange("name", e.target.value)}
@@ -64,7 +64,7 @@ export const UserForm = ({ open, setOpen, edit, user, finishForm }: UserFormProp
                 </label>
                 <input
                   type="email"
-                  placeholder="Correo electrónico"
+                  placeholder="Email"
                   className="input input-bordered w-full"
                   value={localUser.email || ""}
                   onChange={(e) => handleChange("email", e.target.value)}
@@ -75,11 +75,11 @@ export const UserForm = ({ open, setOpen, edit, user, finishForm }: UserFormProp
               {!edit && (
                 <div>
                   <label className="label">
-                    <span className="label-text">Contraseña</span>
+                    <span className="label-text">Password</span>
                   </label>
                   <input
                     type="password"
-                    placeholder="Contraseña"
+                    placeholder="Password"
                     className="input input-bordered w-full"
                     value={localUser.password || ""}
                     onChange={(e) => handleChange("password", e.target.value)}

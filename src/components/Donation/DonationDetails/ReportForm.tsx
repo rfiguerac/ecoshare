@@ -27,7 +27,7 @@ export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: 
 
         // codigo de crear reporte
         console.log(reportWithId)
-        alert("Reporte realizado");
+        alert("Report completed");
         setNewReport({})
         setOpen(false);
     };
@@ -38,33 +38,33 @@ export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: 
                 <dialog id="user_modal" className="modal modal-open">
                     <div className="modal-box">
                         <h3 className="font-bold text-lg mb-4">
-                            Realizar reporte
+                            Make a report
                         </h3>
 
                         <form method="dialog" className="space-y-4" onSubmit={handleSubmit}>
                             <div>
                                 <label className="label">
-                                    <span className="label-text">Tipo de reporte</span>
+                                    <span className="label-text">Report type</span>
                                 </label>
                                 <select
                                     className="select select-bordered w-full"
                                     onChange={(e) => handleChange("reportType", e.target.value)}
                                     required
                                 >
-                                    <option value="" selected disabled>Selecciona el tipo de reporte</option>
+                                    <option value="" selected disabled>Select the type of report</option>
                                     <option value="spam">Spam</option>
-                                    <option value="contenido_inapropiado">Contenido inapropiado</option>
-                                    <option value="informacion_falsa">Información falsa</option>
-                                    <option value="discurso_odio">Discurso de odio</option>
-                                    <option value="acoso">Acoso o bullying</option>
-                                    <option value="violencia">Violencia o amenazas</option>
-                                    <option value="otro">Otro</option>
+                                    <option value="contenido_inapropiado">Inappropriate content</option>
+                                    <option value="informacion_falsa">False information</option>
+                                    <option value="discurso_odio">Hate speech</option>
+                                    <option value="acoso">Harassment or bullying</option>
+                                    <option value="violencia">Violence or threats</option>
+                                    <option value="otro">Other</option>
                                 </select>
                             </div>
 
                             <div>
                                 <label className="label">
-                                    <span className="label-text">Descripción</span>
+                                    <span className="label-text">Description</span>
                                 </label>
                                 <textarea
                                     className="textarea textarea-bordered w-full"
@@ -76,10 +76,10 @@ export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: 
 
                             <div className="modal-action">
                                 <button type="submit" className="btn btn-primary">
-                                    Reportar
+                                    Report
                                 </button>
                                 <button type="button" className="btn" onClick={() => setOpen(false)}>
-                                    Cerrar
+                                    Close
                                 </button>
                             </div>
                         </form>

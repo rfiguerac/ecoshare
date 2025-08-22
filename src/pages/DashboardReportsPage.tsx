@@ -63,7 +63,7 @@ export const DashboardReports = () => {
         <div className="container mx-auto p-4 bg-base-100 rounded-box shadow-xl min-h-screen">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold text-base-content">
-                    Gestión de Reportes
+                   Report Management
                 </h1>
             </div>
 

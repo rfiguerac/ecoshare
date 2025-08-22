@@ -15,10 +15,10 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
       <table className="table w-full table-zebra">
         <thead>
           <tr className="bg-base-200">
-            <th>Denunciante</th>
-            <th>Tipo de reporte</th>
-            <th>Descripción</th>
-            <th className="text-center">Acciones</th>
+            <th>Reporter</th>
+            <th>Report Type</th>
+            <th>Description</th>
+            <th className="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
               <td>{report.description}</td>
               <td className="flex gap-2 justify-center">
                 <Link to={`/donation/${report.idDonation}`} className="btn btn-sm btn-info text-info-content">
-                  Ver publicación
+                  See donation
                 </Link>
                 <button
                   className="btn btn-sm btn-error text-error-content"
@@ -39,7 +39,7 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
                    
                   }}
                 >
-                  Borrar donacion
+                  Delete donation
                 </button>
                 <button
                   className="btn btn-sm btn-primary"
@@ -49,7 +49,7 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
                     }
                   }}
                 >
-                  Revisado
+                  Reviwed
                 </button>
               </td>
             </tr>

@@ -21,7 +21,7 @@ export const Sidebar = ({children} : {children: React.ReactNode}) => {
       <li>
         <Link to="/dashboard" className="btn btn-ghost flex items-center justify-start w-full gap-3">
           <Home size={20} />
-          Inicio
+          Home
         </Link>
       </li>
 
@@ -30,19 +30,19 @@ export const Sidebar = ({children} : {children: React.ReactNode}) => {
           <li>
             <Link to="/dashboard/reports" className="btn btn-ghost flex items-center justify-start w-full gap-3">
               <FileWarning size={20} />
-              Reportes
+              Reports
             </Link>
           </li>
           <li>
             <Link to="/dashboard/category" className="btn btn-ghost flex items-center justify-start w-full gap-3">
               <Tags size={20} />
-              Categorías
+              Categories
             </Link>
           </li>
           <li>
             <Link to="/dashboard/users" className="btn btn-ghost flex items-center justify-start w-full gap-3">
               <Users size={20} />
-              Usuarios
+              Users
             </Link>
           </li>
         </>
@@ -51,19 +51,19 @@ export const Sidebar = ({children} : {children: React.ReactNode}) => {
           <li>
             <Link to="/dashboard/donations/mis-donaciones" className="btn btn-ghost flex items-center justify-start w-full gap-3">
               <HandHeart size={20} />
-              Mis donaciones
+              My donations
             </Link>
           </li>
           <li>
             <Link to="/dashboard/donations/recibidas" className="btn btn-ghost flex items-center justify-start w-full gap-3">
               <Package size={20} />
-              Donaciones recibidas
+              Donations Recived
             </Link>
           </li>
           <li>
             <Link to="/dashboard/donations/guardadas" className="btn btn-ghost flex items-center justify-start w-full gap-3">
               <Bookmark size={20} />
-              Donaciones guardadas
+              Donaciones Saved
             </Link>
           </li>
         </>
@@ -72,7 +72,7 @@ export const Sidebar = ({children} : {children: React.ReactNode}) => {
       <li>
         <Link to="/dashboard/settings" className="btn btn-ghost flex items-center justify-start w-full gap-3">
           <Settings size={20} />
-          Configuración
+          Configuration
         </Link>
       </li>
     </ul>

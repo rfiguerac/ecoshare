@@ -28,11 +28,11 @@ export const DonationDetailsPage = () => {
     const url = window.location.href
     navigator.clipboard.writeText(url)
       .then(() => {
-        alert("Enlace copiada al portapapeles");
+        alert("Link copied to clipboard");
       })
       .catch((err) => {
-        console.error("Error al copiar:", err);
-        alert("Error al copiar el enlace");
+        console.error("Error while copying:", err);
+        alert("Error copying link");
       });
   }
 
