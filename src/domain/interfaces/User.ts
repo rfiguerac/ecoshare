@@ -9,3 +9,6 @@ export interface User {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface NewUser
+  extends Omit<User, "id"| "createdAt" | "updatedAt"> {}

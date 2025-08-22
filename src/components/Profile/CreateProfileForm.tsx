@@ -1,67 +1,70 @@
-import React, { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import {  UploadCloud, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 
-// The data structure for a new user profile
-interface UserProfile {
-  name: string;
-  email: string;
-  bio: string;
-  profilePictureUrl: string;
+
+import { useCreateProfile } from '../../hooks/user/useCreateProfile';
+
+interface ModalProps {
+  handleShowModal: () => void;
 }
 
-// A new type to represent the file with a preview URL
-interface FileWithPreview extends File {
-  preview: string;
-}
 
-const ProfileCreationForm = () => {
-  const [formData, setFormData] = useState<UserProfile>({
-    name: '',
-    email: '',
-    bio: '',
-    profilePictureUrl: '',
-  });
 
-  const [file, setFile] = useState<FileWithPreview | null>(null);
+const CreateProfileForm = (props: ModalProps) => {
+  const { handleShowModal } = props;
+
+  const { formData, setFormData } = useCreateProfile();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    // We only accept one file for a profile picture
-    if (acceptedFiles.length > 0) {
-      const newFile = acceptedFiles[0];
-      if (file) {
-        URL.revokeObjectURL(file.preview);
-      }
-      setFile(Object.assign(newFile, {
-        preview: URL.createObjectURL(newFile)
-      }));
-    }
-  }, [file]);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'image/jpeg': ['.jpeg', '.jpg'],
-      'image/png': ['.png']
-    },
-    maxSize: 5 * 1024 * 1024, // 5MB
-    multiple: false
-  });
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const removeFile = () => {
-    if (file) {
-      URL.revokeObjectURL(file.preview);
+  useEffect(() => {
+    // Create a temporary object to hold validation errors for this render
+    const newErrors: Record<string, string> = {};
+
+    // Validate password
+    if (formData.password && formData.password.length < 5) {
+      newErrors.password = 'Password must be at least 5 characters long.';
+    } else if (formData.password && !/[a-zA-Z]/.test(formData.password)) {
+      newErrors.password = 'Password must contain at least one letter.';
     }
-    setFile(null);
-  };
+
+    // Validate confirm password
+    if (confirmPassword && formData.password !== confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match.';
+    }
+
+    // Use a function to merge the new errors, ensuring we keep other errors (e.g., name/email)
+    // but overwrite the password and confirmPassword errors correctly.
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      password: newErrors.password,
+      confirmPassword: newErrors.confirmPassword,
+    }));
+
+  }, [formData.password, confirmPassword]);
+
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name) newErrors.name = 'Name is required.';
     if (!formData.email) newErrors.email = 'Email is required.';
-    if (!file) newErrors.profilePicture = 'A profile picture is required.';
+    if (!formData.password) newErrors.password = 'Password is required.';
+    // --- Password validation logic ---
+    if (!formData.password) {
+      newErrors.password = 'Password is required.';
+    } else if (formData.password.length < 5) {
+      // Rule 1: Minimum length check
+      newErrors.password = 'Password must be at least 5 characters long.';
+    } else if (!/[a-zA-Z]/.test(formData.password)) {
+      // Rule 2: Check for at least one letter using a regular expression
+      newErrors.password = 'Password must contain at least one letter.';
+    }
+
+    if (formData.password !== confirmPassword) newErrors.confirmPassword = 'Passwords do not match.';
     return newErrors;
   };
 
@@ -80,89 +83,134 @@ const ProfileCreationForm = () => {
     }
   };
 
+
+
+
+
   return (
-    <div className="bg-gray-100 p-8 min-h-screen">
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-6 md:p-10 max-w-lg mx-auto space-y-6">
-        <h2 className="text-3xl font-bold text-center text-gray-800">Create Your Profile</h2>
-        <p className="text-gray-600 text-center">Tell us about yourself to join the community.</p>
-
-        {/* Name */}
-        <div>
-          <label htmlFor="name" className="block text-sm font-semibold text-gray-700">Name</label>
-          <input type="text" name="name" value={formData.name} onChange={handleChange}
-                 className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
-          {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-        </div>
-
-        {/* Email */}
-        <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email</label>
-          <input type="email" name="email" value={formData.email} onChange={handleChange}
-                 className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
-          {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-        </div>
-        
-        {/* Bio */}
-        <div>
-          <label htmlFor="bio" className="block text-sm font-semibold text-gray-700">Bio</label>
-          <textarea name="bio" value={formData.bio} onChange={handleChange} rows={3}
-                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
-        </div>
-
-        {/* Profile Picture Upload */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Profile Picture</label>
-          <div
-            {...getRootProps({
-              className:
-                "border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transition-colors " +
-                (isDragActive ? "border-green-500 bg-green-50" : "border-gray-300 bg-gray-50"),
-            })}
-          >
-            <input {...getInputProps()} />
-            {file ? (
-              <div className="relative w-32 h-32">
-                <img
-                  src={file.preview}
-                  alt="Profile Preview"
-                  className="object-cover w-full h-full rounded-full"
-                />
-                <button
-                  type="button"
-                  onClick={removeFile}
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                  aria-label="Remove image"
-                >
-                  <X size={16} />
-                </button>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center">
-                <UploadCloud size={32} className="text-gray-400 mb-2" />
-                <span className="text-gray-500">
-                  {isDragActive
-                    ? "Drop the image here..."
-                    : "Drag & drop an image, or click to select"}
-                </span>
-                <span className="text-xs text-gray-400 mt-1">
-                  (JPEG/PNG, max 5MB)
-                </span>
-              </div>
-            )}
-          </div>
-          {errors.profilePicture && (
-            <p className="mt-1 text-sm text-red-600">{errors.profilePicture}</p>
+    <div>
+      <dialog open className="modal">
+        <div className="modal-box">
+          <h2 className="text-3xl font-bold text-center text-gray-800">
+            Create Your Profile
+            <X onClick={handleShowModal} className="float-right text-gray-400 cursor-pointer hover:text-gray-600" />
+          </h2>
+          <p className="text-gray-600 text-center">
+            Tell us about yourself to join the community.
+          </p>
+          {isSubmitting && (
+            <div className="flex justify-center">
+              <span className="loading loading-spinner loading-xl"></span>
+            </div>
           )}
-        </div>
 
-        {/* Submit Button */}
-        <button type="submit" disabled={isSubmitting}
+          <div className="mb-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <fieldset disabled={isSubmitting}></fieldset>
+              {/* Name */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-semibold text-gray-700">Name</label>
+                <input type="text" name="name" value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Full Name"
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
+                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email</label>
+                <input type="email" name="email" value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
+                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+              </div>
+
+              {/* Password */}
+              <div>
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-700">Password</label>
+                <input type="password" name="password" value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
+                {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+              </div>
+
+
+              {/* Confirm Password */}
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700">Confirm Password</label>
+                <input type="password" name="confirmPassword" value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm Password"
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3 " />
+                {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
+              </div>
+              {/* <div>
+                <label htmlFor="bio" className="block text-sm font-semibold text-gray-700">Bio</label>
+                <textarea name="bio" onChange={handleChange} rows={3}
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-3" />
+              </div> */}
+
+              {/* Profile Picture Upload */}
+              {/* <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Profile Picture</label>
+                  <div
+                    {...getRootProps({
+                      className:
+                        "border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transition-colors " +
+                        (isDragActive ? "border-green-500 bg-green-50" : "border-gray-300 bg-gray-50"),
+                    })}
+                  >
+                    <input {...getInputProps()} />
+                    {file ? (
+                      <div className="relative w-32 h-32">
+                        <img
+                          src={file.preview}
+                          alt="Profile Preview"
+                          className="object-cover w-full h-full rounded-full"
+                        />
+                        <button
+                          type="button"
+                          onClick={removeFile}
+                          className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          aria-label="Remove image"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <UploadCloud size={32} className="text-gray-400 mb-2" />
+                        <span className="text-gray-500">
+                          {isDragActive
+                            ? "Drop the image here..."
+                            : "Drag & drop an image, or click to select"}
+                        </span>
+                        <span className="text-xs text-gray-400 mt-1">
+                          (JPEG/PNG, max 5MB)
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {errors.profilePicture && (
+                    <p className="mt-1 text-sm text-red-600">{errors.profilePicture}</p>
+                  )}
+                </div> */}
+
+              {/* Submit Button */}
+              <button type="submit" disabled={isSubmitting}
                 className="w-full py-3 px-4 rounded-lg bg-green-600 text-white font-semibold shadow-md transition-colors duration-300 hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed">
-          {isSubmitting ? 'Creating Profile...' : 'Create Profile'}
-        </button>
-      </form>
+                {isSubmitting ? 'Creating Profile...' : 'Create Profile'}
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
+
   );
 };
 
-export default ProfileCreationForm;
+export default CreateProfileForm;

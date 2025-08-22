@@ -3,6 +3,9 @@ import { Search, Bell, User, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { donations } from "../data/donations";
 import CreateDonationForm from "./Donation/CreateDonationForm";
+import CreateProfileForm from "./Profile/CreateProfileForm";
+import LoginForm from "./Profile/LoginForm";
+
 // Sugerencias de búsqueda simuladas
 const mockSuggestions = donations.map((donation) => donation.title);
 
@@ -70,6 +73,27 @@ export const Navbar = () => {
     setIsModalOpen(!isModalOpen);
   }
 
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  function handleShowLoginModal(): void {
+    setIsLoginModalOpen(!isLoginModalOpen);
+  }
+
+  const [isCreateProfileModalOpen, setIsCreateProfileModalOpen] = useState(false);
+  function handleShowCreateProfileModal(): void {
+    setIsCreateProfileModalOpen(!isCreateProfileModalOpen);
+  }
+
+  const handleRegisterShowModal = () => {
+    handleShowLoginModal();
+    handleShowCreateProfileModal();
+  };
+
+
+
+
+
+
+
   return (
     <>
       <div className=" flex navbar left-0 fixed bg-white/70 backdrop-blur-sm shadow-sm lg:px-15 z-50 top-0 w-full">
@@ -104,15 +128,14 @@ export const Navbar = () => {
                   </button>
                 </li>
                 <li>
-                  <a>
+                  <button>
                     <Bell size={18} /> Notifications
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a>
-                    <User size={18} />
-                    Profile
-                  </a>
+                  <button onClick={handleShowLoginModal}>
+                    <User size={18} />Profile
+                  </button>
                 </li>
               </ul>
             </div>
@@ -198,11 +221,17 @@ export const Navbar = () => {
               + New donation
             </button>
             <Bell size={18} className="hidden lg:block" />
-            <User size={18} className="hidden lg:block" />
+            <button
+              onClick={handleShowLoginModal}>
+              <User size={18} className="hidden lg:block" />
+            </button>
           </div>
         </div>
       </div>
       {isModalOpen && <CreateDonationForm handleShowModal={handleShowModal} />}
+      {isLoginModalOpen && <LoginForm handleShowModal={handleShowLoginModal} handleRegisterShowModal={handleRegisterShowModal} />}
+      {isCreateProfileModalOpen && <CreateProfileForm handleShowModal={handleShowCreateProfileModal} />}
     </>
   );
 };
+
