@@ -61,8 +61,7 @@ export const DashboardCategory = () => {
         if (!confirmDelete) return;
 
         setCategories(categories.filter(cat => cat.id !== idCategory));
-    };
-
+    }
 
     return (
         <div className="container mx-auto p-4 bg-base-100 rounded-box shadow-xl min-h-screen">
