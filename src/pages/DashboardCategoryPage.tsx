@@ -40,22 +40,6 @@ export const DashboardCategory = () => {
         setEditing(true)
     }
 
-    const finshForm = (category: Partial<Category>) => {
-
-        if (editing) {
-            const newCategories = categories.map((c) =>
-                c.id === category.id ? { ...c, ...category } : c
-            )
-            setCategories(newCategories)
-        } else {
-            const newCategories = [...categories, (category as Category)]
-            setCategories(newCategories)
-        }
-
-        setCategory({});
-        setEditing(false);
-    }
-
     const deleteCategory = (idCategory: number) => {
         const confirmDelete = window.confirm("¿Seguro que quieres eliminar esta categoría?");
         if (!confirmDelete) return;
@@ -78,7 +62,7 @@ export const DashboardCategory = () => {
             </div>
 
             <CategoriesTable categoriesRecived={categories} setEdit={editButtonClick} setOpen={setModalOpen} deleteCategory={deleteCategory}/>
-            <CategoryForm open={modalOpen} setOpen={setModalOpen} edit={editing} category={category} finishForm={finshForm} />
+            <CategoryForm open={modalOpen} setOpen={setModalOpen} edit={editing} category={category} setCategory={setCategory} />
 
         </div>
     );

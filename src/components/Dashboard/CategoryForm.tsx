@@ -1,6 +1,6 @@
 import * as Icons from "lucide-react";
 import type { Category } from "../../domain/interfaces/Category";
-import { useEffect, useState } from "react";
+import { createEditCategory } from "../../hooks/category/createEditCategory";
 
 type IconName = keyof typeof Icons;
 const allIcons: IconName[] = Object.keys(Icons) as IconName[];
@@ -10,36 +10,15 @@ type CategoryFormProps = {
     setOpen: (x: boolean) => void,
     edit: boolean,
     category: Partial<Category>,
-    finishForm: (cat: Partial<Category>) => void,
+    setCategory: (cat: Partial<Category>) => void,
 };
 
-export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: CategoryFormProps) => {
+export const CategoryForm = ({ open, setOpen, edit, category, setCategory }: CategoryFormProps) => {
+    const { formData, isSubmitting, errors, handleChange, handleSubmit, resetForm } = createEditCategory(category, open, edit)
 
-    const [localCategory, setLocalCategory] = useState<Partial<Category>>({});
-
-    useEffect(() => {
-        if (open) {
-            if (edit) {
-                setLocalCategory(category)
-            } else {
-                setLocalCategory({})
-            }
-        }
-    }, [open, edit, category]);
-
-    const handleChange = (field: keyof Category, value: string) => {
-        setLocalCategory({ ...localCategory, [field]: value });
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const categoryWithId = {
-            ...localCategory,
-            id: localCategory.id ?? Date.now(),
-            createdAt: localCategory.createdAt ?? new Date(),
-        };
-        finishForm(categoryWithId);
-        alert(edit ? "Updated category" : "Created category");
+    const handleClose = () => {
+        resetForm();
+        setCategory({})
         setOpen(false);
     };
 
@@ -55,18 +34,22 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
                             className="space-y-4"
                             onSubmit={handleSubmit}
                         >
+                            <fieldset disabled={isSubmitting}></fieldset>
                             <div>
                                 <label className="label">
-                                    <span className="label-text">Name</span>
+                                    <span className="label-text">Title</span>
                                 </label>
                                 <input
                                     type="text"
+                                    name="title"
                                     placeholder="Nombre categoría"
                                     className="input input-bordered w-full"
-                                    value={localCategory.title || ""}
-                                    onChange={(e) => handleChange("title", e.target.value)}
-                                    required
+                                    value={formData.title}
+                                    onChange={handleChange}
                                 />
+                                {errors.title && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.title}</p>
+                                )}
                             </div>
 
                             <div>
@@ -76,9 +59,8 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
                                 <select
                                     name="icon"
                                     className={`select select-bordered w-full`}
-                                    value={localCategory.icon || ""}
-                                    onChange={(e) => handleChange("icon", e.target.value)}
-                                    required
+                                    value={formData.icon}
+                                    onChange={handleChange}
                                 >
                                     <option value="" disabled>Selecciona un icono</option>
                                     {allIcons.sort().map((iconName) => (
@@ -87,6 +69,9 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
                                         </option>
                                     ))}
                                 </select>
+                                {errors.icon && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.icon}</p>
+                                )}
                             </div>
 
                             <div>
@@ -95,11 +80,14 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
                                 </label>
                                 <textarea
                                     className="textarea textarea-bordered w-full"
+                                    name="description"
                                     placeholder="Descripción de la categoria"
-                                    value={localCategory.description || ""}
-                                    onChange={(e) => handleChange("description", e.target.value)}
-                                    required
+                                    value={formData.description}
+                                    onChange={handleChange}
                                 />
+                                {errors.description && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.description}</p>
+                                )}
                             </div>
 
                             <div className="modal-action">
@@ -112,7 +100,7 @@ export const CategoryForm = ({ open, setOpen, edit, category, finishForm }: Cate
                                 <button
                                     type="button"
                                     className="btn"
-                                    onClick={() => setOpen(false)}
+                                    onClick={() => handleClose()}
                                 >
                                     Close
                                 </button>
