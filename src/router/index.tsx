@@ -25,17 +25,17 @@ import LoginPage from "../pages/LoginPage";
 
 // Componente para proteger rutas privadas
 function ProtectedRoute({ children }: { children: JSX.Element }) {
-  // const { isAuthenticated, loading } = useAuthStore(); // Usa el store para obtener el estado de autenticación
+  const { isAuthenticated, loading } = useAuthStore(); // Usa el store para obtener el estado de autenticación
 
-  // if (loading) {
-  //   // Puedes mostrar un spinner de carga mientras se verifica el token
-  //   return <div>Cargando...</div>;
-  // }
+  if (loading) {
+    // Puedes mostrar un spinner de carga mientras se verifica el token
+    return <div>Cargando...</div>;
+  }
 
-  // if (!isAuthenticated) {
-  //   // Si no está autenticado, redirige al usuario a la página de login
-  //   return <Navigate to="/login" replace />;
-  // }
+  if (!isAuthenticated) {
+    // Si no está autenticado, redirige al usuario a la página de login
+    return <Navigate to="/login" replace />;
+  }
 
   return children;
 }
