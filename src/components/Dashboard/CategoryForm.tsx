@@ -1,6 +1,6 @@
 import * as Icons from "lucide-react";
 import type { Category } from "../../domain/interfaces/Category";
-import { createEditCategory } from "../../hooks/category/createEditCategory";
+import { useCreateEditCategory } from "../../hooks/category/useCreateEditCategory";
 
 type IconName = keyof typeof Icons;
 const allIcons: IconName[] = Object.keys(Icons) as IconName[];
@@ -14,7 +14,7 @@ type CategoryFormProps = {
 };
 
 export const CategoryForm = ({ open, setOpen, edit, category, setCategory }: CategoryFormProps) => {
-    const { formData, isSubmitting, errors, handleChange, handleSubmit, resetForm } = createEditCategory(category, open, edit)
+    const { formData, isSubmitting, errors, handleChange, handleSubmit, resetForm } = useCreateEditCategory(category, open, edit)
 
     const handleClose = () => {
         resetForm();

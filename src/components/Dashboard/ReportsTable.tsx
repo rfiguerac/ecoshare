@@ -16,7 +16,6 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
         <thead>
           <tr className="bg-base-200">
             <th>Reporter</th>
-            <th>Report Type</th>
             <th>Description</th>
             <th className="text-center">Actions</th>
           </tr>
@@ -24,8 +23,7 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
         <tbody>
           {reportsRecived.map((report) => (
             <tr key={report.id}>
-              <td>{report.reporter}</td>
-              <td>{report.reportType}</td>
+              <td>{report.userId}</td>
               <td>{report.description}</td>
               <td className="flex gap-2 justify-center">
                 <Link to={`/donation/${report.idDonation}`} className="btn btn-sm btn-info text-info-content">

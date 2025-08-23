@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Category } from "../../domain/interfaces/Category";
 
-export const createEditCategory = (initialData: Partial<Category>, open: boolean, edit:boolean) => {
+export const useCreateEditCategory = (initialData: Partial<Category>, open: boolean, edit:boolean) => {
 
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [formData, setFormData] = useState<Category>({

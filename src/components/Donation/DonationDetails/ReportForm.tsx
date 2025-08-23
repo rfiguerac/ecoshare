@@ -1,4 +1,4 @@
-import { createReport } from "../../../hooks/report/crateReport";
+import { useCreateReport } from "../../../hooks/report/useCrateReport";
 
 type ReportFormProps = {
     open: boolean;
@@ -8,7 +8,7 @@ type ReportFormProps = {
 };
 
 export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: ReportFormProps) => {
-    const {formData, errors, isSubmitting, handleChange, handleSubmit, resetForm} = createReport(idUserRecived, idDonationRecived)
+    const {formData, errors, isSubmitting, handleChange, handleSubmit, resetForm} = useCreateReport(idUserRecived, idDonationRecived)
 
     const handleClose = () => {
         resetForm();

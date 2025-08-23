@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Report } from "../../domain/interfaces/Report";
 
-export const createReport = (reporterId: number, donationReportedId: number) => {
+export const useCreateReport = (reporterId: number, donationReportedId: number) => {
 
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [formData, setFormData] = useState<Report>({
