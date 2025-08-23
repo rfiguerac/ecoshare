@@ -38,7 +38,7 @@ export const createEditCategory = (initialData: Partial<Category>, open: boolean
         if (!formData.icon) newErrors.title = "Icon is required";
         if (!formData.title) newErrors.description = "Description is required"
         return newErrors
-    }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = e.target;
