@@ -1,5 +1,4 @@
-import { useState } from "react";
-import type { Report } from "../../../domain/interfaces/Report";
+import { createReport } from "../../../hooks/report/crateReport";
 
 type ReportFormProps = {
     open: boolean;
@@ -9,29 +8,13 @@ type ReportFormProps = {
 };
 
 export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: ReportFormProps) => {
+    const {formData, errors, isSubmitting, handleChange, handleSubmit, resetForm} = createReport(idUserRecived, idDonationRecived)
 
-    const [newReport, setNewReport] = useState<Partial<Report>>({})
-
-    const handleChange = (field: keyof Report, value: string) => {
-        setNewReport({ ...newReport, [field]: value });
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const reportWithId = {
-            ...newReport,
-            idDonation: idDonationRecived,
-            idUser: idUserRecived,
-            createdAt: newReport.createdAt ?? new Date(),
-        };
-
-        // codigo de crear reporte
-        console.log(reportWithId)
-        alert("Report completed");
-        setNewReport({})
+    const handleClose = () => {
+        resetForm();
         setOpen(false);
     };
-
+    
     return (
         <>
             {open && (
@@ -42,43 +25,28 @@ export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: 
                         </h3>
 
                         <form method="dialog" className="space-y-4" onSubmit={handleSubmit}>
-                            <div>
-                                <label className="label">
-                                    <span className="label-text">Report type</span>
-                                </label>
-                                <select
-                                    className="select select-bordered w-full"
-                                    onChange={(e) => handleChange("reportType", e.target.value)}
-                                    required
-                                >
-                                    <option value="" selected disabled>Select the type of report</option>
-                                    <option value="spam">Spam</option>
-                                    <option value="contenido_inapropiado">Inappropriate content</option>
-                                    <option value="informacion_falsa">False information</option>
-                                    <option value="discurso_odio">Hate speech</option>
-                                    <option value="acoso">Harassment or bullying</option>
-                                    <option value="violencia">Violence or threats</option>
-                                    <option value="otro">Other</option>
-                                </select>
-                            </div>
-
+                             <fieldset disabled={isSubmitting}></fieldset>
                             <div>
                                 <label className="label">
                                     <span className="label-text">Description</span>
                                 </label>
                                 <textarea
                                     className="textarea textarea-bordered w-full"
+                                    name="description"
                                     placeholder="Descripción de la categoria"
-                                    onChange={(e) => handleChange("description", e.target.value)}
-                                    required
+                                    value={formData.description}
+                                    onChange={handleChange} 
                                 />
+                                {errors.description && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.description}</p>
+                                )}
                             </div>
 
                             <div className="modal-action">
                                 <button type="submit" className="btn btn-primary">
                                     Report
                                 </button>
-                                <button type="button" className="btn" onClick={() => setOpen(false)}>
+                                <button type="button" className="btn" onClick={() => handleClose()}>
                                     Close
                                 </button>
                             </div>
