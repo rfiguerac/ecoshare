@@ -17,6 +17,14 @@ export const DashboardConfiguration = () => {
 
 
     return (
-        <EditProfile user={mockUser} saveUser={handleSave}/>
+        <div className="container mx-auto p-4 bg-base-100 rounded-box shadow-xl min-h-screen">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-3xl font-bold text-base-content">
+                    Edit Profile
+                </h1>
+            </div>
+            <EditProfile user={mockUser} saveUser={handleSave} />
+
+        </div>
     )
 } 

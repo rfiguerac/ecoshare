@@ -27,11 +27,9 @@ export const EditProfile = ({ user, saveUser }: EditProfileProps) => {
     };
 
     return (
-        <div className="flex">
-            <div className="card w-full  shadow-xl bg-base-100">
+        <div className="flex justify-center">
+            <div className="card min-w-100 shadow-xl bg-base-100">
                 <div className="card-body">
-                    <h2 className="card-title text-lg font-bold mb-4">Edit User</h2>
-
                     <form className="space-y-4" onSubmit={handleSubmit}>
 
                         <div>
