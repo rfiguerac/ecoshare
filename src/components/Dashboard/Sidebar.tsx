@@ -1,82 +1,59 @@
-import { Home, Users, Settings, FileWarning, Tags, Bookmark, HandHeart, Package, AlignJustify } from "lucide-react";
+import * as LucideIconsAll from "lucide-react";
 import { Link } from "react-router-dom";
+import React from "react";
 
-export const Sidebar = ({children} : {children: React.ReactNode}) => {
+interface Props {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}
 
-    const isAdmin = true;
-    return (
-        <div className="drawer lg:drawer-open">
-            <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col items-center">
-                <label htmlFor="my-drawer-2" className="drawer-button lg:hidden self-start mb-4 ml-2">
-                    <AlignJustify />
-                </label>
+// Filtramos solo los iconos exportados (omitimos createLucideIcon)
+const LucideIcons = Object.fromEntries(
+  Object.entries(LucideIconsAll).filter(([key]) => key !== "createLucideIcon")
+) as Record<string, React.ComponentType<any>>;
 
-                {children}
+export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
+  const menuItems = [
+    { name: "Dashboard", path: "/dashboard", icon: "Home" },
+    { name: "Donations", path: "/dashboard/donations", icon: "Coffee" },
+    { name: "Users", path: "/dashboard/users", icon: "User" },
+    { name: "Categories", path: "/dashboard/categories", icon: "Grid" },
+    { name: "Reports", path: "/dashboard/reports", icon: "BarChart" },
+    { name: "Settings", path: "/dashboard/settings", icon: "Settings" },
+  ];
 
-            </div>
-            <div className="drawer-side">
-                <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                 <ul className="space-y-2 min-h-full bg-base-200 min-w-50 p-2">
-      <li>
-        <Link to="/dashboard" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-          <Home size={20} />
-          Home
-        </Link>
-      </li>
-
-      {isAdmin ? (
-        <>
-          <li>
-            <Link to="/dashboard/reports" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-              <FileWarning size={20} />
-              Reports
-            </Link>
-          </li>
-          <li>
-            <Link to="/dashboard/category" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-              <Tags size={20} />
-              Categories
-            </Link>
-          </li>
-          <li>
-            <Link to="/dashboard/users" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-              <Users size={20} />
-              Users
-            </Link>
-          </li>
-        </>
-      ) : (
-        <>
-          <li>
-            <Link to="/dashboard/donations/mis-donaciones" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-              <HandHeart size={20} />
-              My donations
-            </Link>
-          </li>
-          <li>
-            <Link to="/dashboard/donations/recibidas" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-              <Package size={20} />
-              Donations Recived
-            </Link>
-          </li>
-          <li>
-            <Link to="/dashboard/donations/guardadas" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-              <Bookmark size={20} />
-              Donaciones Saved
-            </Link>
-          </li>
-        </>
+  return (
+    <>
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/40 z-40"
+          onClick={() => setIsOpen(false)}
+        />
       )}
 
-      <li>
-        <Link to="/dashboard/settings" className="btn btn-ghost flex items-center justify-start w-full gap-3">
-          <Settings size={20} />
-          Configuration
-        </Link>
-      </li>
-    </ul>
-            </div>
-        </div>
-    )
-}
+      <aside
+        className={`fixed lg:top-24 top-16 left-0 h-screen bg-base-200 shadow-lg z-50 transform transition-transform duration-300 ease-in-out
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+          lg:translate-x-0 lg:w-48 w-48`}>
+        <nav className="mt-4 px-4">
+          <ul className="menu p-0">
+            {menuItems.map((item) => {
+              const Icon = LucideIcons[item.icon];
+              return (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className="flex items-center gap-2 rounded-lg hover:bg-primary hover:text-white transition-all"
+                    onClick={() => setIsOpen(false)}>
+                    {Icon && <Icon size={20} />}
+                    {item.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </aside>
+    </>
+  );
+};
