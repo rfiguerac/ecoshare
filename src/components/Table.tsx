@@ -85,65 +85,106 @@ export const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="overflow-x-auto p-4 md:p-8 bg-white shadow-xl rounded-2xl max-w-full mx-auto">
-      <table className="table table-zebra w-full text-base">
-        <thead>
-          <tr className="bg-primary text-white">
-            {headers.map((header) => (
-              <th
-                key={header.key}
-                className="p-4 font-bold cursor-pointer hover:bg-primary-focus transition-colors duration-200"
-                onClick={() => onSort(header.key)}>
-                {header.label}
-                {getSortIcon(header.key)}
-              </th>
-            ))}
-            <th className="p-4 font-bold text-center">Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {paginatedData.length > 0 ? (
-            paginatedData.map((row) => (
-              <tr
-                key={row[idKey]}
-                className="hover:bg-gray-100 transition-colors duration-200">
-                {headers.map((header) => (
-                  <td key={`${row[idKey]}-${header.key}`} className="p-4">
-                    {row[header.key]}
+    <div className="p-4 md:p-8 bg-white shadow-xl rounded-2xl max-w-full mx-auto">
+      {/* Table for medium and larger screens */}
+      <div className="overflow-x-auto hidden md:block">
+        <table className="table table-zebra w-full text-base">
+          <thead>
+            <tr className="bg-primary text-white">
+              {headers.map((header) => (
+                <th
+                  key={header.key}
+                  className="p-4 font-bold cursor-pointer hover:bg-primary-focus transition-colors duration-200"
+                  onClick={() => onSort(header.key)}>
+                  {header.label}
+                  {getSortIcon(header.key)}
+                </th>
+              ))}
+              <th className="p-4 font-bold text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedData.length > 0 ? (
+              paginatedData.map((row) => (
+                <tr
+                  key={row[idKey]}
+                  className="hover:bg-gray-100 transition-colors duration-200">
+                  {headers.map((header) => (
+                    <td key={`${row[idKey]}-${header.key}`} className="p-4">
+                      {row[header.key]}
+                    </td>
+                  ))}
+                  <td className="p-4 text-center">
+                    <div className="flex justify-center space-x-2">
+                      <button
+                        className="btn btn-sm btn-info"
+                        onClick={() => onEdit(row)}>
+                        <Pencil size={18} />
+                      </button>
+                      <button
+                        className="btn btn-sm btn-error"
+                        onClick={() => onDelete(row[idKey])}>
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                   </td>
-                ))}
-                <td className="p-4 text-center">
-                  <div className="flex justify-center space-x-2">
-                    <button
-                      className="btn btn-sm btn-info"
-                      onClick={() => onEdit(row)}>
-                      <Pencil size={18} />
-                    </button>
-                    <button
-                      className="btn btn-sm btn-error"
-                      onClick={() => onDelete(row[idKey])}>
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={headers.length + 1}
+                  className="text-center p-4 text-gray-500">
+                  No hay datos para mostrar.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan={headers.length + 1}
-                className="text-center p-4 text-gray-500">
-                No hay datos para mostrar.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* List-style for small screens */}
+      <div className="md:hidden">
+        {paginatedData.length > 0 ? (
+          paginatedData.map((row, index) => (
+            <div
+              key={row[idKey]}
+              className={`bg-gray-50 rounded-lg p-4 shadow-md mb-4 ${
+                index % 2 === 0 ? "bg-base-200" : ""
+              }`}>
+              {headers.map((header) => (
+                <div
+                  key={`${row[idKey]}-${header.key}`}
+                  className="flex justify-between items-center py-1 border-b last:border-b-0">
+                  <span className="font-semibold text-gray-600">
+                    {header.label}:
+                  </span>
+                  <span>{row[header.key]}</span>
+                </div>
+              ))}
+              <div className="flex justify-center space-x-2 mt-4">
+                <button
+                  className="btn btn-sm btn-info"
+                  onClick={() => onEdit(row)}>
+                  <Pencil size={18} />
+                </button>
+                <button
+                  className="btn btn-sm btn-error"
+                  onClick={() => onDelete(row[idKey])}>
+                  <Trash2 size={18} />
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-center p-4 text-gray-500">
+            No hay datos para mostrar.
+          </div>
+        )}
+      </div>
 
       {/* Resumen y controles */}
       <div className="flex flex-col md:flex-row justify-between items-center mt-4 space-y-2 md:space-y-0">
-        {/* Selector y resumen */}
         <div className="flex items-center space-x-4">
           <div className="text-gray-700">
             View {paginatedData.length} de {sortedData.length} items
@@ -162,8 +203,6 @@ export const Table: React.FC<TableProps> = ({
             </select>
           </div>
         </div>
-
-        {/* Paginación */}
         {totalPages > 1 && (
           <div className="flex space-x-2 mt-2 md:mt-0">
             <button
