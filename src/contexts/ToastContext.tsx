@@ -93,7 +93,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
     <ToastContext.Provider value={{ showToast }}>
       {children}
       {toasts.length > 0 && (
-        <div className="toast toast-top toast-end z-50">
+        <div className="toast toast-top toast-end z-999">
           {toasts.map((toast) => (
             <div key={toast.id} className={`alert ${alertStyle[toast.type]}`}>
               {icons[toast.type]}
