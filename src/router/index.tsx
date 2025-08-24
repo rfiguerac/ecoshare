@@ -64,7 +64,7 @@ export default function AppRouter() {
             </ProtectedRoute>
           }>
           <Route index element={<DashboardHome />} />
-          <Route path="category" element={<DashboardCategory />} />
+          <Route path="categories" element={<DashboardCategory />} />
           <Route path="users" element={<DashboardUser />} />
           <Route path="reports" element={<DashboardReports />} />
           <Route path="settings" element={<DashboardConfiguration />} />

@@ -54,7 +54,7 @@ const CreateDonationForm = (props: ModalProps) => {
 
   return (
     <div>
-      <dialog open className="modal">
+      <dialog open className="modal z-50">
         <div className="modal-box">
           <div className="font-bold text-lg">
             <p className="text-3xl font-bold text-center text-gray-800">

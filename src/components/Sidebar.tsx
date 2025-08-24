@@ -26,13 +26,13 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     <>
       {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/40 z-40"
+          className="lg:hidden fixed inset-0 bg-black/40 z-10"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       <aside
-        className={`fixed lg:top-24 top-16 left-0 h-screen bg-base-200 shadow-lg z-50 transform transition-transform duration-300 ease-in-out
+        className={`fixed lg:top-24 top-16 left-0 h-screen bg-base-200 shadow-lg z-10 transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"} 
           lg:translate-x-0 lg:w-48 w-48`}>
         <nav className="mt-4 px-4">
