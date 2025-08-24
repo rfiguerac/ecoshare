@@ -17,7 +17,6 @@ interface Props {
 
 export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
   const location = useLocation();
-  console.log(location.pathname);
 
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);

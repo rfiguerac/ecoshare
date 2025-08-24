@@ -21,6 +21,6 @@ export const categoryRepositoryImpl: CategoryRepository = {
   },
   deleteCategory: async (id: string) => {
     const response = await ecoshareApi.delete(`/categories/${id}`);
-    return response.status === 204;
+    return response.data;
   },
 };
