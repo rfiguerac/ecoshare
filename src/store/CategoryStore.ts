@@ -33,6 +33,10 @@ export const useCategoryStore = create<CategoryState>((set) => ({
       const repo = categoryRepositoryImpl;
       const service = categoryService(repo);
       const res = await service.createCategory(category);
+      set((state) => ({
+        categories: [...state.categories, res],
+        loading: false,
+      }));
       return res;
     } catch (error) {
       console.error("Error creating category:", error);
@@ -45,6 +49,14 @@ export const useCategoryStore = create<CategoryState>((set) => ({
       const repo = categoryRepositoryImpl;
       const service = categoryService(repo);
       const res = await service.updateCategory(id, category);
+      if (res) {
+        set((state) => ({
+          categories: state.categories.map((cat) =>
+            cat.id == Number(id) ? res : cat
+          ),
+          loading: false,
+        }));
+      }
       return res ? res : undefined;
     } catch (error) {
       console.error("Error updating category:", error);
@@ -57,6 +69,12 @@ export const useCategoryStore = create<CategoryState>((set) => ({
       const repo = categoryRepositoryImpl;
       const service = categoryService(repo);
       const res = await service.deleteCategory(id);
+      if (res) {
+        set((state) => ({
+          categories: state.categories.filter((cat) => cat.id !== Number(id)),
+          loading: false,
+        }));
+      }
       return res ? res : undefined;
     } catch (error) {
       console.error("Error deleting category:", error);
