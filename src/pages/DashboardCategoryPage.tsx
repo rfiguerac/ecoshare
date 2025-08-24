@@ -4,9 +4,10 @@ import type { Category } from "../domain/interfaces/Category";
 import { CategoryForm } from "../components/Dashboard/CategoryForm";
 import { Table } from "../components/Table";
 import { useCategoryStore } from "../store/CategoryStore";
+import { useToast } from "../contexts/ToastContext";
 
 export const DashboardCategory = () => {
-  const { categories, fetchCategories } = useCategoryStore();
+  const { categories, fetchCategories, deleteCategory } = useCategoryStore();
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
@@ -15,11 +16,21 @@ export const DashboardCategory = () => {
   const [editing, setEditing] = useState(false);
   const [category, setCategory] = useState<Category>();
 
-  const handleDeleteCategory = (id: number | string) => {
+  const { showToast } = useToast();
+
+  const handleDeleteCategory = async (id: number | string) => {
     const confirmDelete = window.confirm(
       "¿Seguro que quieres eliminar esta categoría?"
     );
-    if (!confirmDelete) return;
+    console.log(confirmDelete);
+    if (confirmDelete) {
+      const res = await deleteCategory(String(id));
+      if (res) {
+        showToast("Category delete successful", "success");
+      } else {
+        showToast("Category delete failed", "error");
+      }
+    }
   };
 
   const handleShowModal = () => {
