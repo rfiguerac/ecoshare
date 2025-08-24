@@ -117,7 +117,7 @@ export const Table: React.FC<TableProps> = ({
                   <div className="flex justify-center space-x-2">
                     <button
                       className="btn btn-sm btn-info"
-                      onClick={() => onEdit(row[idKey])}>
+                      onClick={() => onEdit(row)}>
                       <Pencil size={18} />
                     </button>
                     <button

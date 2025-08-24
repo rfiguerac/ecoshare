@@ -11,18 +11,26 @@ export const DashboardCategory = () => {
     fetchCategories();
   }, [fetchCategories]);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [category, setCategory] = useState<Partial<Category>>({});
+  const [category, setCategory] = useState<Category>();
 
-  const handleDeleteCategory = (idCategory: number | string) => {
+  const handleDeleteCategory = (id: number | string) => {
     const confirmDelete = window.confirm(
       "¿Seguro que quieres eliminar esta categoría?"
     );
     if (!confirmDelete) return;
   };
 
-  const handleEditCategory = (category: Category) => {};
+  const handleShowModal = () => {
+    setIsOpenModal(!isOpenModal);
+  };
+
+  const handleEditCategory = (category: Category) => {
+    setCategory(category);
+    setEditing(true);
+    handleShowModal();
+  };
 
   return (
     <div className="container mx-auto p-4 ">
@@ -33,7 +41,7 @@ export const DashboardCategory = () => {
         <button
           className="btn btn-primary"
           onClick={() => {
-            setModalOpen(true);
+            handleShowModal();
             setEditing(false);
           }}>
           Create Category
@@ -52,13 +60,13 @@ export const DashboardCategory = () => {
         onDelete={handleDeleteCategory}
       />
 
-      <CategoryForm
-        open={modalOpen}
-        setOpen={setModalOpen}
-        edit={editing}
-        category={category}
-        setCategory={setCategory}
-      />
+      {isOpenModal && (
+        <CategoryForm
+          handleShowModal={handleShowModal}
+          edit={editing}
+          category={category}
+        />
+      )}
     </div>
   );
 };
