@@ -66,7 +66,7 @@ export const DashboardHome = () => {
   if (loading) return <p>Cargando...</p>;
 
   return (
-    <div className="flex w-full max-w-7xl mt-10">
+    <div className="flex w-full max-w-7xl">
       <div className="flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {isAdmin ? (
