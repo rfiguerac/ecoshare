@@ -1,3 +1,6 @@
 export interface FileRepository {
-  uploadFiles: (files: File[]) => Promise<{ url: string }[]>;
+  uploadFiles: (
+    files: File[],
+    donorId: number
+  ) => Promise<{ imageUrl: string[] }>;
 }

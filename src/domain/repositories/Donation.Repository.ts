@@ -1,12 +1,13 @@
 import type {
   Donation,
+  NewDonation,
   PaginatedDonationsResponse,
 } from "../interfaces/Donation";
 
 export interface DonationRepository {
   getAllDonations(): Promise<PaginatedDonationsResponse>;
   getDonationById(id: number): Promise<Donation | null>;
-  createDonation(donation: Omit<Donation, "id">): Promise<Donation>;
+  createDonation(donation: NewDonation): Promise<Donation>;
   updateDonation(
     id: number,
     donation: Omit<Donation, "id">

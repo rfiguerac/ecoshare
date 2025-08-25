@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { X, UploadCloud } from "lucide-react";
 import { useCreateDonation } from "../../hooks/donation/useCreateDonation";
+import { useCategoryStore } from "../../store/CategoryStore";
 
 // A new type to represent the file with a preview URL
 
@@ -11,6 +12,8 @@ interface ModalProps {
 
 const CreateDonationForm = (props: ModalProps) => {
   const { handleShowModal } = props;
+
+  const { categories } = useCategoryStore();
 
   const {
     formData,
@@ -23,7 +26,7 @@ const CreateDonationForm = (props: ModalProps) => {
     files,
     setFiles,
     removeFile,
-  } = useCreateDonation();
+  } = useCreateDonation({ handleShowModal });
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -51,6 +54,12 @@ const CreateDonationForm = (props: ModalProps) => {
     maxSize: 5 * 1024 * 1024, // 5MB
     multiple: true,
   });
+
+  const categoryOptions = categories.map((category) => (
+    <option key={category.id} value={category.id}>
+      {category.title}
+    </option>
+  ));
 
   return (
     <div>
@@ -125,13 +134,7 @@ const CreateDonationForm = (props: ModalProps) => {
                     value={formData.categoryId}
                     onChange={handleChange}
                     className="select select-bordered ">
-                    <option value={1}>Clothing</option>
-                    <option value={2}>Books</option>
-                    <option value={3}>Electronics</option>
-                    <option value={4}>Furniture</option>
-                    <option value={5}>Food</option>
-                    <option value={6}>Sports</option>
-                    <option value={7}>Other</option>
+                    {categoryOptions}
                   </select>
                 </div>
 

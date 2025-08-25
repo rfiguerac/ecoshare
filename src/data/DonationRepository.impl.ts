@@ -3,7 +3,7 @@ import type { DonationRepository } from "../domain/repositories/Donation.Reposit
 
 export const donationRepositoryImpl: DonationRepository = {
   getAllDonations: async () => {
-    const response = await ecoshareApi.get("/donations");
+    const response = await ecoshareApi.get("/donations?limit=1000");
     return response.data;
   },
   getDonationById: async (id) => {

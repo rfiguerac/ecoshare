@@ -15,7 +15,7 @@ interface DonationStore {
   loading: boolean;
   fetchDonations: () => Promise<void>;
   getDonationById: (id: number) => Donation | undefined;
-  addDonation: (donation: Omit<Donation, "id">) => Promise<void>;
+  addDonation: (donation: Omit<Donation, "id">) => Promise<Donation>;
   updateDonation: (id: number, donation: Omit<Donation, "id">) => Promise<void>;
   removeDonation: (id: number) => Promise<void>;
 }
@@ -59,8 +59,10 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
       set((state) => ({
         donations: [...state.donations, newDonation],
       }));
+      return newDonation;
     } catch (error) {
       console.error("Error adding donation:", error);
+      throw error;
     }
   },
 

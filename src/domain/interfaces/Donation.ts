@@ -14,7 +14,7 @@ export interface Donation {
   categoryId: number;
   description: string;
   urgent?: boolean;
-  imageUrl: string[];
+  imageUrl?: string[];
   longitude: number;
   latitude: number;
   expiryDate?: Date | null;

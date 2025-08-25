@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import type { NewDonation } from "../../domain/interfaces/Donation";
 import { getCurrentLocation } from "../../utils/getCurrenLocation";
+import { useDonationStore } from "../../store/DonationStore";
+import { fileServices } from "../../services/fileServices";
+import { useToast } from "../../contexts/ToastContext";
 
 export interface FileWithPreview extends File {
   preview: string;
 }
 
-export const useCreateDonation = () => {
+interface Props {
+  handleShowModal: () => void;
+}
+
+export const useCreateDonation = ({ handleShowModal }: Props) => {
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
     null
   );
@@ -14,6 +21,12 @@ export const useCreateDonation = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [files, setFiles] = useState<FileWithPreview[]>([]);
+
+  const { addDonation } = useDonationStore();
+
+  const { uploadFile } = fileServices();
+
+  const { showToast } = useToast();
 
   const handleGetLocation = async () => {
     setErrorLocation(null);
@@ -73,7 +86,7 @@ export const useCreateDonation = () => {
     setFormData((prev) => ({ ...prev, urgent: e.target.checked }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -81,8 +94,25 @@ export const useCreateDonation = () => {
       return;
     }
 
-    // Enviar datos
-    console.log("Form data submitted:", files);
+    // Enviar datos al servidor
+    // 1: Guardados los datos del formulario, porque necesitamos el id para guardarlos en el servidor
+
+    const newDonation = await addDonation(formData);
+    if (newDonation.id) {
+      // 2: Si la donación se creó correctamente, subimos las imágenes
+      showToast("Donation created successfully!", "success");
+      const uploadedImages = await uploadFile(files, newDonation.id);
+      console.log(uploadedImages);
+      if (uploadedImages.imageUrl) {
+        // Aquí puedes hacer algo con las imágenes subidas, como asociarlas a la donación
+        showToast("Images uploaded successfully!", "success");
+        handleShowModal();
+      } else {
+        showToast("Error uploading images", "error");
+      }
+    } else {
+      showToast("Error creating donation", "error");
+    }
   };
 
   const removeFile = (fileToRemove: FileWithPreview) => {
