@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Bell, User, Plus, LogOut, Menu } from "lucide-react";
+import { Search, Bell, User, Plus, LogOut, Menu, Mail } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { donations } from "../data/donations";
 import CreateDonationForm from "./Donation/CreateDonationForm";
@@ -190,8 +190,11 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li>
                   <button onClick={handleShowModal}>
-                    <Plus /> New donation
+                    <Plus size={18} /> New donation
                   </button>
+                </li>
+                <li>
+                      <Link to="/dashboard/chat">  <Mail size={18} /> Messages</Link>
                 </li>
                 <li>
                   <button>
@@ -219,6 +222,13 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                 className="btn btn-sm md:btn-md btn-primary hover:btn-secondary active:btn-accent">
                 + New donation
               </button>
+
+              <Link to="/dashboard/chat">
+                <button className="btn btn-square btn-ghost">
+                  <Mail size={18} />
+                </button>
+              </Link>
+
               <button className="btn btn-square btn-ghost">
                 <Bell size={18} className="hidden lg:block" />
               </button>
