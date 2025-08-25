@@ -1,14 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, Bell, User, Plus, LogOut, Menu, Mail } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { donations } from "../data/donations";
+
 import CreateDonationForm from "./Donation/CreateDonationForm";
 import CreateProfileForm from "./Profile/CreateProfileForm";
 import LoginForm from "./Profile/LoginForm";
 import { useAuthStore } from "../store/AuthStore";
-
-// Sugerencias de búsqueda simuladas
-const mockSuggestions = donations.map((donation) => donation.title);
+import { useDonationStore } from "../store/DonationStore";
 
 interface Props {
   isOpenMenu: boolean;
@@ -16,6 +14,13 @@ interface Props {
 }
 
 export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
+  const { donationPagination } = useDonationStore();
+
+  // Sugerencias de búsqueda simuladas
+  const mockSuggestions = donationPagination.data.map(
+    (donation) => donation.title
+  );
+
   const location = useLocation();
 
   const [query, setQuery] = useState("");
@@ -155,8 +160,8 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                 <ul
                   tabIndex={0}
                   className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full mt-2 absolute top-full left-0 right-0">
-                  {filteredSuggestions.map((item) => (
-                    <li key={item}>
+                  {filteredSuggestions.map((item, index) => (
+                    <li key={index}>
                       <button
                         onMouseDown={() => handleSelect(item)}
                         className="w-full text-left p-2 hover:bg-gray-100 transition-colors">
@@ -194,7 +199,10 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                   </button>
                 </li>
                 <li>
-                      <Link to="/dashboard/chat">  <Mail size={18} /> Messages</Link>
+                  <Link to="/dashboard/chat">
+                    {" "}
+                    <Mail size={18} /> Messages
+                  </Link>
                 </li>
                 <li>
                   <button>
