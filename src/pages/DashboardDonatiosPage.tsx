@@ -2,13 +2,19 @@ import { useEffect } from "react";
 import { Table } from "../components/Table";
 import type { Donation } from "../domain/interfaces/Donation";
 import { useDonationStore } from "../store/DonationStore";
+import { useCategoryStore } from "../store/CategoryStore";
 
 export const DashboardDonationsPage = () => {
   const { donationPagination, fetchDonations } = useDonationStore();
+  const { categories, fetchCategories } = useCategoryStore();
 
   useEffect(() => {
     fetchDonations();
   }, [fetchDonations]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const handleEdit = (donation: Donation) => {
     // Handle edit action
@@ -29,12 +35,16 @@ export const DashboardDonationsPage = () => {
           { key: "id", label: "ID" },
           { key: "title", label: "Title" },
           { key: "description", label: "Description" },
+          { key: "category", label: "Category" },
           { key: "date", label: "Date" },
         ]}
         dataTable={donationPagination.data.map((donation) => ({
           id: donation.id,
           title: donation.title,
           description: donation.description,
+          category:
+            categories.find((cat) => cat.id === donation.categoryId)?.title ||
+            "Unknown",
           date: donation.createdAt,
         }))}
         onEdit={handleEdit}
