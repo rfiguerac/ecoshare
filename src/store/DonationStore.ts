@@ -57,7 +57,10 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
     try {
       const newDonation = await service.createDonation(donation);
       set((state) => ({
-        donations: [...state.donations, newDonation],
+        donationPagination: {
+          ...state.donationPagination,
+          data: [...state.donationPagination.data, newDonation],
+        },
       }));
       return newDonation;
     } catch (error) {
@@ -71,9 +74,12 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
     try {
       const updatedDonation = await service.updateDonation(id, donation);
       set((state) => ({
-        donations: state.donations.map((d) =>
-          d.id == id ? { ...d, ...updatedDonation } : d
-        ),
+        donationPagination: {
+          ...state.donationPagination,
+          data: state.donationPagination.data.map((d) =>
+            d.id == id ? { ...d, ...updatedDonation } : d
+          ),
+        },
       }));
     } catch (error) {
       console.error("Error updating donation:", error);
@@ -85,7 +91,10 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
     try {
       await service.deleteDonation(id);
       set((state) => ({
-        donations: state.donations.filter((d) => d.id !== id),
+        donationPagination: {
+          ...state.donationPagination,
+          data: state.donationPagination.data.filter((d) => d.id !== id),
+        },
       }));
     } catch (error) {
       console.error("Error removing donation:", error);
