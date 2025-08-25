@@ -14,4 +14,5 @@ export interface UserRepository {
   update(id: string, user: UserUpdate): Promise<User>;
   changePassword(id: string, passwords: PasswordChange): Promise<void>;
   delete(id: string): Promise<void>;
+  getAll(): Promise<User[]>;
 }

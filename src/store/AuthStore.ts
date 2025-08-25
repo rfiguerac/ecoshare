@@ -10,6 +10,7 @@ import type {
 
 interface AuthState {
   user: User | null;
+  allProfiles: User[] | null;
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
@@ -23,12 +24,14 @@ interface AuthState {
   deleteAccount: () => Promise<void>;
   refreshAuthToken: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  fetchAllProfiles: () => Promise<void>;
 }
 
 const service = userService();
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
+  allProfiles: [],
   isAuthenticated: false,
   loading: true,
   error: null,
@@ -188,4 +191,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ loading: false });
     }
   },
+
+  fetchAllProfiles: async () => {
+    set({ loading: true });
+    try {
+      const profiles = await service.getAllProfiles();
+      set({ allProfiles: profiles, loading: false });
+    } catch (err: any) {
+      console.error("Failed to fetch all profiles:", err);
+      set({ loading: false });
+    }
+  },
 }));
+useAuthStore.getState().fetchAllProfiles();

@@ -1,61 +1,40 @@
 import { useState } from "react";
 import type { User } from "../domain/interfaces/User";
-import { UsersTable } from "../components/Dashboard/UsersTable";
 import { UserForm } from "../components/Dashboard/UserForm";
-
-const initialUsers: User[] = [
-  {
-    id: "1",
-    name: "Juan Pérez",
-    email: "juan@example.com",
-    role: "Admin",
-    createdAt: new Date(),
-  },
-  {
-    id: "2",
-    name: "María Gómez",
-    email: "maria@example.com",
-    role: "User",
-    createdAt: new Date(),
-  },
-];
+import { useAuthStore } from "../store/AuthStore";
+import { Table } from "../components/Table";
 
 export const DashboardUser = () => {
-  const [users, setUsers] = useState<User[]>(initialUsers);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [user, setUser] = useState<Partial<User>>({});
 
+  const { allProfiles } = useAuthStore();
+
   const editButtonClick = (idUser: string) => {
-    const userSelected = users.find((user) => user.id === idUser);
+    const userSelected = allProfiles!.find((user) => user.id === idUser);
     if (userSelected) setUser(userSelected);
     setEditing(true);
   };
 
   const finishForm = (user: Partial<User>) => {
     if (editing) {
-      const newUsers = users.map((u) =>
-        u.id === user.id ? { ...u, ...user } : u
-      );
-      setUsers(newUsers);
     } else {
-      const newUsers = [...users, user as User];
-      setUsers(newUsers);
     }
 
     setUser({});
     setEditing(false);
   };
 
-  const deleteUser = (idUser: string) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+  const deleteUser = (idUser: number | string) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
     if (!confirmDelete) return;
-
-    setUsers(users.filter((u) => u.id !== idUser));
   };
 
   return (
-    <div className="container mx-auto p-4 bg-base-100 rounded-box shadow-xl min-h-screen">
+    <div className="container mx-auto p-4  ">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-base-content">
           User Management
@@ -65,17 +44,21 @@ export const DashboardUser = () => {
           onClick={() => {
             setModalOpen(true);
             setEditing(false);
-          }}
-        >
+          }}>
           Crear Usuario
         </button>
       </div>
 
-      <UsersTable
-        usersRecived={users}
-        setEdit={editButtonClick}
-        setOpen={setModalOpen}
-        deleteUser={deleteUser}
+      <Table
+        headers={[
+          { key: "name", label: "Name" },
+          { key: "email", label: "Email" },
+          { key: "role", label: "Role" },
+          { key: "createdAt", label: "Created At" },
+        ]}
+        dataTable={allProfiles!}
+        onEdit={editButtonClick}
+        onDelete={deleteUser}
       />
       <UserForm
         open={modalOpen}

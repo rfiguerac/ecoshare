@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDonationStore } from "../store/DonationStore";
+import { useAuthStore } from "../store/AuthStore";
 
 type AdminStats = {
   activeDonations: number;
@@ -34,6 +35,10 @@ export const DashboardHome = () => {
   const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
+
+  //obtener todos los datos del usuario autentificado asi:
+
+  const { user, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     fetchDonations();
@@ -74,6 +79,9 @@ export const DashboardHome = () => {
   return (
     <div className="flex w-full max-w-7xl">
       <div className="flex-1">
+        <p className="text-lg font-semibold mb-4">
+          Hola {user?.name || "Usuario"}, Me alegro de verte de nuevo!
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {isAdmin ? (
             <>

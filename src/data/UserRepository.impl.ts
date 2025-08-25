@@ -47,4 +47,8 @@ export const userRepositoryImpl: UserRepository = {
   delete: async (id: string): Promise<void> => {
     await ecoshareApi.delete(`/users/${id}`);
   },
+  getAll: async (): Promise<User[]> => {
+    const response = await ecoshareApi.get("/users/users");
+    return response.data;
+  },
 };

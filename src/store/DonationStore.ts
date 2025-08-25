@@ -101,3 +101,5 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
     }
   },
 }));
+
+useDonationStore.getState().fetchDonations();

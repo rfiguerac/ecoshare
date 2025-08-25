@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { Table } from "../components/Table";
 import type { Donation } from "../domain/interfaces/Donation";
 import { useDonationStore } from "../store/DonationStore";
 import { useCategoryStore } from "../store/CategoryStore";
+import { useAuthStore } from "../store/AuthStore";
 
 export const DashboardDonationsPage = () => {
   const { donationPagination, fetchDonations } = useDonationStore();
   const { categories, fetchCategories } = useCategoryStore();
+  const { allProfiles } = useAuthStore();
 
   useEffect(() => {
     fetchDonations();
@@ -33,6 +35,7 @@ export const DashboardDonationsPage = () => {
       <Table
         headers={[
           { key: "id", label: "ID" },
+          { key: "user", label: "User" },
           { key: "title", label: "Title" },
           { key: "description", label: "Description" },
           { key: "category", label: "Category" },
@@ -40,6 +43,10 @@ export const DashboardDonationsPage = () => {
         ]}
         dataTable={donationPagination.data.map((donation) => ({
           id: donation.id,
+          user:
+            allProfiles!.find(
+              (user) => String(user.id) == String(donation.donorId)
+            )?.name || "Unknown",
           title: donation.title,
           description: donation.description,
           category:

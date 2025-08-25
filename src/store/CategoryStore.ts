@@ -82,3 +82,5 @@ export const useCategoryStore = create<CategoryState>((set) => ({
     }
   },
 }));
+
+useCategoryStore.getState().fetchCategories();

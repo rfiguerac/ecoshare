@@ -40,6 +40,10 @@ export const userService = (
     return await repository.refreshToken(token);
   };
 
+  const getAllProfiles = async () => {
+    return await repository.getAll();
+  };
+
   return {
     login,
     register,
@@ -48,5 +52,6 @@ export const userService = (
     changePassword,
     deleteAccount,
     refreshToken,
+    getAllProfiles,
   };
 };
