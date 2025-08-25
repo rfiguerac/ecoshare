@@ -33,7 +33,7 @@ export const DonationSearchPage = () => {
           donation.description.toLowerCase().includes(lowerCaseQuery) ||
           (matchedCategory.length > 0 &&
             matchedCategory.some(
-              (category) => donation.idCategory === category.idCategory
+              (category) => donation.idCategory === category.id
             ))
       );
       setFilteredDonations(filtered);

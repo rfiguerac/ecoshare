@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import categories from "../../data/categories";
 import type { Donation } from "../../domain/interfaces/Donation";
+import type { Category } from "../../domain/interfaces/Category";
 
 interface CardDonationProps {
   donation: Donation;
+  category: Category;
   quantity?: number;
   bgColor?: string;
 }
 
 export const CardDonation = (props: CardDonationProps) => {
-  const { title, description, state } = props.donation;
+  const { title, description, state} = props.donation;
   return (
     <div
       className="card border items-center text-center bg-gray-100 border-gray-200 rounded-lg flex flex-col w-48 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:cursor-pointer flex-shrink-0
@@ -18,7 +20,7 @@ export const CardDonation = (props: CardDonationProps) => {
         <div className="absolute top-2 left-2 badge badge-outline bg-orange-500 text-white border-0 font-semibold z-10 text-xs md:text-sm">
           {
             categories.find(
-              (category) => category.idCategory === props.donation.idCategory
+              (category) => category.id === props.donation.idCategory
             )?.title
           }
         </div>
