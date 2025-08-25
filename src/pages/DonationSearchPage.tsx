@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { donations } from "../data/donations";
+
 import { MainCard } from "../components/Main/MainCard";
 
 import categories from "../data/categories";
 import type { Donation } from "../domain/interfaces/Donation";
 import { CardDonation } from "../components/Main/CardDonation";
+import { useDonationStore } from "../store/DonationStore";
 
 export const DonationSearchPage = () => {
   // This hook allows us to read and update URL query parameters
@@ -14,6 +15,8 @@ export const DonationSearchPage = () => {
   const navigate = useNavigate();
 
   const [filteredDonations, setFilteredDonations] = useState<Donation[]>([]);
+
+  const { donationPagination } = useDonationStore();
 
   useEffect(() => {
     if (!query) {
@@ -26,14 +29,14 @@ export const DonationSearchPage = () => {
       );
 
       // Filter donations based on the query string
-      const filtered: Donation[] = donations.filter(
+      const filtered: Donation[] = donationPagination.data.filter(
         (donation) =>
           //filter title, or description
           donation.title.toLowerCase().includes(lowerCaseQuery) ||
           donation.description.toLowerCase().includes(lowerCaseQuery) ||
           (matchedCategory.length > 0 &&
             matchedCategory.some(
-              (category) => donation.idCategory === category.idCategory
+              (category) => donation.categoryId === category.id
             ))
       );
       setFilteredDonations(filtered);
