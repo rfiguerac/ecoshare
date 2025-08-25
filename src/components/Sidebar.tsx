@@ -17,11 +17,7 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     { name: "Dashboard", path: "/dashboard", icon: "Home" },
     { name: "Donations", path: "/dashboard/donations", icon: "Coffee" },
     { name: "My Donations", path: "/dashboard/my-donations", icon: "Heart" },
-    {
-      name: "Received Donations",
-      path: "/dashboard/received-donations",
-      icon: "Gift",
-    },
+    {name: "Received",path: "/dashboard/recieved-donations",icon: "Gift"},
     { name: "Users", path: "/dashboard/users", icon: "User" },
     { name: "Categories", path: "/dashboard/categories", icon: "Grid" },
     { name: "Messages", path: "/dashboard/chat", icon: "MessageCircle" },
