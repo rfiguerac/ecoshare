@@ -20,7 +20,7 @@ export const CardDonation = (props: CardDonationProps) => {
         <div className="absolute top-2 left-2 badge badge-outline bg-orange-500 text-white border-0 font-semibold">
           {
             categories.find(
-              (category) => category.id === props.donation.idCategory
+              (category) => category.id === props.donation.categoryId
             )?.title
           }
         </div>

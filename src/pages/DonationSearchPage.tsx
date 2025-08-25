@@ -36,11 +36,7 @@ export const DonationSearchPage = () => {
           donation.description.toLowerCase().includes(lowerCaseQuery) ||
           (matchedCategory.length > 0 &&
             matchedCategory.some(
-<<<<<<< HEAD
-              (category) => donation.idCategory === category.id
-=======
               (category) => donation.categoryId === category.id
->>>>>>> 3d54ed6507b7ceb90e535414ce2e25dbf5a0a752
             ))
       );
       setFilteredDonations(filtered);
