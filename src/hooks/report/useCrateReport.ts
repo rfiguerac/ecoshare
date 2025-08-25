@@ -1,8 +1,10 @@
 import { useState } from "react";
 import type { Report } from "../../domain/interfaces/Report";
+import { useToast } from "../../contexts/ToastContext";
 
 export const useCreateReport = (reporterId: number, donationReportedId: number) => {
 
+    const { showToast } = useToast();
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [formData, setFormData] = useState<Report>({
         userId: reporterId,
@@ -36,10 +38,9 @@ export const useCreateReport = (reporterId: number, donationReportedId: number) 
 
         if (Object.keys(validationErrors).length === 0) {
             setIsSubmitting(true);
+            showToast("Report Completed", "success");
         }
 
-        //codigo para enviar reporte al servidors 
-        console.log("se creado el reporte")
     };
 
     const resetForm = () => {

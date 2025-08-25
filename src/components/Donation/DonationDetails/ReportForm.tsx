@@ -14,6 +14,11 @@ export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: 
         resetForm();
         setOpen(false);
     };
+
+    const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
+        setOpen(false);
+        handleSubmit(e)
+    }
     
     return (
         <>
@@ -24,7 +29,7 @@ export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: 
                             Make a report
                         </h3>
 
-                        <form method="dialog" className="space-y-4" onSubmit={handleSubmit}>
+                        <form method="dialog" className="space-y-4" onSubmit={handleSumbit}>
                              <fieldset disabled={isSubmitting}></fieldset>
                             <div>
                                 <label className="label">
@@ -33,7 +38,7 @@ export const ReportForm = ({ open, setOpen, idDonationRecived, idUserRecived }: 
                                 <textarea
                                     className="textarea textarea-bordered w-full"
                                     name="description"
-                                    placeholder="Descripción de la categoria"
+                                    placeholder="Describe the problem"
                                     value={formData.description}
                                     onChange={handleChange} 
                                 />
