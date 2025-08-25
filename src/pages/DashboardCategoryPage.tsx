@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Category } from "../domain/interfaces/Category";
 
-import { CategoryForm } from "../components/Dashboard/CategoryForm";
+import { CategoryForm } from "../components/category/CategoryForm";
 import { Table } from "../components/Table";
 import { useCategoryStore } from "../store/CategoryStore";
 import { useToast } from "../contexts/ToastContext";

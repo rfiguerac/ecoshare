@@ -12,6 +12,7 @@ import {
   Bookmark,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useDonationStore } from "../store/DonationStore";
 
 type AdminStats = {
   activeDonations: number;
@@ -28,10 +29,15 @@ type UserStats = {
 };
 
 export const DashboardHome = () => {
+  const { fetchDonations } = useDonationStore();
   const [isAdmin, setIsAdmin] = useState(true);
   const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDonations();
+  }, [fetchDonations]);
 
   useEffect(() => {
     const fetchData = async () => {

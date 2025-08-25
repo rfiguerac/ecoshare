@@ -1,5 +1,8 @@
 import { create } from "zustand";
-import type { Donation } from "../domain/interfaces/Donation";
+import type {
+  Donation,
+  PaginatedDonationsResponse,
+} from "../domain/interfaces/Donation";
 import { donationRepositoryImpl } from "../data/DonationRepository.impl";
 import { donationService } from "../services/donationService";
 
@@ -8,6 +11,7 @@ const service = donationService(repo);
 
 interface DonationStore {
   donations: Donation[];
+  donationPagination: PaginatedDonationsResponse;
   loading: boolean;
   fetchDonations: () => Promise<void>;
   getDonationById: (id: number) => Donation | undefined;
@@ -18,6 +22,14 @@ interface DonationStore {
 
 export const useDonationStore = create<DonationStore>((set, get) => ({
   donations: [],
+  donationPagination: {
+    data: [],
+    total: 0,
+    limit: 10,
+    next: null,
+    previous: null,
+    totalPages: 0,
+  },
   loading: false,
 
   /** Obtener todas las donaciones */
@@ -25,7 +37,10 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
     set({ loading: true });
     try {
       const data = await service.getAllDonations();
-      set({ donations: data, loading: false });
+      set({
+        donationPagination: data,
+        loading: false,
+      });
     } catch (error) {
       console.error("Error fetching donations:", error);
       set({ loading: false });
