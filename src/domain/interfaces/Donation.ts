@@ -1,3 +1,12 @@
+export interface PaginatedDonationsResponse {
+  data: Donation[];
+  limit: number;
+  next: string | null;
+  previous: string | null;
+  total: number;
+  totalPages: number;
+}
+
 export interface Donation {
   id?: number;
   title: string;

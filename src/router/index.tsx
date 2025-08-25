@@ -17,8 +17,6 @@ import { DashboardUser } from "../pages/DashboardUsersPage";
 import { DashboardReports } from "../pages/DashboardReportsPage";
 import { DashboardConfiguration } from "../pages/DashboardConfigurationPage";
 
-import { donations } from "../data/donations";
-
 import type { JSX } from "react";
 import { useAuthStore } from "../store/AuthStore"; // Importa el store de autenticación
 import LoginPage from "../pages/LoginPage";
@@ -68,32 +66,14 @@ export default function AppRouter() {
           <Route path="users" element={<DashboardUser />} />
           <Route path="reports" element={<DashboardReports />} />
           <Route path="settings" element={<DashboardConfiguration />} />
-          <Route
-            path="donations/guardadas"
-            element={
-              <DashboardDonationsPage
-                title="Donaciones Guardadas"
-                fetchDonations={donations}
-              />
-            }
-          />
+          <Route path="donations" element={<DashboardDonationsPage />} />
           <Route
             path="donations/recibidas"
-            element={
-              <DashboardDonationsPage
-                title="Donaciones Recibidas"
-                fetchDonations={donations}
-              />
-            }
+            element={<DashboardDonationsPage />}
           />
           <Route
             path="donations/mis-donaciones"
-            element={
-              <DashboardDonationsPage
-                title="Mis Donaciones"
-                fetchDonations={donations}
-              />
-            }
+            element={<DashboardDonationsPage />}
           />
           <Route path="*" element={<NotFound />} />
         </Route>

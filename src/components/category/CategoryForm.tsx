@@ -92,14 +92,14 @@ export const CategoryForm = ({
             </div>
 
             <div className="modal-action">
-              <button type="submit" className="btn btn-primary">
-                {edit ? "Update" : "Create"}
-              </button>
               <button
                 type="button"
                 className="btn"
                 onClick={() => handleClose()}>
                 Close
+              </button>
+              <button type="submit" className="btn btn-primary">
+                {edit ? "Update" : "Create"}
               </button>
             </div>
           </form>
