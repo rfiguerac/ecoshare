@@ -24,7 +24,7 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     },
     { name: "Users", path: "/dashboard/users", icon: "User" },
     { name: "Categories", path: "/dashboard/categories", icon: "Grid" },
-    { name: "Messages", path: "/dashboard/messages", icon: "MessageCircle" },
+    { name: "Messages", path: "/dashboard/chat", icon: "MessageCircle" },
     { name: "Reports", path: "/dashboard/reports", icon: "BarChart" },
     { name: "Settings", path: "/dashboard/settings", icon: "Settings" },
   ];

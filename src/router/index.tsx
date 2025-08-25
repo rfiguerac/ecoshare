@@ -11,6 +11,7 @@ import { DonationSearchPage } from "../pages/DonationSearchPage";
 
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { DashboardHome } from "../pages/DashboardHomePage";
+import {DashboardChatPage} from "../pages/DashboardChatPage";
 import { DashboardCategory } from "../pages/DashboardCategoryPage";
 import { DashboardDonationsPage } from "../pages/DashboardDonatiosPage";
 import { DashboardUser } from "../pages/DashboardUsersPage";
@@ -66,6 +67,7 @@ export default function AppRouter() {
           <Route path="users" element={<DashboardUser />} />
           <Route path="reports" element={<DashboardReports />} />
           <Route path="settings" element={<DashboardConfiguration />} />
+          <Route path="chat" element={<DashboardChatPage />} />
           <Route path="donations" element={<DashboardDonationsPage />} />
           <Route
             path="donations/recibidas"
