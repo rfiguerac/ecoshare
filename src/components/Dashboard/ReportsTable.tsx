@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Report } from "../../domain/interfaces/Report";
+import { Trash2, CheckCheck } from "lucide-react";
 
 
 type ReportsTableProps = {
@@ -37,7 +38,7 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
                    
                   }}
                 >
-                  Delete donation
+                <Trash2/>
                 </button>
                 <button
                   className="btn btn-sm btn-primary"
@@ -47,7 +48,7 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
                     }
                   }}
                 >
-                  Reviwed
+                  <CheckCheck />
                 </button>
               </td>
             </tr>
