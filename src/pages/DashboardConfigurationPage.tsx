@@ -1,8 +1,9 @@
 import { EditProfile } from "../components/Dashboard/EditProfile"
-import type { User } from "../domain/interfaces/User";
+import { useAuthStore } from "../store/AuthStore"
 
 export const DashboardConfiguration = () => {
 
+    const { user } = useAuthStore();
     return (
         <div className="container mx-auto p-4 bg-base-100 rounded-box shadow-xl min-h-screen">
             <div className="flex justify-between items-center mb-6">
@@ -10,7 +11,7 @@ export const DashboardConfiguration = () => {
                     Edit Profile
                 </h1>
             </div>
-            <EditProfile />
+            {user && <EditProfile user={user} />}
 
         </div>
     )
