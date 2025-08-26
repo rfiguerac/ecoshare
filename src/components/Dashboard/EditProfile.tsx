@@ -1,69 +1,99 @@
-import { useEffect, useState } from "react";
-import type { User } from "../../domain/interfaces/User"
+import type { User } from "../../domain/interfaces/User";
+import { useUpdatePassword } from "../../hooks/user/useUpdatePassword";
+import { useUpdateProfile } from "../../hooks/user/useUpdateProfile";
 
 interface EditProfileProps {
-    user: User,
-    saveUser: (updatedUser: User) => void
+    user: User
 }
 
-export const EditProfile = ({ user, saveUser }: EditProfileProps) => {
+export const EditProfile = ({ user }: EditProfileProps) => {
 
-    const [localUser, setLocalUser] = useState<User>(user);
-
-    useEffect(() => {
-        setLocalUser(user);
-    }, [user]);
-
-    const handleChange = (field: keyof User, value: string) => {
-        setLocalUser({ ...localUser, [field]: value });
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        saveUser({
-            ...localUser,
-            updatedAt: new Date(),
-        });
-    };
+    const { formData: profileForm, errors: profileError, isSubmitting: isSubmittingProfile, handleChange: handleProfileChange, handleSubmit: submitProfile } = useUpdateProfile(user);
+    const { formData: passwordForm, errors: passwordError, handleChange: handlePasswordChange, handleSubmit: submitPassword } = useUpdatePassword()
 
     return (
-        <div className="flex justify-center">
-            <div className="card min-w-100 shadow-xl bg-base-100">
-                <div className="card-body">
-                    <form className="space-y-4" onSubmit={handleSubmit}>
+        <div className="flex flex-col justify-center md:flex-row gap-6 p-6 md:p-12 bg-base-200">
 
-                        <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div className="card w-full bg-base-100 shadow-xl border border-base-300">
+                    <form onSubmit={submitProfile} className="card-body">
+                        <h2 className="card-title text-2xl font-bold mb-4">Edit Profile</h2>
+                        <div className="form-control mb-4">
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
                             <input
                                 type="text"
+                                name="name"
+                                placeholder="Your Name"
                                 className="input input-bordered w-full"
-                                value={localUser.name}
-                                onChange={(e) => handleChange("name", e.target.value)}
-                                required
+                                value={profileForm.name}
+                                onChange={handleProfileChange}
                             />
+                            {profileError.name && (
+                                <p className="mt-1 text-sm text-red-600">{profileError.name}</p>
+                            )}
                         </div>
-
-                        <div>
+                        <div className="form-control mb-6">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
                                 type="email"
+                                name="email"
+                                placeholder="Your Email"
                                 className="input input-bordered w-full"
-                                value={localUser.email}
-                                onChange={(e) => handleChange("email", e.target.value)}
-                                required
+                                value={profileForm.email}
+                                onChange={handleProfileChange}
+                            />
+                            {profileError.email && (
+                                <p className="mt-1 text-sm text-red-600">{profileError.email}</p>
+                            )}
+                        </div>
+                        <div className="card-actions justify-end">
+                            <button type="submit" className="btn btn-primary">
+                                Save Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div className="card w-full bg-base-100 shadow-xl border border-base-300">
+                    <form onSubmit={submitPassword} className="card-body">
+                        <h2 className="card-title text-2xl font-bold mb-4">Change Password</h2>
+                        <div className="form-control mb-4">
+                            <label className="label">
+                                <span className="label-text">Old Password</span>
+                            </label>
+                            <input
+                                type="password"
+                                name="oldPassword"
+                                placeholder="Your actual password"
+                                className="input input-bordered w-full"
+                                value={passwordForm.oldPassword}
+                                onChange={handlePasswordChange}
                             />
                         </div>
-
-                        <div className="card-actions justify-end mt-6">
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                            >
-                                Save Changes
+                        <div className="form-control mb-6">
+                            <label className="label">
+                                <span className="label-text">New Password</span>
+                            </label>
+                            <input
+                                type="password"
+                                name="newPassword"
+                                placeholder="Your new password"
+                                className="input input-bordered w-full"
+                                value={passwordForm.newPassword}
+                                onChange={handlePasswordChange}
+                            />
+                            {passwordError.password && (
+                                <p className="mt-1 text-sm text-red-600">{passwordError.password}</p>
+                            )}
+                        </div>
+                        <div className="card-actions justify-end">
+                            <button type="submit" className="btn btn-warning">
+                                Change password
                             </button>
                         </div>
                     </form>

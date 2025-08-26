@@ -33,15 +33,16 @@ export const userRepositoryImpl: UserRepository = {
   },
 
   update: async (id: string, user: UserUpdate): Promise<User> => {
-    const response = await ecoshareApi.put(`/users/${id}`, user);
+    const response = await ecoshareApi.put(`/users/update`, user);
     return response.data;
   },
 
   changePassword: async (
     id: string,
     passwords: PasswordChange
-  ): Promise<void> => {
-    await ecoshareApi.patch(`/users/${id}/password`, passwords);
+  ): Promise<User | undefined> => {
+    const res = await ecoshareApi.post<User>(`/users/change-password`, passwords);
+    return res.data;
   },
 
   delete: async (id: string): Promise<void> => {
