@@ -19,8 +19,8 @@ interface AuthState {
   login: (credentials: UserCredential) => Promise<void>;
   register: (newUser: NewUser) => Promise<void>;
   logout: () => void;
-  updateProfile: (userUpdate: UserUpdate) => Promise<void>;
-  changePassword: (passwords: PasswordChange) => Promise<void>;
+  updateProfile: (userUpdate: UserUpdate) => Promise<User | undefined>;
+  changePassword: (passwords: PasswordChange) => Promise< User | void>;
   deleteAccount: () => Promise<void>;
   refreshAuthToken: () => Promise<void>;
   checkAuth: () => Promise<void>;
@@ -115,6 +115,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const updatedUser = await service.updateProfile(user.id, userUpdate);
       set({ user: updatedUser, loading: false });
+      return updatedUser;
     } catch (err: any) {
       set({ loading: false, error: "Failed to update profile." });
     }
