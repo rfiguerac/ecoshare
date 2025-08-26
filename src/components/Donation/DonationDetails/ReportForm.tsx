@@ -1,4 +1,4 @@
-import { createReport } from "../../../hooks/report/crateReport";
+import { createReport } from "../../../hooks/report/createReport";
 
 type ReportFormProps = {
     open: boolean;

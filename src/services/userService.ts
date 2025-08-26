@@ -7,7 +7,7 @@ import type {
   UserUpdate,
   PasswordChange,
 } from "../domain/interfaces/User";
-import type { UserRepository } from "../domain/repositories/userRepository";
+import type { UserRepository } from "../domain/repositories/UserRepository";
 
 export const userService = (
   repository: UserRepository = userRepositoryImpl
