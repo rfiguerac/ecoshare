@@ -49,6 +49,7 @@ export const DonationSearchPage = () => {
 
   return (
     <div className="bg-gray-100">
+      <div></div>
       <MainCard
         title={query ? `Search Results for "${query}"` : "Showing All Items"}
         description={`Showing ${filteredDonations.length} items that match your search.`}>

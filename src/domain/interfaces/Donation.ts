@@ -20,6 +20,7 @@ export interface Donation {
   expiryDate?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
+  status?: "Available" | "Reserved" | "Collected";
 }
 
 interface img {
