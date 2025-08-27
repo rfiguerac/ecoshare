@@ -1,5 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Bell, User, Plus, LogOut, Menu, Mail } from "lucide-react";
+import {
+  Search,
+  Bell,
+  User,
+  Plus,
+  LogOut,
+  Menu,
+  Mail,
+  Gauge,
+  LogIn,
+} from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import CreateDonationForm from "./Donation/CreateDonationForm";
@@ -216,6 +226,11 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                   </button>
                 </li>
                 <li>
+                  <button onClick={() => navigate("/dashboard")}>
+                    <Gauge size={18} /> DashBoard
+                  </button>
+                </li>
+                <li>
                   {isAuthenticated ? (
                     <button onClick={handleLogout}>
                       <LogOut size={18} /> LogOut
@@ -247,16 +262,32 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                 <Bell size={18} className="hidden lg:block" />
               </button>
               {isAuthenticated ? (
-                <button
-                  className="btn btn-square btn-ghost"
-                  onClick={handleLogout}>
-                  <LogOut size={18} />
-                </button>
+                <div className="dropdown dropdown-bottom dropdown-end">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn  btn-square btn-ghost">
+                    <User size={18} />
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                    <li>
+                      <button onClick={() => navigate("/dashboard")}>
+                        <Gauge size={18} /> DashBoard
+                      </button>
+                    </li>
+                    <li>
+                      <button onClick={() => handleLogout()}>
+                        <LogOut size={18} />
+                        logOut
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               ) : (
-                <button
-                  className="btn btn-square btn-ghost"
-                  onClick={handleShowLoginModal}>
-                  <User size={18} />
+                <button className="btn " onClick={handleShowLoginModal}>
+                  LogIn or SignUp
                 </button>
               )}
             </div>
