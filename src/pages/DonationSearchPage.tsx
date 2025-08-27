@@ -25,7 +25,7 @@ export const DonationSearchPage = () => {
     searchParams.get("category") || ""
   );
   const [selectDistance, setSelectDistance] = useState(
-    searchParams.get("distance") || "25"
+    searchParams.get("distance") || "100"
   );
 
   const [isChecked, setIsChecked] = useState(false);
