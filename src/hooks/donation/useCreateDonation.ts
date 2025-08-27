@@ -79,7 +79,12 @@ export const useCreateDonation = ({ handleShowModal }: Props) => {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({
+    ...prev,
+    [name]: typeof prev[name as keyof typeof prev] === "number"
+    ? Number(value)
+    : value,
+  }));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
