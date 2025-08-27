@@ -1,9 +1,17 @@
-import { donations } from "../../data/donations";
 
+
+import type { Donation } from "../../domain/interfaces/Donation";
 import { MainCard } from "../Main/MainCard";
 import { CardDonation } from "./CardDonation";
 
-const FeaturedDonation = () => {
+interface FeaturedDonationProps {
+  donations: Donation[];
+}
+
+const FeaturedDonation = (props: FeaturedDonationProps) => {
+  const { donations } = props;
+  console.log(donations);
+
   const donation = donations.map((donation) => {
     return <CardDonation donation={donation} key={donation.id} />;
   });

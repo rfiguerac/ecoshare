@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 import { ReportForm } from "../components/Donation/DonationDetails/ReportForm";
 import { useDonationStore } from "../store/DonationStore";
 import { AddressFromCoords } from "../utils/getAddress";
+import { useAuthStore } from "../store/AuthStore";
 
 export const DonationDetailsPage = () => {
   const [reportFormOpen, setReportFormOpen] = useState(false);
   const [donationSaved, setDonationSaved] = useState(false);
-  const [direction, setDirection] = useState("");
+
+  const user = useAuthStore((state) => state.user);
 
   const { id } = useParams();
 
@@ -45,41 +47,6 @@ export const DonationDetailsPage = () => {
       });
   };
 
-  async function coordenadasADireccion(lat: number, lon: number) {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`;
-
-    const response = await fetch(url, { headers: { "User-Agent": "EcoSahe" } });
-    const data = await response.json();
-
-    if (data && data.display_name) {
-      const { road, house_number, city, town, village, state, country } =
-        data.address;
-
-      const localidad = city || town || village; //localidad puede llegar como una de las 3 opciones
-
-      return `${road ?? ""} ${house_number ?? ""}, ${
-        localidad ?? state ?? ""
-      }, ${country ?? ""}`.trim();
-    } else {
-      return "Dirección no encontrada";
-    }
-  }
-
-  useEffect(() => {
-    coordenadasADireccion(40.4168, -3.7038).then((direction) =>
-      setDirection(direction)
-    );
-  }, []);
-
-  const fakeUser = {
-    id: "u123",
-    name: "Carlos Ramírez",
-    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-    rating: 4.7,
-    donations: 85,
-    joined: "March 2023",
-  };
-
   if (!donation) {
     return <div>Donation not found</div>;
   }
@@ -92,7 +59,8 @@ export const DonationDetailsPage = () => {
           donationSaved={donationSaved}
           setDonationSaved={saveDonation}
           copyUrl={copyUrl}
-          direction={direction}
+          direction={address}
+          user={user!}
         />
         <AditionalInformation donation={donation} direction={address} />
       </div>
@@ -104,7 +72,7 @@ export const DonationDetailsPage = () => {
           setDonationSaved={saveDonation}
           copyUrl={copyUrl}
         />
-        <AboutDonor user={fakeUser} />
+        <AboutDonor user={user} />
         <ReportForm
           open={reportFormOpen}
           setOpen={setReportFormOpen}

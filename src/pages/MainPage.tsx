@@ -3,13 +3,16 @@ import BrowseCategory from "../components/category/BrowseCategory";
 
 import Banner from "../components/Main/banner/Banner";
 import HeroSection from "../components/Main/HeroSection";
-import { donations } from "../data/donations";
 import { useCategoryStore } from "../store/CategoryStore";
 import UrgentDonation from "../components/Donation/UrgentDonation";
 import FeaturedDonation from "../components/Donation/FeaturedDonation";
+import { useDonationStore } from "../store/DonationStore";
 
 export const MainPage = () => {
-  const { categories, fetchCategories } = useCategoryStore();
+  const { fetchCategories } = useCategoryStore();
+
+  const { donationPagination} = useDonationStore();
+
 
   useEffect(() => {
     fetchCategories();
@@ -19,8 +22,8 @@ export const MainPage = () => {
     <div>
       <HeroSection />
       <BrowseCategory />
-      <UrgentDonation donations={donations} />
-      <FeaturedDonation />
+      <UrgentDonation donations={donationPagination.data.filter((donation) => donation.urgent)} />
+      <FeaturedDonation donations={donationPagination.data}/>
       <Banner />
     </div>
   );
