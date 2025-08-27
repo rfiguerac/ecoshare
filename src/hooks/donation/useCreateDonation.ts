@@ -4,6 +4,7 @@ import { getCurrentLocation } from "../../utils/getCurrenLocation";
 import { useDonationStore } from "../../store/DonationStore";
 import { fileServices } from "../../services/fileServices";
 import { useToast } from "../../contexts/ToastContext";
+import { useAuthStore } from "../../store/AuthStore";
 
 export interface FileWithPreview extends File {
   preview: string;
@@ -42,18 +43,21 @@ export const useCreateDonation = ({ handleShowModal }: Props) => {
   useEffect(() => {
     handleGetLocation();
   }, []);
+  const user = useAuthStore((state) => state.user);
 
   // Sincronizamos formData cuando cambie la ubicación
   const [formData, setFormData] = useState<NewDonation>({
     title: "",
     description: "",
     categoryId: 1,
-    donorId: 1,
+    donorId: Number(user?.id) ?? 1,
     urgent: false,
     latitude: 41.3851, // valor por defecto inicial
     longitude: 2.1734, // valor por defecto inicial
     expiryDate: null,
   });
+
+  //solicitamos el donor al store
 
   useEffect(() => {
     if (location) {
@@ -80,17 +84,18 @@ export const useCreateDonation = ({ handleShowModal }: Props) => {
   ) => {
     const { name, value } = e.target;
 
-   setFormData((prev) => ({
-  ...prev,
-  [name]: name === 'categoryId' ? Number(value) : value,
-}));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "categoryId" ? Number(value) : value,
+    }));
 
-      setFormData((prev) => ({
-    ...prev,
-    [name]: typeof prev[name as keyof typeof prev] === "number"
-    ? Number(value)
-    : value,
-  }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]:
+        typeof prev[name as keyof typeof prev] === "number"
+          ? Number(value)
+          : value,
+    }));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {

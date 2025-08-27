@@ -1,5 +1,6 @@
 import { Heart, Share2, MapPin, MessageCircle, Star } from "lucide-react";
 import type { Donation } from "../../../domain/interfaces/Donation";
+import type { User } from "../../../domain/interfaces/User";
 
 interface DonationInfoProps {
   donation: Donation;
@@ -7,6 +8,7 @@ interface DonationInfoProps {
   setDonationSaved: (x: boolean) => void;
   copyUrl: () => void;
   direction: string;
+  user: User;
 }
 
 export const DonationInfo = ({
@@ -15,16 +17,8 @@ export const DonationInfo = ({
   setDonationSaved,
   copyUrl,
   direction,
+  user,
 }: DonationInfoProps) => {
-  const user = {
-    id: "u123",
-    name: "Carlos Ramírez",
-    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-    rating: 4.7,
-    donations: 85,
-    joined: "March 2023",
-  };
-
   const url = "http://localhost:3002/public/uploads/donation";
 
   return (
@@ -116,19 +110,7 @@ export const DonationInfo = ({
           /> */}
           <div className="flex flex-col">
             <p className="font-bold">{user.name}</p>
-            <div className="flex">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  size={16}
-                  className={
-                    i < Math.round(user.rating)
-                      ? "text-yellow-400 fill-yellow-400"
-                      : "text-gray-300"
-                  }
-                />
-              ))}
-            </div>
+            <div className="flex"></div>
           </div>
         </div>
 
