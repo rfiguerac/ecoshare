@@ -9,7 +9,7 @@ import UrgentDonation from "../components/Donation/UrgentDonation";
 import FeaturedDonation from "../components/Donation/FeaturedDonation";
 
 export const MainPage = () => {
-  const { categories, fetchCategories } = useCategoryStore();
+  const { fetchCategories } = useCategoryStore();
 
   useEffect(() => {
     fetchCategories();

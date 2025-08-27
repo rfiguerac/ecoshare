@@ -56,7 +56,7 @@ const CreateDonationForm = (props: ModalProps) => {
   });
 
   const categoryOptions = categories.map((category) => (
-    <option key={category.id} value={category.id}>
+    <option key={category.id} value={Number(category.id)}>
       {category.title}
     </option>
   ));
@@ -125,12 +125,12 @@ const CreateDonationForm = (props: ModalProps) => {
                 {/* Category  */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                   <label
-                    htmlFor="idCategory"
+                    htmlFor="categoryId"
                     className="block text-sm font-semibold text-gray-700">
                     Category
                   </label>
                   <select
-                    name="idCategory"
+                    name="categoryId"
                     value={formData.categoryId}
                     onChange={handleChange}
                     className="select select-bordered ">

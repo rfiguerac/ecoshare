@@ -79,7 +79,10 @@ export const useCreateDonation = ({ handleShowModal }: Props) => {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+   setFormData((prev) => ({
+  ...prev,
+  [name]: name === 'categoryId' ? Number(value) : value,
+}));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,13 +99,12 @@ export const useCreateDonation = ({ handleShowModal }: Props) => {
 
     // Enviar datos al servidor
     // 1: Guardados los datos del formulario, porque necesitamos el id para guardarlos en el servidor
-
     const newDonation = await addDonation(formData);
     if (newDonation.id) {
       // 2: Si la donación se creó correctamente, subimos las imágenes
       showToast("Donation created successfully!", "success");
       const uploadedImages = await uploadFile(files, newDonation.id);
-      console.log(uploadedImages);
+
       if (uploadedImages.imageUrl) {
         // Aquí puedes hacer algo con las imágenes subidas, como asociarlas a la donación
         showToast("Images uploaded successfully!", "success");
