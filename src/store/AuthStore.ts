@@ -213,4 +213,3 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 }));
-useAuthStore.getState().fetchAllProfiles();
