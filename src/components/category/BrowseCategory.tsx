@@ -1,16 +1,11 @@
-import type { Category } from "../../domain/interfaces/Category";
+
+import { useCategoryStore } from "../../store/CategoryStore";
 import { MainCard } from "../Main/MainCard";
 import { CardCategory } from "./CardCategory";
 
 const BrowseCategory = () => {
-  const categories: Category[] = [
-    { id: 1, title: "Food", icon: "Pizza" },
-    { id: 2, title: "Clothes", icon: "Shirt" },
-    { id: 3, title: "Furniture", icon: "Bed" },
-    { id: 4, title: "Books", icon: "Book" },
-    { id: 5, title: "Toys", icon: "Gamepad2" },
-    { id: 6, title: "Electronics", icon: "Computer" },
-  ];
+  
+const {categories} = useCategoryStore();
 
   const colors = [
     "bg-green-400",
@@ -19,7 +14,20 @@ const BrowseCategory = () => {
     "bg-purple-400",
     "bg-yellow-400",
     "bg-red-400",
+    "bg-pink-400",
+    "bg-teal-400",
+    "bg-indigo-400",
+    "bg-lime-400",
+    "bg-amber-400",
+    "bg-cyan-400",
+    "bg-fuchsia-400",
+    "bg-rose-400",
+    "bg-sky-400",
+    "bg-emerald-400",
+    "bg-violet-400",
   ];
+
+  
   const category = categories.map((categoryItem, index) => {
     const color = colors[index % colors.length];
     return (
