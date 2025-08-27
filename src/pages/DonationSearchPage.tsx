@@ -5,7 +5,7 @@ import { MainCard } from "../components/Main/MainCard";
 
 import categories from "../data/categories";
 import type { Donation } from "../domain/interfaces/Donation";
-import { CardDonation } from "../components/Main/CardDonation";
+import { CardDonation } from "../components/Donation/CardDonation";
 import { useDonationStore } from "../store/DonationStore";
 
 export const DonationSearchPage = () => {
