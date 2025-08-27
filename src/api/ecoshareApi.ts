@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthStore } from "../store/AuthStore";
 
 export const ecoshareApi = axios.create({
   baseURL: "http://localhost:3002/api/v1",
@@ -6,13 +7,36 @@ export const ecoshareApi = axios.create({
 
 ecoshareApi.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const { accessToken } = useAuthStore.getState();
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+ecoshareApi.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    // Si el error es 401 y no es un reintento
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const { refreshAuthToken, logout } = useAuthStore.getState();
+      try {
+        await refreshAuthToken();
+        const { accessToken } = useAuthStore.getState();
+        originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+        return ecoshareApi(originalRequest);
+      } catch (refreshError) {
+        // Si el refresh falla, redirigimos al login
+        logout();
+        return Promise.reject(refreshError);
+      }
+    }
     return Promise.reject(error);
   }
 );

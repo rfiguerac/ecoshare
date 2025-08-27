@@ -20,7 +20,7 @@ interface AuthState {
   register: (newUser: NewUser) => Promise<void>;
   logout: () => void;
   updateProfile: (userUpdate: UserUpdate) => Promise<User | undefined>;
-  changePassword: (passwords: PasswordChange) => Promise< User | void>;
+  changePassword: (passwords: PasswordChange) => Promise<User | void>;
   deleteAccount: () => Promise<void>;
   refreshAuthToken: () => Promise<void>;
   checkAuth: () => Promise<void>;
@@ -159,37 +159,46 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ error: "No refresh token available." });
       return;
     }
-    set({ loading: true, error: null });
     try {
       const response = await service.refreshToken(refreshToken);
       localStorage.setItem("accessToken", response.accessToken);
-      set({ accessToken: response.accessToken, loading: false });
+      set({ accessToken: response.accessToken });
     } catch (err: any) {
-      set({ loading: false, error: "Failed to refresh token." });
-      get().logout(); // Log out if refresh fails
+      set({ error: "Failed to refresh token." });
+      get().logout();
+      throw err;
     }
   },
 
   checkAuth: async () => {
     const accessToken = get().accessToken;
-    if (!accessToken) {
+    const refreshToken = get().refreshToken;
+
+    // Si no hay ningún token de acceso ni de refresco, no hay nada que hacer.
+    if (!accessToken && !refreshToken) {
       set({ isAuthenticated: false, loading: false });
       return;
     }
 
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
-      // Llamada simplificada
-      const userProfile = await service.getProfile(accessToken);
+      const userProfile = await service.getProfile(accessToken!);
       set({
         user: userProfile,
         isAuthenticated: true,
         loading: false,
       });
     } catch (err: any) {
-      console.error("Authentication check failed:", err);
-      get().logout();
-      set({ loading: false });
+      // En caso de que la validación inicial falle (token expirado, por ejemplo)
+      // el interceptor de axios se encargará de intentar el refresh.
+      // Si el interceptor falla, ya habrá hecho logout.
+      // Por lo tanto, aquí simplemente establecemos el estado final.
+      set({
+        user: null,
+        isAuthenticated: false,
+        loading: false,
+        error: err.message,
+      });
     }
   },
 
