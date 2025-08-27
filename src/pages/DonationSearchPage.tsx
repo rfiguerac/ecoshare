@@ -1,79 +1,181 @@
-import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { MainCard } from "../components/Main/MainCard";
-
-import categories from "../data/categories";
-import type { Donation } from "../domain/interfaces/Donation";
 import { CardDonation } from "../components/Donation/CardDonation";
 import { useDonationStore } from "../store/DonationStore";
-import { Filter } from "../components/Donation/Filter";
+import { useCategoryStore } from "../store/CategoryStore";
+
+import type { Donation } from "../domain/interfaces/Donation";
+import { getCurrentLocation } from "../utils/getCurrenLocation";
+import { getDistanceInKm } from "../utils/getDistanceInKm";
 
 export const DonationSearchPage = () => {
-  // This hook allows us to read and update URL query parameters
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query");
-  const navigate = useNavigate();
-
-  const [filteredDonations, setFilteredDonations] = useState<Donation[]>([]);
-  const [categoryFilter, setCategofryFilter] = useState<number>()
-  const [distanceFilter, setDistanceFilter] = useState<number>()
-
   const { donationPagination } = useDonationStore();
+  const { categories } = useCategoryStore();
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const categoryId = Number(e.target.value);
-    setCategofryFilter(categoryId);
-  };
+  // Hook para gestionar parámetros en la URL
+  const [searchParams, setSearchParams] = useSearchParams();
 
-   const handleDistanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const distance = Number(e.target.value);
-    setDistanceFilter(distance);
-  };
+  // Obtenemos el valor de búsqueda desde la URL
+  const search = searchParams.get("search") || "";
 
-  useEffect(() => {
-    if (!query) {
-      // If the query is empty or null, navigate to the main page
-      navigate("/");
+  // Estados para categoría y distancia
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("category") || ""
+  );
+  const [selectDistance, setSelectDistance] = useState(
+    searchParams.get("distance") || "25"
+  );
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const [MyLocation, setMyLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+
+  const handleCheckboxChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const checked = e.target.checked; // true si está marcado, false si no
+    setIsChecked(checked);
+
+    // Llamas a tu función aquí según el estado
+    if (checked) {
+      console.log("Checkbox marcado");
+
+      const { lat, lng } = await getCurrentLocation();
+      setMyLocation({ lat, lng });
     } else {
-      const lowerCaseQuery = query.toLowerCase();
-      const matchedCategory = categories.filter((category) =>
-        category.title.toLowerCase().includes(lowerCaseQuery)
-      );
-
-      // Filter donations based on the query string
-      const filtered: Donation[] = donationPagination.data.filter(
-        (donation) => {
-          //filter title, or description
-          const matchesText =
-            donation.title.toLowerCase().includes(lowerCaseQuery) ||
-            donation.description.toLowerCase().includes(lowerCaseQuery);
-
-          const matchesCategory =
-            matchedCategory.length > 0 &&
-            matchedCategory.some((category) => donation.categoryId === category.id);
-
-          const matchesCategoryFilter =
-            !categoryFilter || donation.categoryId === categoryFilter;
-
-          return (matchesText || matchesCategory) && matchesCategoryFilter;
-        });
-      setFilteredDonations(filtered);
-    
+      console.log("Checkbox desmarcado");
+      // llamar función B
     }
-  }, [query, navigate, categoryFilter]);
+  };
 
+  // Actualiza la URL cuando se cambian filtros
+  const updateURLParams = (newParams: {
+    category?: string;
+    distance?: string;
+  }) => {
+    setSearchParams({
+      search, // siempre mantenemos el valor de búsqueda de la URL
+      category: newParams.category ?? selectedCategory,
+      distance: newParams.distance ?? selectDistance,
+    });
+  };
+
+  // Manejar cambio de categoría
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCategory = e.target.value;
+    setSelectedCategory(newCategory);
+    updateURLParams({ category: newCategory });
+  };
+
+  // Manejar cambio de distancia (cuando lo implementes)
+  const handleDistanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDistance = e.target.value;
+    setSelectDistance(newDistance);
+    updateURLParams({ distance: newDistance });
+  };
+
+  // Filtrado de donaciones
+  const filteredDonations = donationPagination.data
+    // Filtro por categoría
+    .filter((donation: Donation) => {
+      if (!selectedCategory || selectedCategory === "Todas") return true;
+      const category = categories.find((cat) => cat.id === donation.categoryId);
+      return category?.title
+        .toLowerCase()
+        .includes(selectedCategory.toLowerCase());
+    })
+    // Filtro por texto de búsqueda desde la URL
+    .filter((donation: Donation) => {
+      if (!search) return true;
+      return donation.title.toLowerCase().includes(search.toLowerCase());
+    })
+    // Filtro por distancia
+    .filter((donation: Donation) => {
+      if (!isChecked || !MyLocation) return true; // solo filtra si está activado y tenemos ubicación
+      const donationCoord = { lat: donation.latitude, lng: donation.longitude };
+      const distanceKm = getDistanceInKm(MyLocation, donationCoord);
+      return distanceKm <= Number(selectDistance); // mantiene solo donaciones dentro del rango
+    });
+
+  // Renderizado de tarjetas
   const donationCards = filteredDonations.map((donation) => (
     <CardDonation donation={donation} key={donation.id} />
   ));
 
   return (
     <div className="bg-gray-100">
-      <Filter handleCategoryChange={handleCategoryChange} selectedCategory={categoryFilter} handleDistanceChange={handleDistanceChange} selectDistance={distanceFilter}/>
+      {/* Barra de filtros */}
+      <div className="flex flex-col md:flex-row justify-center gap-6 p-6 mb-8 w-full">
+        {/* Filtro por categoría */}
+        <div className="form-control w-full md:w-1/2">
+          <label className="label">
+            <span className="label-text font-semibold text-lg">Categoría</span>
+          </label>
+          <select
+            className="select select-bordered w-full rounded-xl focus:outline-none"
+            value={selectedCategory}
+            onChange={handleCategoryChange}>
+            <option value="Todas">Todas</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.title}>
+                {category.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Filtro por distancia (pendiente de implementar) */}
+        <div className="form-control flex flex-col w-full md:w-1/2">
+          <label className="label">
+            <input
+              type="checkbox"
+              className="checkbox checkbox-primary checkbox-lg"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
+            Distance
+          </label>
+          <label className="label">
+            <span className="label-text font-semibold text-lg">
+              Distance ({selectDistance} km)
+            </span>
+          </label>
+          <input
+            type="range"
+            min="5"
+            max="100"
+            value={selectDistance}
+            onChange={handleDistanceChange}
+            className="range range-primary rounded-full mt-2 w-full"
+          />
+          <div className="w-full flex justify-between text-xs px-2 mt-1">
+            <span>5 km</span>
+            <span>25 km</span>
+            <span>50 km</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Listado de resultados */}
       <MainCard
-        title={query ? `Search Results for "${query}"` : "Showing All Items"}
-        description={`Showing ${filteredDonations.length} items that match your search.`}>
-        {donationCards}
+        title={
+          search
+            ? `Resultados para "${search}"`
+            : "Mostrando todas las donaciones"
+        }
+        description={`Se encontraron ${filteredDonations.length} donaciones.`}>
+        {donationCards.length > 0 ? (
+          donationCards
+        ) : (
+          <p className="text-center text-gray-500">
+            No se encontraron donaciones.
+          </p>
+        )}
       </MainCard>
     </div>
   );

@@ -51,7 +51,7 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
 
   const handleSearch = (value: string) => {
     if (value.trim() !== "") {
-      navigate(`/DonationSearch?query=${encodeURIComponent(value)}`);
+      navigate(`/DonationSearch?search=${encodeURIComponent(value)}`);
       setIsOpen(false);
     }
   };
@@ -136,8 +136,14 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                   className="md:w-sm xl:min-w-md 2xl:min-w-3xl h-5 lg:h-10 px-4 text-sm md:text-base lg:text-lg text-gray-700 bg-transparent border-none focus:outline-none"
                   value={query}
                   onChange={(e) => {
-                    setQuery(e.target.value);
-                    setIsOpen(e.target.value.length > 0);
+                    const value = e.target.value;
+                    setQuery(value);
+                    setIsOpen(value.length > 0);
+
+                    // Si el usuario borra todo, limpiamos la URL y el estado en DonationSearchPage
+                    if (value.trim() === "") {
+                      navigate("/DonationSearch");
+                    }
                   }}
                   onFocus={() => {
                     if (query.length > 0) {
