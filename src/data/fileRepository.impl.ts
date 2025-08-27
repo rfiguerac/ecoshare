@@ -14,7 +14,6 @@ export const fileRepositoryImpl: FileRepository = {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   },
 };
