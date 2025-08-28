@@ -12,7 +12,7 @@ export const EditProfile = ({ user }: EditProfileProps) => {
     const { formData: passwordForm, errors: passwordError, handleChange: handlePasswordChange, handleSubmit: submitPassword } = useUpdatePassword()
 
     return (
-        <div className="flex flex-col justify-center md:flex-row gap-6 p-6 md:p-12 bg-base-200">
+        <div className="flex flex-col justify-center md:flex-row gap-6 p-6 md:p-12">
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 

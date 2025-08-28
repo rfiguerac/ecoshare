@@ -44,7 +44,7 @@ export const useUpdatePassword = () => {
 
         if (Object.keys(validationErrors).length === 0) {
             const res = await changePassword(formData);
-            res ? showToast("Password", "success") : showToast("fallo", "error");
+            res ? showToast("Password Changed", "success") : showToast("Error: " + error, "error");
         }
 
 
