@@ -1,4 +1,4 @@
-import { Heart, Share2, MapPin, MessageCircle, Star } from "lucide-react";
+import { Heart, Share2, MapPin, MessageCircle,} from "lucide-react";
 import type { Donation } from "../../../domain/interfaces/Donation";
 import type { User } from "../../../domain/interfaces/User";
 

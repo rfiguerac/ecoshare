@@ -4,7 +4,7 @@ import { AditionalInformation } from "../components/Donation/DonationDetails/Adi
 import { useParams } from "react-router-dom";
 import { ContactDonor } from "../components/donor/ContatDonor";
 import { AboutDonor } from "../components/donor/AboutDonor";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ReportForm } from "../components/Donation/DonationDetails/ReportForm";
 import { useDonationStore } from "../store/DonationStore";
 import { AddressFromCoords } from "../utils/getAddress";
@@ -24,10 +24,20 @@ export const DonationDetailsPage = () => {
     (donation) => donation.id === Number(id)
   );
 
-  const address = AddressFromCoords({
+  const fullAddress = AddressFromCoords({
     lat: Number(donation?.latitude!),
     lng: Number(donation?.longitude!),
   });
+
+  const parts = fullAddress.split(",").map(part => part.trim());
+
+  // Get city and region
+  // Assuming city is second-to-last and region is last before country
+  const area = parts[parts.length - 7]; // "Eixample"
+  const city = parts[parts.length - 4]; // "Barcelona"
+  const region = parts[parts.length - 3]; // "Catalunya"
+
+  const address = `${area}, ${city}, ${region}`;
 
   const saveDonation = (saved: boolean) => {
     //codigo para gurdar donacion
@@ -62,7 +72,7 @@ export const DonationDetailsPage = () => {
           direction={address}
           user={user!}
         />
-        <AditionalInformation donation={donation} direction={address} />
+        <AditionalInformation donation={donation} address={address} />
       </div>
 
       <div className="space-y-8 justify-self-center">

@@ -3,11 +3,16 @@ import type { Donation } from "../../../domain/interfaces/Donation";
 
 interface AditionalInformationProps {
     donation: Donation;
-    direction: string
+    address: string
 
 }
 
-export const AditionalInformation = ({ donation, direction }: AditionalInformationProps) => {
+
+
+export const AditionalInformation = ({ donation, address }: AditionalInformationProps) => {
+
+    // Split the full address to show only the neighborhood, city, and region
+
     
     return <>
         <div className="card bg-base-100 w-90 shadow-sm md:min-w-2xl">
@@ -20,7 +25,7 @@ export const AditionalInformation = ({ donation, direction }: AditionalInformati
                 </div>
                 <div className="flex justify-between items-center mb-2">
                     <span className="text-gray font-medium">State</span>
-                    <span className="text-darkgray font-semibold">{donation.state}</span>
+                    <span className="text-darkgray font-semibold">{donation.status}</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
                     <span className="text-gray font-medium">Urgent</span>
@@ -29,14 +34,14 @@ export const AditionalInformation = ({ donation, direction }: AditionalInformati
                 <div className="flex justify-between items-center mb-2">
                     <span className="text-gray font-medium">Posted</span>
                     <span className="text-darkgray font-semibold">
-                        {donation.createdAt ? donation.createdAt.toLocaleString() : "N/A"}
+                        {donation.createdAt ? new Date(donation.createdAt).toLocaleString() : "N/A"}
                     </span>
                 </div>
                 <p className="font-bold mt-2 mb-2">Pickup Information</p>
                 <div className="flex items-start space-x-2">
                     <MapPin size={16} color="grey" className="mt-1" />
                     <div className="flex flex-col">
-                        <span className="text-darkgray font-semibold">{direction}</span>
+                        <span className="text-darkgray font-semibold">{address}</span>
                         <span className="text-gray text-sm">Pickup location</span>
                     </div>
                 </div>
