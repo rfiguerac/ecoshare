@@ -110,11 +110,11 @@ export const DonationSearchPage = () => {
   return (
     <div className="bg-gray-100">
       {/* Barra de filtros */}
-      <div className="flex flex-col md:flex-row justify-center gap-6 p-6 mb-8 w-full">
+      <div className="flex flex-col md:flex-row justify-center gap-6 p-5 mb-8 w-full">
         {/* Filtro por categoría */}
         <div className="form-control w-full md:w-1/2">
           <label className="label">
-            <span className="label-text font-semibold text-lg">Categoría</span>
+            <span className="label-text font-semibold text-lg">Category</span>
           </label>
           <select
             className="select select-bordered w-full rounded-xl focus:outline-none"
@@ -129,36 +129,39 @@ export const DonationSearchPage = () => {
           </select>
         </div>
 
-        {/* Filtro por distancia (pendiente de implementar) */}
-        <div className="form-control flex flex-col w-full md:w-1/2">
-          <label className="label">
+        {/* Filtro por distancia*/}
+        <div className="form-control w-full md:w-1/2">
+
+          <div className="flex items-center mb-2">
             <input
               type="checkbox"
               className="checkbox checkbox-primary checkbox-lg"
               checked={isChecked}
               onChange={handleCheckboxChange}
             />
-            Distance
-          </label>
-          <label className="label">
             <span className="label-text font-semibold text-lg">
               Distance ({selectDistance} km)
             </span>
-          </label>
+          </div>
+
+          {/* Slider */}
           <input
             type="range"
             min="5"
             max="100"
             value={selectDistance}
             onChange={handleDistanceChange}
-            className="range range-primary rounded-full mt-2 w-full"
+            className="range range-primary range-xs rounded-full w-full"
           />
-          <div className="w-full flex justify-between text-xs px-2 mt-1">
+
+          {/* Labels under slider */}
+          {/* <div className="w-full flex justify-between text-xs px-2 mt-1">
             <span>5 km</span>
             <span>25 km</span>
             <span>50 km</span>
-          </div>
+          </div> */}
         </div>
+
       </div>
 
       {/* Listado de resultados */}
