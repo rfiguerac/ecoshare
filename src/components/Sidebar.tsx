@@ -15,9 +15,14 @@ const LucideIcons = Object.fromEntries(
 export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
   const menuItems = [
     { name: "Dashboard", path: "/dashboard", icon: "Home" },
-    { name: "Donations", path: "/dashboard/donations", icon: "Coffee" },
+    { name: "Donations", path: "/dashboard/donations", icon: "HeartHandshake" },
     { name: "My Donations", path: "/dashboard/my-donations", icon: "Heart" },
-    {name: "Received",path: "/dashboard/recieved-donations",icon: "Gift"},
+    { name: "Received", path: "/dashboard/recieved-donations", icon: "Gift" },
+    {
+      name: "My Saved",
+      path: "/dashboard/my-saved-donations",
+      icon: "Bookmark",
+    },
     { name: "Users", path: "/dashboard/users", icon: "User" },
     { name: "Categories", path: "/dashboard/categories", icon: "Grid" },
     { name: "Messages", path: "/dashboard/chat", icon: "MessageCircle" },
