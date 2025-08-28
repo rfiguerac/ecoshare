@@ -5,6 +5,7 @@ import type {
   NewDonationTransactionData,
   UpdateDonationTransactionData,
 } from "../../domain/interfaces/DonationTransaction";
+import { useDonationStore } from "../../store/DonationStore";
 
 export const useDonationTransaction = () => {
   const {
@@ -16,6 +17,8 @@ export const useDonationTransaction = () => {
     updateTransaction,
     deleteTransaction,
   } = useDonationTransactionStore();
+
+  const { updateDonationStatus } = useDonationStore();
 
   const { showToast } = useToast();
 
@@ -32,6 +35,7 @@ export const useDonationTransaction = () => {
   const handleCreateTransaction = async (data: NewDonationTransactionData) => {
     const newTransaction = await createTransaction(data);
     if (newTransaction) {
+      updateDonationStatus(data.donationId!, "Reserved");
       showToast("Transacción creada exitosamente!", "success");
     }
   };

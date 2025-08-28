@@ -20,6 +20,7 @@ interface DonationStore {
   updateDonation: (id: number, donation: Omit<Donation, "id">) => Promise<void>;
   removeDonation: (id: number) => Promise<void>;
   updateDonationImages: (id: number, images: Img[]) => void;
+  updateDonationStatus: (id: number, status: "Reserved" | "Donated") => void;
 }
 
 export const useDonationStore = create<DonationStore>((set, get) => ({
@@ -108,6 +109,16 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
         ...state.donationPagination,
         data: state.donationPagination.data.map((d) =>
           d.id === id ? { ...d, images } : d
+        ),
+      },
+    }));
+  },
+  updateDonationStatus: (id: number, status: "Reserved" | "Donated") => {
+    set((state) => ({
+      donationPagination: {
+        ...state.donationPagination,
+        data: state.donationPagination.data.map((donation) =>
+          donation.id === id ? { ...donation, status } : donation
         ),
       },
     }));
