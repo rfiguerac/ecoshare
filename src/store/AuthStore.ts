@@ -203,16 +203,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   fetchAllProfiles: async () => {
-    set({ loading: true, error: null });
+    //set({ loading: true });
     try {
-      const profiles = await service.getAllProfiles();
-      set({ allProfiles: profiles, loading: false });
-    } catch (err: any) {
-      console.error("Failed to fetch all profiles:", err);
-      // Captura el mensaje de error del backend para mostrarlo
-      const errorMessage =
-        err.response?.data?.message || "Failed to fetch all profiles.";
-      set({ loading: false, error: errorMessage });
+      const data = await service.getAllProfiles();
+      console.log(data);
+      set({
+        allProfiles: data,
+      });
+    } catch (error) {
+      console.error("Error fetching profiles:", error);
+      // set({ loading: false });
     }
   },
 }));

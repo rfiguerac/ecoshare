@@ -1,4 +1,4 @@
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import { Table } from "../components/Table";
 import type { Donation } from "../domain/interfaces/Donation";
 import { useDonationStore } from "../store/DonationStore";
@@ -11,16 +11,15 @@ export const DashboardDonationsPage = () => {
   const { allProfiles, fetchAllProfiles } = useAuthStore();
 
   useEffect(() => {
-    fetchAllProfiles();
-  }, [fetchAllProfiles]);
+    // Almacena las llamadas a las funciones en una variable para evitar advertencias.
+    const fetchData = () => {
+      fetchAllProfiles();
+      fetchDonations();
+      fetchCategories();
+    };
 
-  useEffect(() => {
-    fetchDonations();
-  }, [fetchDonations]);
-
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    fetchData();
+  }, []); // El array de dependencias vacío es la clave para que se ejecute solo una vez al montar.
 
   const handleEdit = (donation: Donation) => {
     // Handle edit action
