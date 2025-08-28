@@ -4,21 +4,25 @@ import { Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 interface TableProps {
   headers: { key: string; label: string }[];
   dataTable: any[];
-  onEdit: (itemToEdit: any) => void;
-  onDelete: (id: string | number) => void;
+  onEdit?: (itemToEdit: any) => void;
+  onDelete?: (id: any) => void;
   idKey?: string;
   defaultItemsPerPage?: number;
   pageSizeOptions?: number[];
+  showDeleteButton?: boolean;
+  showEditButton?: boolean;
 }
 
 export const Table: React.FC<TableProps> = ({
   headers,
   dataTable,
-  onEdit,
-  onDelete,
+  onEdit = () => {},
+  onDelete = () => {},
   idKey = "id",
   defaultItemsPerPage = 5,
   pageSizeOptions = [5, 10, 20],
+  showDeleteButton = true,
+  showEditButton = true,
 }) => {
   const [sortConfig, setSortConfig] = useState<{
     key: string;
@@ -116,22 +120,26 @@ export const Table: React.FC<TableProps> = ({
                   ))}
                   <td className="p-4 text-center">
                     <div className="flex justify-center space-x-2">
-                      <button
-                        className="btn btn-sm btn-info"
-                        onClick={() => onEdit(row)}>
-                        <Pencil size={18} />
-                      </button>
-                      <button
-                        className="btn btn-sm btn-error"
-                        onClick={() => onDelete(row[idKey])}>
-                        <Trash2 size={18} />
-                      </button>
+                      {showEditButton && (
+                        <button
+                          className="btn btn-sm btn-info"
+                          onClick={() => onEdit(row)}>
+                          <Pencil size={18} />
+                        </button>
+                      )}
+                      {showDeleteButton && (
+                        <button
+                          className="btn btn-sm btn-error"
+                          onClick={() => onDelete(row[idKey])}>
+                          <Trash2 size={18} />
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>
               ))
             ) : (
-              <tr>
+              <tr key="no-data">
                 <td
                   colSpan={headers.length + 1}
                   className="text-center p-4 text-gray-500">
@@ -163,21 +171,25 @@ export const Table: React.FC<TableProps> = ({
                 </div>
               ))}
               <div className="flex justify-center space-x-2 mt-4">
-                <button
-                  className="btn btn-sm btn-info"
-                  onClick={() => onEdit(row)}>
-                  <Pencil size={18} />
-                </button>
-                <button
-                  className="btn btn-sm btn-error"
-                  onClick={() => onDelete(row[idKey])}>
-                  <Trash2 size={18} />
-                </button>
+                {showEditButton && (
+                  <button
+                    className="btn btn-sm btn-info"
+                    onClick={() => onEdit(row)}>
+                    <Pencil size={18} />
+                  </button>
+                )}
+                {showDeleteButton && (
+                  <button
+                    className="btn btn-sm btn-error"
+                    onClick={() => onDelete(row[idKey])}>
+                    <Trash2 size={18} />
+                  </button>
+                )}
               </div>
             </div>
           ))
         ) : (
-          <div className="text-center p-4 text-gray-500">
+          <div key="no-data2" className="text-center p-4 text-gray-500">
             No hay datos para mostrar.
           </div>
         )}
