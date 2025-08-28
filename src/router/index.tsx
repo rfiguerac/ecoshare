@@ -11,7 +11,7 @@ import { DonationSearchPage } from "../pages/DonationSearchPage";
 
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { DashboardHome } from "../pages/DashboardHomePage";
-import {DashboardChatPage} from "../pages/DashboardChatPage";
+import { DashboardChatPage } from "../pages/DashboardChatPage";
 import { DashboardCategory } from "../pages/DashboardCategoryPage";
 import { DashboardDonationsPage } from "../pages/DashboardDonatiosPage";
 import { DashboardMyDonations } from "../pages/DashboardMyDonations";
@@ -23,6 +23,7 @@ import { DashboardConfiguration } from "../pages/DashboardConfigurationPage";
 import type { JSX } from "react";
 import { useAuthStore } from "../store/AuthStore"; // Importa el store de autenticación
 import LoginPage from "../pages/LoginPage";
+import { DashboardRequestedDonations } from "../pages/DashboardRequestedDonations";
 
 // Componente para proteger rutas privadas
 function ProtectedRoute({ children }: { children: JSX.Element }) {
@@ -69,11 +70,17 @@ export default function AppRouter() {
           <Route path="users" element={<DashboardUser />} />
           <Route path="reports" element={<DashboardReports />} />
           <Route path="settings" element={<DashboardConfiguration />} />
-          <Route path="chat" element={<DashboardChatPage />} />
+          <Route path="chats" element={<DashboardChatPage />} />
           <Route path="donations" element={<DashboardDonationsPage />} />
           <Route path="my-donations" element={<DashboardMyDonations />} />
-          <Route path="recieved-donations" element={<DashboardRecievedDonations />} />
-
+          <Route
+            path="recieved-donations"
+            element={<DashboardRecievedDonations />}
+          />
+          <Route
+            path="requested-donations"
+            element={<DashboardRequestedDonations />}
+          />
 
           <Route path="*" element={<NotFound />} />
         </Route>

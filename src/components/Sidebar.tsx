@@ -19,9 +19,9 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     { name: "My Donations", path: "/dashboard/my-donations", icon: "Heart" },
     { name: "Received", path: "/dashboard/recieved-donations", icon: "Gift" },
     {
-      name: "My Saved",
-      path: "/dashboard/my-saved-donations",
-      icon: "Bookmark",
+      name: "Requested",
+      path: "/dashboard/requested-donations",
+      icon: "Handshake",
     },
     { name: "Users", path: "/dashboard/users", icon: "User" },
     { name: "Categories", path: "/dashboard/categories", icon: "Grid" },

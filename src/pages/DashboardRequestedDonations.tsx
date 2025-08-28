@@ -1,20 +1,17 @@
 import { useEffect } from "react";
 import { Table } from "../components/Table";
-
+import type { Donation } from "../domain/interfaces/Donation";
 import { useDonationStore } from "../store/DonationStore";
 import { useCategoryStore } from "../store/CategoryStore";
 import { useDonationTransactionStore } from "../store/DonationTransactionStore";
 import { useAuthStore } from "../store/AuthStore";
-import { useToast } from "../contexts/ToastContext";
 
-export const DashboardRecievedDonations = () => {
+export const DashboardRequestedDonations = () => {
   const { donationPagination, fetchDonations } = useDonationStore();
   const { categories, fetchCategories } = useCategoryStore();
   const { transactions, fetchTransactions } = useDonationTransactionStore();
 
   const { user } = useAuthStore();
-  const { showToast } = useToast();
-  const { deleteTransaction } = useDonationTransactionStore();
 
   useEffect(() => {
     fetchTransactions();
@@ -28,24 +25,15 @@ export const DashboardRecievedDonations = () => {
     fetchCategories();
   }, [fetchCategories]);
 
-  const handleDelete = async (id: string | number) => {
-    if (!window.confirm("Are you sure you want to delete this transaction?")) {
-      return;
-    }
-    const transactionToDelete = transactions.find(
-      (transaction) => Number(transaction.donationId) === Number(id)
-    );
-    if (transactionToDelete != undefined) {
-      const resp = await deleteTransaction(String(transactionToDelete.id));
-      if (resp) {
-        showToast("Transaction deleted successfully", "success");
-      }
-    } else {
-      showToast("No transaction found with ID: " + id, "error");
-    }
+  const handleEdit = (donation: Donation) => {
+    // Handle edit action
   };
 
-  const myDonationTransactionSaved = user
+  const handleDelete = (id: string | number) => {
+    // Handle delete action
+  };
+
+  const myDonationTransactionRequested = user
     ? transactions.filter(
         (transaction) => Number(transaction.receiverId) === Number(user.id)
       )
@@ -54,8 +42,10 @@ export const DashboardRecievedDonations = () => {
   return (
     <div className="container mx-auto">
       <div className="px-4 pt-8">
-        <h1 className="text-2xl font-bold mb-2">Donations you have recieved</h1>
-        <p className="text-sm text-gray-600">View all recieved items here.</p>
+        <h1 className="text-2xl font-bold mb-2">
+          Donations you have requested
+        </h1>
+        <p className="text-sm text-gray-600">View all requested items here.</p>
       </div>
 
       <Table
@@ -69,10 +59,11 @@ export const DashboardRecievedDonations = () => {
         ]}
         dataTable={donationPagination.data
           .filter((donation) => {
-            return myDonationTransactionSaved.some(
+            return myDonationTransactionRequested.some(
               (transaction) => transaction.donationId === donation.id
             );
           })
+          .filter((donation) => user && donation.donorId === Number(user.id))
           .map((donation) => ({
             id: donation.id,
             title: donation.title,
@@ -83,8 +74,8 @@ export const DashboardRecievedDonations = () => {
             status: donation.status,
             date: donation.createdAt,
           }))}
+        onEdit={handleEdit}
         onDelete={handleDelete}
-        showEditButton={false}
       />
     </div>
   );

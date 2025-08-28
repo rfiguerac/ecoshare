@@ -1,7 +1,8 @@
+import { useCategoryStore } from "../../store/CategoryStore";
 import type { Donation } from "../../domain/interfaces/Donation.ts";
 import { Link } from "react-router-dom";
 
-import categories from "../../data/categories.ts";
+
 
 interface CardDonationProps {
   donation: Donation;
@@ -11,6 +12,7 @@ interface CardDonationProps {
 
 export const CardDonation = (props: CardDonationProps) => {
   const { title, description } = props.donation;
+  const { categories } = useCategoryStore();
 
 
   const url = "http://localhost:3002/public/uploads/donation";
@@ -38,9 +40,16 @@ export const CardDonation = (props: CardDonationProps) => {
           <h2 className="card-title">{title}</h2>
           <p className="text-gray-600 line-clamp-1">{description}</p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">{props.donation.status}</div>
+            {props.donation.status === "Available" && props.donation.expiryDate ? (
+              <div className="badge badge-outline text-red-500">
+                Expires on {new Date(props.donation.expiryDate).toLocaleDateString()}
+              </div>
+            ) : (
+              <div className="badge badge-outline">
+                {props.donation.status}
+              </div>
+            )}
           </div>
-
           <button className="btn  bg-green-500 text-white">
             Claim
           </button>
@@ -49,3 +58,6 @@ export const CardDonation = (props: CardDonationProps) => {
     </Link>
   );
 };
+
+
+

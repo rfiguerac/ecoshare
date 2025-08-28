@@ -32,7 +32,7 @@ export const AboutDonor = ({ user }: AboutDonorProps) => {
 
                     <div className="flex items-center gap-2 text-gray-500">
                         <CalendarDays size={16} />
-                        <span className="text-sm">Joined {user.joined}</span>
+                        <span className="text-sm">Joined {user.createdAt}</span>
                     </div>
                 </div>
             </div>

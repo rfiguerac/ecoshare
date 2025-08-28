@@ -2,10 +2,13 @@
 import { useCategoryStore } from "../../store/CategoryStore";
 import { MainCard } from "../Main/MainCard";
 import { CardCategory } from "./CardCategory";
+import { useDonationStore } from "../../store/DonationStore";
 
 const BrowseCategory = () => {
-  
-const {categories} = useCategoryStore();
+  const { categories } = useCategoryStore();
+  const { donationPagination } = useDonationStore();
+
+
 
   const colors = [
     "bg-green-400",
@@ -27,13 +30,19 @@ const {categories} = useCategoryStore();
     "bg-violet-400",
   ];
 
+  // We need to ensure donations is an array before we use reduce
+
+
+
+  
   
   const category = categories.map((categoryItem, index) => {
     const color = colors[index % colors.length];
+    const totalInCategory = donationPagination.data.filter(d => d.categoryId === categoryItem.id).length;
     return (
       <CardCategory
         category={categoryItem}
-        quantity={1024}
+        quantity={totalInCategory}
         bgColor={color}
         key={categoryItem.id}
       />
@@ -43,6 +52,7 @@ const {categories} = useCategoryStore();
   return (
     <MainCard
       title="Browse Categories"
+      layout ="flex"
       description="Find exactly what you need discover something unexpected. Every category helps reduce waste and build communities.">
       {category}
     </MainCard>
