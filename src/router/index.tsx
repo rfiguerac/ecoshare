@@ -69,7 +69,7 @@ export default function AppRouter() {
           <Route path="users" element={<DashboardUser />} />
           <Route path="reports" element={<DashboardReports />} />
           <Route path="settings" element={<DashboardConfiguration />} />
-          <Route path="chat" element={<DashboardChatPage />} />
+          <Route path="chats" element={<DashboardChatPage />} />
           <Route path="donations" element={<DashboardDonationsPage />} />
           <Route path="my-donations" element={<DashboardMyDonations />} />
           <Route path="recieved-donations" element={<DashboardRecievedDonations />} />
