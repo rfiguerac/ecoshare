@@ -9,9 +9,7 @@ interface FeaturedDonationProps {
 
 const FeaturedDonation = (props: FeaturedDonationProps) => {
   const { donations } = props;
-  console.log(donations);
 
-  // Show up to the first 4 donations to fill two rows
   const featuredDonations = donations.slice(0, 8);
 
   const donationCards = featuredDonations.map((donation) => {
@@ -22,6 +20,7 @@ const FeaturedDonation = (props: FeaturedDonationProps) => {
     <>
       <MainCard
         title="Featured Donations"
+        layout="grid"
         description="Discover amazing items shared by your community."
       >
         {donationCards}
