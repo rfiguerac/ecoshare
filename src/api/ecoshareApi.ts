@@ -7,7 +7,8 @@ export const ecoshareApi = axios.create({
 
 ecoshareApi.interceptors.request.use(
   (config) => {
-    const { accessToken } = useAuthStore.getState();
+    // Obtiene el token directamente de localStorage, evitando el store de Zustand en este contexto
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

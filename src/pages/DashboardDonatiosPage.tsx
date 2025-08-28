@@ -8,7 +8,11 @@ import { useAuthStore } from "../store/AuthStore";
 export const DashboardDonationsPage = () => {
   const { donationPagination, fetchDonations } = useDonationStore();
   const { categories, fetchCategories } = useCategoryStore();
-  const { allProfiles } = useAuthStore();
+  const { allProfiles, fetchAllProfiles } = useAuthStore();
+
+  useEffect(() => {
+    fetchAllProfiles();
+  }, [fetchAllProfiles]);
 
   useEffect(() => {
     fetchDonations();
