@@ -38,9 +38,16 @@ export const CardDonation = (props: CardDonationProps) => {
           <h2 className="card-title">{title}</h2>
           <p className="text-gray-600 line-clamp-1">{description}</p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">{props.donation.status}</div>
+            {props.donation.status === "Available" && props.donation.expiryDate ? (
+              <div className="badge badge-outline text-red-500">
+                Expires on {new Date(props.donation.expiryDate).toLocaleDateString()}
+              </div>
+            ) : (
+              <div className="badge badge-outline">
+                {props.donation.status}
+              </div>
+            )}
           </div>
-
           <button className="btn  bg-green-500 text-white">
             Claim
           </button>

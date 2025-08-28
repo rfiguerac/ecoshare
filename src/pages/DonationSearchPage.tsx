@@ -168,6 +168,7 @@ export const DonationSearchPage = () => {
             ? `Resultados para "${search}"`
             : "Mostrando todas las donaciones"
         }
+        layout="grid"
         description={`Se encontraron ${filteredDonations.length} donaciones.`}>
         {donationCards.length > 0 ? (
           donationCards
