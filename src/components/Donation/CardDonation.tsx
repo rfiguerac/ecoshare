@@ -1,7 +1,8 @@
+import { useCategoryStore } from "../../store/CategoryStore";
 import type { Donation } from "../../domain/interfaces/Donation.ts";
 import { Link } from "react-router-dom";
 
-import categories from "../../data/categories.ts";
+
 
 interface CardDonationProps {
   donation: Donation;
@@ -11,6 +12,7 @@ interface CardDonationProps {
 
 export const CardDonation = (props: CardDonationProps) => {
   const { title, description } = props.donation;
+  const { categories } = useCategoryStore();
 
 
   const url = "http://localhost:3002/public/uploads/donation";
@@ -56,3 +58,6 @@ export const CardDonation = (props: CardDonationProps) => {
     </Link>
   );
 };
+
+
+

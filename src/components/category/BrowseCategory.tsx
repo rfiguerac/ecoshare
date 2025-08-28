@@ -1,4 +1,4 @@
-import type { Donation } from "../../domain/interfaces/Donation";
+
 import { useCategoryStore } from "../../store/CategoryStore";
 import { MainCard } from "../Main/MainCard";
 import { CardCategory } from "./CardCategory";
@@ -31,10 +31,6 @@ const BrowseCategory = () => {
   ];
 
   // We need to ensure donations is an array before we use reduce
-  const donationCounts = (donationPagination.data || []).reduce((acc, donation: Donation) => {
-    acc[donation.categoryId] = (acc[donation.categoryId] || 0) + 1;
-    return acc;
-  }, {} as Record<number, number>);
 
 
 
