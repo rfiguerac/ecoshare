@@ -1,6 +1,7 @@
-import { Heart, Share2, MapPin, MessageCircle, Star } from "lucide-react";
+import { Heart, Share2, MapPin, Tags } from "lucide-react";
 import type { Donation } from "../../../domain/interfaces/Donation";
 import type { User } from "../../../domain/interfaces/User";
+import { useDonationTransaction } from "../../../hooks/donation/useDonationTransaction";
 
 interface DonationInfoProps {
   donation: Donation;
@@ -20,6 +21,16 @@ export const DonationInfo = ({
   user,
 }: DonationInfoProps) => {
   const url = "http://localhost:3002/public/uploads/donation";
+
+  const { handleCreateTransaction } = useDonationTransaction();
+
+  const handleReserve = () => {
+    handleCreateTransaction({
+      donationId: donation.id!,
+      receiverId: Number(user.id!),
+      status: "Reserved",
+    });
+  };
 
   return (
     <div className="card bg-base-100 shadow-md w-full max-w-xl mx-auto rounded-lg">
@@ -116,10 +127,23 @@ export const DonationInfo = ({
 
         {/* Botones */}
         <div className="flex mt-4 gap-3">
-          <button className="btn btn-primary hover:btn-secondary active:btn-accent px-10">
-            <MessageCircle size={15} />
-            Reserve
-          </button>
+          {donation.status != "Available" && (
+            <button
+              className={`btn btn-primary hover:btn-secondary active:btn-accent px-10`}
+              onClick={handleReserve}
+              disabled>
+              Reserved
+              <Tags size={15} />
+            </button>
+          )}
+          {donation.status === "Available" && (
+            <button
+              className={`btn btn-primary hover:btn-secondary active:btn-accent px-10`}
+              onClick={handleReserve}>
+              Reserve
+              <Tags size={15} />
+            </button>
+          )}
           <button className="btn">View on Map</button>
         </div>
       </div>

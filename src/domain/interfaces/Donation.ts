@@ -14,21 +14,21 @@ export interface Donation {
   categoryId: number;
   description: string;
   urgent?: boolean;
-  images?: img[];
+  images?: Img[];
   longitude: number;
   latitude: number;
   expiryDate?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
-  status?: "Available" | "Reserved" | "Collected";
+  status?: "Available" | "Reserved" | "Donated";
 }
 
-interface img {
-  createdAt: Date;
-  updatedAt: Date;
+export interface Img {
+  createdAt?: Date;
+  updatedAt?: Date;
   imageUrl: string;
-  donationId: number;
-  id: number;
+  donationId?: number;
+  id?: number;
 }
 
 export interface NewDonation

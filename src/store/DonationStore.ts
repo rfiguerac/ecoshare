@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type {
   Donation,
+  Img,
   PaginatedDonationsResponse,
 } from "../domain/interfaces/Donation";
 import { donationRepositoryImpl } from "../data/DonationRepository.impl";
@@ -18,6 +19,8 @@ interface DonationStore {
   addDonation: (donation: Omit<Donation, "id">) => Promise<Donation>;
   updateDonation: (id: number, donation: Omit<Donation, "id">) => Promise<void>;
   removeDonation: (id: number) => Promise<void>;
+  updateDonationImages: (id: number, images: Img[]) => void;
+  updateDonationStatus: (id: number, status: "Reserved" | "Donated") => void;
 }
 
 export const useDonationStore = create<DonationStore>((set, get) => ({
@@ -99,6 +102,26 @@ export const useDonationStore = create<DonationStore>((set, get) => ({
     } catch (error) {
       console.error("Error removing donation:", error);
     }
+  },
+  updateDonationImages: (id, images) => {
+    set((state) => ({
+      donationPagination: {
+        ...state.donationPagination,
+        data: state.donationPagination.data.map((d) =>
+          d.id === id ? { ...d, images } : d
+        ),
+      },
+    }));
+  },
+  updateDonationStatus: (id: number, status: "Reserved" | "Donated") => {
+    set((state) => ({
+      donationPagination: {
+        ...state.donationPagination,
+        data: state.donationPagination.data.map((donation) =>
+          donation.id === id ? { ...donation, status } : donation
+        ),
+      },
+    }));
   },
 }));
 
