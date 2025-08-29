@@ -24,6 +24,7 @@ import type { JSX } from "react";
 import { useAuthStore } from "../store/AuthStore"; // Importa el store de autenticación
 import LoginPage from "../pages/LoginPage";
 import { DashboardRequestedDonations } from "../pages/DashboardRequestedDonations";
+import { ScrollToTop } from "../components/ScrollOnTop";
 
 // Componente para proteger rutas privadas
 function ProtectedRoute({ children }: { children: JSX.Element }) {
@@ -45,6 +46,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
 export default function AppRouter() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         {/* Rutas públicas */}
         <Route path="/" element={<MainLayout />}>
