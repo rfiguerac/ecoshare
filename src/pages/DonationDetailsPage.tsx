@@ -35,8 +35,6 @@ export const DonationDetailsPage = () => {
               (user) => String(user.id) == String(donation!.donorId)
             );
 
-  console.log(user)
-
   const fullAddress = AddressFromCoords({
     lat: Number(donation?.latitude!),
     lng: Number(donation?.longitude!),

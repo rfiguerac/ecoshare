@@ -1,4 +1,7 @@
 import { Star, CalendarDays, CircleUserRound } from 'lucide-react'
+import { useDonationStore } from '../../store/DonationStore';
+import type { User } from '../../domain/interfaces/User';
+
 
 interface AboutDonorProps {
     user: User;
@@ -7,7 +10,7 @@ interface AboutDonorProps {
 export const AboutDonor = ({ user }: AboutDonorProps) => {
 
     const { donationPagination, fetchDonations } = useDonationStore();
-    
+
     const userDonations = donationPagination.data.reduce((totalDonations, donacionActual) => {
         if (String(donacionActual.donorId) === String(user.id)) {
             return totalDonations + 1;
@@ -20,7 +23,7 @@ export const AboutDonor = ({ user }: AboutDonorProps) => {
             <div className="flex items-center gap-4 ml-8">
                 <div className="avatar online">
                     <div className="w-16 rounded-full">
-                        <CircleUserRound size="14" className="w-15 h-15"/>
+                        <CircleUserRound size="14" className="w-15 h-15" />
                     </div>
                 </div>
                 <div className="flex flex-col gap-1 mb-4">
@@ -35,8 +38,10 @@ export const AboutDonor = ({ user }: AboutDonorProps) => {
                                 />
                             ))}
                         </div>
-                        <span className="font-semibold text-gray-800">{user.rating}</span>
-                        <span className="text-sm">• {userDonations}</span>
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-gray-800">{user.rating}</span>
+                            <span className="text-sm">• {userDonations} Total donations</span>
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-2 text-gray-500">
