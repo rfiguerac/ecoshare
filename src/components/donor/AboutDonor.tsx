@@ -1,6 +1,4 @@
-import { Star, CalendarDays } from 'lucide-react'
-import type { User } from '../../domain/interfaces/User';
-import { useDonationStore } from '../../store/DonationStore';
+import { Star, CalendarDays, CircleUserRound } from 'lucide-react'
 
 interface AboutDonorProps {
     user: User;
@@ -22,7 +20,7 @@ export const AboutDonor = ({ user }: AboutDonorProps) => {
             <div className="flex items-center gap-4 ml-8">
                 <div className="avatar online">
                     <div className="w-16 rounded-full">
-                        <img src={user.avatarUrl} alt={user.name} />
+                        <CircleUserRound size="14" className="w-15 h-15"/>
                     </div>
                 </div>
                 <div className="flex flex-col gap-1 mb-4">
@@ -43,7 +41,7 @@ export const AboutDonor = ({ user }: AboutDonorProps) => {
 
                     <div className="flex items-center gap-2 text-gray-500">
                         <CalendarDays size={16} />
-                        <span className="text-sm">Joined {user.createdAt ? new Date(user.createdAt).toDateString() : "N/A"}</span>
+                        <span className="text-sm">Joined {new Date(user.createdAt).toLocaleDateString()}</span>
                     </div>
                 </div>
             </div>

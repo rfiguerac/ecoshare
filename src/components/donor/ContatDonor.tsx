@@ -1,4 +1,4 @@
-import { MessageCircle, PhoneIcon, Heart, Share2, FlagIcon } from "lucide-react";
+import { MessageCircle, Heart, Share2, FlagIcon } from "lucide-react";
 
 
 type ContactDonorProps = {
@@ -14,7 +14,6 @@ export const ContactDonor = ({setOpen, donationSaved, setDonationSaved, copyUrl}
             <div className="card-body">
                 <h2 className="card-title">Contact Donor</h2>
                 <button className="btn btn-primary hover:btn-secondary active:btn-accent px-10"> <MessageCircle size={15} />Send Messege</button>
-                <button className="btn px-10 mb-4"> <PhoneIcon size={15} />Request Phone Call</button>
                 <hr className="border-gray-200" />
                 <div 
                 className={`flex items-center gap-2 font-bold ml-4 cursor-pointer p-2 rounded-lg transition duration-200
