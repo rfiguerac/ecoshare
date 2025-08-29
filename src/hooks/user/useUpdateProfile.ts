@@ -36,7 +36,7 @@ export const useUpdateProfile = (user: User) => {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-           const response =  await updateProfile(errors);
+           const response =  await updateProfile(formData);
            response ? showToast("Porfile Updated", "success") : showToast( "Error: " + error, "error");
         }
     };

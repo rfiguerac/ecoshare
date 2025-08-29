@@ -4,7 +4,7 @@ import { AditionalInformation } from "../components/Donation/DonationDetails/Adi
 import { useParams } from "react-router-dom";
 import { ContactDonor } from "../components/donor/ContatDonor";
 import { AboutDonor } from "../components/donor/AboutDonor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReportForm } from "../components/Donation/DonationDetails/ReportForm";
 import { useDonationStore } from "../store/DonationStore";
 import { AddressFromCoords } from "../utils/getAddress";
@@ -13,16 +13,29 @@ import { useAuthStore } from "../store/AuthStore";
 export const DonationDetailsPage = () => {
   const [reportFormOpen, setReportFormOpen] = useState(false);
   const [donationSaved, setDonationSaved] = useState(false);
-
-  const user = useAuthStore((state) => state.user);
-
   const { id } = useParams();
+  const { allProfiles, fetchAllProfiles } = useAuthStore();
+
+    useEffect(() => {
+  
+    const fetchData = () => {
+      fetchAllProfiles();
+    };
+
+    fetchData();
+  }, []); 
 
   const { donationPagination } = useDonationStore();
 
   const donation = donationPagination.data.find(
     (donation) => donation.id === Number(id)
   );
+
+  const user = allProfiles!.find(
+              (user) => String(user.id) == String(donation!.donorId)
+            );
+
+  console.log(user)
 
   const fullAddress = AddressFromCoords({
     lat: Number(donation?.latitude!),
@@ -82,7 +95,7 @@ export const DonationDetailsPage = () => {
           setDonationSaved={saveDonation}
           copyUrl={copyUrl}
         />
-        <AboutDonor user={user} />
+        <AboutDonor user={user!} />
         <ReportForm
           open={reportFormOpen}
           setOpen={setReportFormOpen}
