@@ -1,11 +1,10 @@
-export const UsersTable = () => {
+import { useAuthStore } from "../../store/AuthStore";
 
-    const tableData = [
-        { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin' },
-        { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'User' },
-        { id: 3, name: 'Charlie Brown', email: 'charlie@example.com', role: 'Editor' },
-        { id: 4, name: 'Diana Prince', email: 'diana@example.com', role: 'User' },
-    ];
+
+export const UsersTable = () => {
+    const { allProfiles } = useAuthStore();
+    const tableData = allProfiles;
+  
 
     return (
         <div className="card w-full shadow-lg rounded-2xl bg-base-200">
