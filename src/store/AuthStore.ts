@@ -7,6 +7,7 @@ import type {
   UserUpdate,
   PasswordChange,
 } from "../domain/interfaces/User";
+import { all } from "axios";
 
 interface AuthState {
   user: User | null;
@@ -206,7 +207,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     //set({ loading: true });
     try {
       const data = await service.getAllProfiles();
-      console.log(data);
+
       set({
         allProfiles: data,
       });
