@@ -38,9 +38,18 @@ export const useChatMessageStore = create<ChatMessageState>((set) => ({
     }
   },
 
-  sendMessage: async (message: SendMessage) => {
+  sendMessage: async (
+    message: SendMessage
+  ): Promise<ChatMessage | undefined> => {
     try {
+      // Modificado para que el servicio devuelva el mensaje creado
       const createdMessage = await service.sendMessage(message);
+
+      // El store ya se encarga de añadir el mensaje a la vista
+      set((state) => ({
+        messages: [...state.messages, createdMessage],
+        error: null,
+      }));
       return createdMessage;
     } catch (error: any) {
       set({

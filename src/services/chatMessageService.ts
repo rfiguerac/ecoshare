@@ -1,14 +1,17 @@
 import type { ChatMessageRepository } from "../domain/repositories/ChatMessageRepository";
-import type { SendMessage } from "../domain/interfaces/ChatMessage";
+import type {
+  SendMessage,
+  ChatMessage,
+} from "../domain/interfaces/ChatMessage";
 
 export const chatMessageService = (repository: ChatMessageRepository) => {
-    const getMessagesByChatId = async (chatId: number) => {
-        return await repository.getMessagesByChatId(chatId);
-    }
+  const getMessagesByChatId = async (chatId: number) => {
+    return await repository.getMessagesByChatId(chatId);
+  };
 
-    const sendMessage = async (message: SendMessage) => {
-        return await repository.sendMessage(message);
-    }
+  const sendMessage = async (message: SendMessage): Promise<ChatMessage> => {
+    return await repository.sendMessage(message);
+  };
 
-    return { getMessagesByChatId, sendMessage, }
+  return { getMessagesByChatId, sendMessage };
 };
