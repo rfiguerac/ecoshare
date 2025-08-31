@@ -1,14 +1,11 @@
-// src/pages/DashboardChatPage.tsx
 import { useState, useEffect } from "react";
 import { SendHorizonal } from "lucide-react";
 import { useChatMessageStore } from "../store/ChatMessageStore";
 import { useAuthStore } from "../store/AuthStore";
 import { socket } from "../App";
 import { useChatStore } from "../store/ChatStore";
-import type {
-  ChatMessage,
-  SendMessage,
-} from "../domain/interfaces/ChatMessage";
+import type { ChatMessage } from "../domain/interfaces/ChatMessage";
+import type { SendMessage } from "../domain/interfaces/ChatMessage"; // Importar SendMessage
 
 export const DashboardChatPage = () => {
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
@@ -61,9 +58,9 @@ export const DashboardChatPage = () => {
     }
 
     const receiverId =
-      Number(selectedChat.userId) === Number(user.id)
-        ? selectedChat.userId
-        : user.id;
+      selectedChat.userId === Number(user.id)
+        ? selectedChat.donorId
+        : selectedChat.userId;
 
     const messageData: SendMessage = {
       message: newMessage.trim(),
@@ -142,14 +139,14 @@ export const DashboardChatPage = () => {
             <div
               key={message.id}
               className={`flex ${
-                message.senderId == Number(user?.id)
+                message.senderId === Number(user?.id)
                   ? "justify-end"
                   : "justify-start"
               }`}>
               <div
                 className={`flex items-start gap-2 p-3 rounded-xl max-w-[70%] text-sm
                   ${
-                    message.senderId == Number(user?.id)
+                    message.senderId === Number(user?.id)
                       ? "bg-green-500 text-white rounded-br-none"
                       : "bg-gray-200 text-gray-800 rounded-bl-none"
                   }`}>
