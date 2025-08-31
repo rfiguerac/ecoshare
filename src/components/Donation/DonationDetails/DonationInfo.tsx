@@ -2,6 +2,7 @@ import { Heart, Share2, MapPin, Tags } from "lucide-react";
 import type { Donation } from "../../../domain/interfaces/Donation";
 import type { User } from "../../../domain/interfaces/User";
 import { useDonationTransaction } from "../../../hooks/donation/useDonationTransaction";
+import { useAuthStore } from "../../../store/AuthStore";
 
 interface DonationInfoProps {
   donation: Donation;
@@ -9,7 +10,7 @@ interface DonationInfoProps {
   setDonationSaved: (x: boolean) => void;
   copyUrl: () => void;
   direction: string;
-  user: User;
+  userDonor: User;
 }
 
 export const DonationInfo = ({
@@ -18,13 +19,15 @@ export const DonationInfo = ({
   setDonationSaved,
   copyUrl,
   direction,
-  user,
+  userDonor,
 }: DonationInfoProps) => {
   const url = "http://localhost:3002/public/uploads/donation";
 
   const { handleCreateTransaction } = useDonationTransaction();
+  const { user } = useAuthStore();
 
   const handleReserve = () => {
+    if (!user) return;
     handleCreateTransaction({
       donationId: donation.id!,
       receiverId: Number(user.id!),
@@ -120,7 +123,7 @@ export const DonationInfo = ({
             className="w-8 h-8 rounded-full"
           /> */}
           <div className="flex flex-col">
-            <p className="font-bold">{user.name}</p>
+            <p className="font-bold">{userDonor.name}</p>
             <div className="flex"></div>
           </div>
         </div>

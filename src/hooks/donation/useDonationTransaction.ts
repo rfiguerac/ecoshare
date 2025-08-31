@@ -46,7 +46,7 @@ export const useDonationTransaction = () => {
   ) => {
     const updatedTransaction = await updateTransaction(id, data);
     if (updatedTransaction) {
-      updateDonationStatus(data.donationId, "Reserved");
+      updateDonationStatus(data.donationId, data.status);
       showToast("Transacción actualizada exitosamente!", "success");
     } else {
       showToast("Error al actualizar la transacción", "error");

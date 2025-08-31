@@ -56,12 +56,6 @@ export const DashboardRequestedDonations = () => {
     }
   };
 
-  const myDonationTransactionRequested = user
-    ? transactions.filter(
-        (transaction) => Number(transaction.receiverId) === Number(user.id)
-      )
-    : [];
-
   return (
     <div className="container mx-auto">
       <div className="px-4 pt-8">
@@ -130,8 +124,8 @@ export const DashboardRequestedDonations = () => {
               ? formatISODate("" + donation.updatedAt)
               : undefined,
           }))}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
+        showEditButton={false}
+        showDeleteButton={false}
       />
     </div>
   );

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Table } from "../components/Table";
-import type { Donation } from "../domain/interfaces/Donation";
 import { useDonationStore } from "../store/DonationStore";
 import { useCategoryStore } from "../store/CategoryStore";
 import { useAuthStore } from "../store/AuthStore";
@@ -22,12 +21,9 @@ export const DashboardDonationsPage = () => {
     fetchData();
   }, []); // El array de dependencias vacío es la clave para que se ejecute solo una vez al montar.
 
-  const handleEdit = (donation: Donation) => {
-    // Handle edit action
-  };
-
   const handleDelete = (id: string | number) => {
     // Handle delete action
+    console.log(id);
   };
 
   return (
@@ -60,7 +56,7 @@ export const DashboardDonationsPage = () => {
             ? formatISODate("" + donation.createdAt)
             : undefined,
         }))}
-        onEdit={handleEdit}
+        showEditButton={false}
         onDelete={handleDelete}
       />
     </div>

@@ -10,12 +10,11 @@ import { getAddressFromCoords } from "../utils/getAddressFromCoords";
 import { useAuthStore } from "../store/AuthStore";
 
 export const DonationDetailsPage = () => {
-  // **Todos los hooks deben ir al principio del componente**
   const [reportFormOpen, setReportFormOpen] = useState(false);
   const [donationSaved, setDonationSaved] = useState(false);
   const { id } = useParams();
   const users = useAuthStore.getState().allProfiles;
-  const donations = useDonationStore.getState().donationPagination.data;
+  const { donationPagination } = useDonationStore();
   const [address, setAddress] = useState<string>("Cargando dirección...");
   const { getFetchAddress } = getAddressFromCoords();
 
@@ -26,7 +25,9 @@ export const DonationDetailsPage = () => {
   }, []);
 
   // Buscamos la donación y el usuario
-  const donation = donations.find((donation) => donation.id === Number(id));
+  const donation = donationPagination.data.find(
+    (donation) => donation.id === Number(id)
+  );
   const user = users?.find(
     (user) => String(user.id) === String(donation?.donorId)
   );
@@ -86,7 +87,7 @@ export const DonationDetailsPage = () => {
           setDonationSaved={saveDonation}
           copyUrl={copyUrl}
           direction={address}
-          user={user}
+          userDonor={user}
         />
         <AditionalInformation donation={donation} address={address} />
       </div>
