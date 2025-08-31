@@ -25,6 +25,7 @@ import { useAuthStore } from "../store/AuthStore"; // Importa el store de autent
 import LoginPage from "../pages/LoginPage";
 import { DashboardRequestedDonations } from "../pages/DashboardRequestedDonations";
 import { ScrollToTop } from "../components/ScrollOnTop";
+import { UserProfile } from "../pages/UserProfile";
 
 // Componente para proteger rutas privadas
 function ProtectedRoute({ children }: { children: JSX.Element }) {
@@ -56,6 +57,7 @@ export default function AppRouter() {
           <Route path="createProfile" element={<ProfileCreationPage />} />
           <Route path="category" element={<CategoryPage />} />
           <Route path="donationSearch" element={<DonationSearchPage />} />
+          <Route path="userProfile/:id" element={<UserProfile/>}/>
           <Route path="*" element={<NotFound />} />
         </Route>
 
