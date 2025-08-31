@@ -16,7 +16,7 @@ export const DashboardLayout = () => {
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         <div className="flex-grow p-4 pt-20 lg:ml-52 lg:pt-16">
-          <main className="w-full h-full">
+          <main className="w-full">
             <Outlet />
           </main>
         </div>

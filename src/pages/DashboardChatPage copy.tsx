@@ -1,39 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+// src/pages/DashboardChatPage.tsx
+import { useState, useEffect } from "react";
 import { SendHorizonal } from "lucide-react";
 import { useChatMessageStore } from "../store/ChatMessageStore";
 import { useAuthStore } from "../store/AuthStore";
 import { socket } from "../App";
 import { useChatStore } from "../store/ChatStore";
-import { useLocation } from "react-router-dom";
-
-import type {
-  ChatMessage,
-  SendMessage,
-} from "../domain/interfaces/ChatMessage";
+import type { ChatMessage } from "../domain/interfaces/ChatMessage";
+import type { SendMessage } from "../domain/interfaces/ChatMessage";
 
 export const DashboardChatPage = () => {
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
   const [newMessage, setNewMessage] = useState("");
 
-  const { user, allProfiles, loading: authLoading } = useAuthStore();
-  const {
-    chats,
-    fetchAllChats,
-    markChatAsRead,
-    loading: chatsLoading,
-  } = useChatStore();
-  const { messages, fetchMessagesByChatId, addMessage } = useChatMessageStore();
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const location = useLocation();
-
-  // Extrae el ID del chat de los parámetros de la URL
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const chatIdFromUrl = params.get("chatId");
-    if (chatIdFromUrl) {
-      setSelectedChatId(Number(chatIdFromUrl));
-    }
-  }, [location]);
+  const { user, allProfiles } = useAuthStore();
+  const { chats, fetchAllChats, markChatAsRead } = useChatStore();
+  const { messages, fetchMessagesByChatId, sendMessage, addMessage } =
+    useChatMessageStore();
 
   useEffect(() => {
     fetchAllChats();
@@ -46,31 +28,25 @@ export const DashboardChatPage = () => {
       markChatAsRead(selectedChatId);
       socket.emit("join_chat", selectedChatId);
     }
-
-    const handleMessage = (message: ChatMessage) => {
-      if (message.senderId !== Number(user?.id)) {
-        addMessage(message);
-      }
-    };
-
-    socket.on("message_from_server", handleMessage);
-
     return () => {
       if (selectedChatId) {
         socket.emit("leave_chat", selectedChatId);
       }
-      socket.off("message_from_server", handleMessage);
     };
-  }, [selectedChatId, fetchMessagesByChatId, markChatAsRead, addMessage, user]);
+  }, [selectedChatId, fetchMessagesByChatId, markChatAsRead]);
 
+  // Este useEffect debe estar fuera del que se activa con `selectedChatId`
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    const handleReceiveMessage = (message: ChatMessage) => {
+      addMessage(message);
+    };
 
-  // Maneja los estados de carga para evitar errores de renderizado
-  if (authLoading || chatsLoading || !user || !allProfiles) {
-    return <div>Cargando...</div>;
-  }
+    socket.on("message_from_server", handleReceiveMessage);
+
+    return () => {
+      socket.off("message_from_server", handleReceiveMessage);
+    };
+  }, [addMessage]);
 
   const selectedChat = chats.find((chat) => chat.id === selectedChatId);
 
@@ -84,6 +60,10 @@ export const DashboardChatPage = () => {
 
   const handleSendMessage = async () => {
     if (newMessage.trim() === "" || !selectedChat) return;
+    if (!user) {
+      console.error("User not authenticated.");
+      return;
+    }
 
     const receiverId =
       selectedChat.userId === Number(user.id)
@@ -97,13 +77,11 @@ export const DashboardChatPage = () => {
       receiverId: Number(receiverId),
     };
 
-    // La función sendMessage del store ya incluye el mensaje en el estado,
-    // por lo que no es necesario agregarlo aquí manualmente
-    const createdMessage = await useChatMessageStore
-      .getState()
-      .sendMessage(messageData);
+    // Llamamos a la función `sendMessage` del store que ahora guarda en la BD y devuelve el mensaje completo.
+    const createdMessage = await sendMessage(messageData);
 
     if (createdMessage) {
+      // Emitimos el mensaje a través del socket solo después de haber sido guardado en la BD
       socket.emit("send_message", createdMessage);
       setNewMessage("");
     }
@@ -115,62 +93,46 @@ export const DashboardChatPage = () => {
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Inbox</h1>
           <div className="space-y-4">
-            {chats.map((chat) => {
-              let userChat = allProfiles.find(
-                (user) => String(user.id) === String(chat.userId)
-              );
-              if (user.id === userChat?.id) {
-                userChat = allProfiles.find(
-                  (user) => String(user.id) === String(chat.donorId)
-                );
-              }
-              return (
-                <div
-                  key={chat.id}
-                  onClick={() => handleSelectChat(chat.id)}
-                  className={`p-4 rounded-lg cursor-pointer transition-colors duration-200 ${
-                    chat.isRead
-                      ? "bg-white hover:bg-gray-100"
-                      : "bg-blue-50 hover:bg-blue-100"
-                  }`}>
-                  <div className="flex justify-between items-center mb-1">
-                    <span
-                      className={`font-semibold ${
-                        chat.isRead ? "text-gray-800" : "text-gray-900"
-                      }`}>
-                      {userChat?.name || "User"}
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      {chat.createdAt
-                        ? new Date(chat.createdAt).toLocaleDateString()
-                        : "N/A"}
-                    </span>
-                  </div>
-                  <p
-                    className={`text-sm ${
-                      chat.isRead
-                        ? "text-gray-600"
-                        : "text-gray-800 font-medium"
+            {chats.map((chat) => (
+              <div
+                key={chat.id}
+                onClick={() => handleSelectChat(chat.id)}
+                className={`p-4 rounded-lg cursor-pointer transition-colors duration-200 ${
+                  chat.isRead
+                    ? "bg-white hover:bg-gray-100"
+                    : "bg-blue-50 hover:bg-blue-100"
+                }`}>
+                <div className="flex justify-between items-center mb-1">
+                  <span
+                    className={`font-semibold ${
+                      chat.isRead ? "text-gray-800" : "text-gray-900"
                     }`}>
-                    {chat.lastMessage}
-                  </p>
+                    {allProfiles?.find((p) => p.id === String(chat.userId))
+                      ?.name || "User"}
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    {chat.createdAt
+                      ? new Date(chat.createdAt).toLocaleDateString()
+                      : "N/A"}
+                  </span>
                 </div>
-              );
-            })}
+                <p
+                  className={`text-sm ${
+                    chat.isRead ? "text-gray-600" : "text-gray-800 font-medium"
+                  }`}>
+                  {chat.lastMessage}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
     );
   }
 
-  let userChat = allProfiles.find(
-    (user) => String(user.id) === String(selectedChat?.userId)
+  const otherUser = allProfiles?.find(
+    (p) => p.id === String(selectedChat?.userId)
   );
-  if (user.id === userChat?.id) {
-    userChat = allProfiles.find(
-      (user) => String(user.id) === String(selectedChat?.donorId)
-    );
-  }
 
   return (
     <div className="flex w-full max-w-7xl mx-auto mt-10 p-4 bg-gray-50 rounded-lg shadow-lg">
@@ -182,22 +144,22 @@ export const DashboardChatPage = () => {
             &larr;
           </button>
           <h1 className="text-3xl font-bold text-gray-800">
-            {userChat?.name || "User"}
+            {otherUser?.name || "User"}
           </h1>
         </div>
-        <div className="space-y-4 h-[400px] overflow-y-auto p-4 bg-white rounded-lg border border-gray-200">
+        <div className="space-y-4 h-[500px] overflow-y-auto p-4 bg-white rounded-lg border border-gray-200">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${
-                message.senderId === Number(user.id)
+                message.senderId === Number(user?.id)
                   ? "justify-end"
                   : "justify-start"
               }`}>
               <div
                 className={`flex items-start gap-2 p-3 rounded-xl max-w-[70%] text-sm
                   ${
-                    message.senderId === Number(user.id)
+                    message.senderId === Number(user?.id)
                       ? "bg-green-500 text-white rounded-br-none"
                       : "bg-gray-200 text-gray-800 rounded-bl-none"
                   }`}>
@@ -205,7 +167,6 @@ export const DashboardChatPage = () => {
               </div>
             </div>
           ))}
-          <div ref={messagesEndRef} />
         </div>
         <div className="mt-4 flex gap-2">
           <input
