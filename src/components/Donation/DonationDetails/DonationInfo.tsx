@@ -132,7 +132,7 @@ export const DonationInfo = ({
               className={`btn btn-primary hover:btn-secondary active:btn-accent px-10`}
               onClick={handleReserve}
               disabled>
-              Reserved
+              {donation.status}
               <Tags size={15} />
             </button>
           )}

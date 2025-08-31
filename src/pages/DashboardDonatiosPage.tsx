@@ -4,6 +4,7 @@ import type { Donation } from "../domain/interfaces/Donation";
 import { useDonationStore } from "../store/DonationStore";
 import { useCategoryStore } from "../store/CategoryStore";
 import { useAuthStore } from "../store/AuthStore";
+import { formatISODate } from "../utils/formatISODate";
 
 export const DashboardDonationsPage = () => {
   const { donationPagination, fetchDonations } = useDonationStore();
@@ -55,7 +56,9 @@ export const DashboardDonationsPage = () => {
           category:
             categories.find((cat) => cat.id === donation.categoryId)?.title ||
             "Unknown",
-          date: donation.createdAt,
+          date: donation.createdAt
+            ? formatISODate("" + donation.createdAt)
+            : undefined,
         }))}
         onEdit={handleEdit}
         onDelete={handleDelete}

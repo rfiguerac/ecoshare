@@ -6,6 +6,7 @@ import { useCategoryStore } from "../store/CategoryStore";
 import { useDonationTransactionStore } from "../store/DonationTransactionStore";
 import { useAuthStore } from "../store/AuthStore";
 import { useToast } from "../contexts/ToastContext";
+import { formatISODate } from "../utils/formatISODate";
 
 export const DashboardRecievedDonations = () => {
   const { donationPagination, fetchDonations } = useDonationStore();
@@ -58,6 +59,10 @@ export const DashboardRecievedDonations = () => {
         <p className="text-sm text-gray-600">View all recieved items here.</p>
       </div>
 
+      <p className="px-4 pt-8 text-xl">
+        <strong>Donations pending receipt:</strong>
+      </p>
+
       <Table
         headers={[
           { key: "id", label: "ID" },
@@ -73,6 +78,7 @@ export const DashboardRecievedDonations = () => {
               (transaction) => transaction.donationId === donation.id
             );
           })
+          .filter((donation) => donation.status === "Reserved")
           .map((donation) => ({
             id: donation.id,
             title: donation.title,
@@ -81,10 +87,49 @@ export const DashboardRecievedDonations = () => {
               categories.find((cat) => cat.id === donation.categoryId)?.title ||
               "Unknown",
             status: donation.status,
-            date: donation.createdAt,
+            date: donation.createdAt
+              ? formatISODate("" + donation.createdAt)
+              : undefined,
           }))}
         onDelete={handleDelete}
         showEditButton={false}
+      />
+
+      <div className="px-4 pt-8 text-xl">
+        <strong>My Received Donations:</strong>
+      </div>
+
+      <Table
+        headers={[
+          { key: "id", label: "ID" },
+          { key: "title", label: "Title" },
+          { key: "description", label: "Description" },
+          { key: "category", label: "Category" },
+          { key: "status", label: "Status" },
+          { key: "date", label: "Date" },
+        ]}
+        dataTable={donationPagination.data
+          .filter((donation) => {
+            return myDonationTransactionSaved.some(
+              (transaction) => transaction.donationId === donation.id
+            );
+          })
+          .filter((donation) => donation.status === "Donated")
+          .map((donation) => ({
+            id: donation.id,
+            title: donation.title,
+            description: donation.description,
+            category:
+              categories.find((cat) => cat.id === donation.categoryId)?.title ||
+              "Unknown",
+            status: donation.status,
+            date: donation.createdAt
+              ? formatISODate("" + donation.createdAt)
+              : undefined,
+          }))}
+        onDelete={handleDelete}
+        showEditButton={false}
+        showDeleteButton={false}
       />
     </div>
   );

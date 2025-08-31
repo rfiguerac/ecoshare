@@ -46,13 +46,20 @@ export const useDonationTransaction = () => {
   ) => {
     const updatedTransaction = await updateTransaction(id, data);
     if (updatedTransaction) {
+      updateDonationStatus(data.donationId, "Reserved");
       showToast("Transacción actualizada exitosamente!", "success");
+    } else {
+      showToast("Error al actualizar la transacción", "error");
     }
   };
 
   const handleDeleteTransaction = async (id: string) => {
-    await deleteTransaction(id);
-    // El store ya maneja la lógica para mostrar el toast de éxito o error
+    const res = await deleteTransaction(id);
+    if (res) {
+      showToast("Transacción eliminada exitosamente!", "success");
+    } else {
+      showToast("Error al eliminar la transacción", "error");
+    }
   };
 
   return {

@@ -13,5 +13,5 @@ export interface NewDonationTransactionData
 export interface UpdateDonationTransactionData
   extends Omit<
     DonationTransaction,
-    "id" | "createdAt" | "updatedAt" | "donationId" | "receiverId"
+    "id" | "createdAt" | "updatedAt" | "receiverId"
   > {}
