@@ -97,8 +97,8 @@ export const DashboardChatPage = () => {
                     className={`font-semibold ${
                       chat.isRead ? "text-gray-800" : "text-gray-900"
                     }`}>
-                    {allProfiles?.find((p) => p.id === chat.userId)?.name ||
-                      "User"}
+                    {allProfiles?.find((p) => p.id === String(chat.userId))
+                      ?.name || "User"}
                   </span>
                   <span className="text-sm text-gray-500">
                     {chat.createdAt
@@ -120,7 +120,9 @@ export const DashboardChatPage = () => {
     );
   }
 
-  const otherUser = allProfiles?.find((p) => p.id === selectedChat?.userId);
+  const otherUser = allProfiles?.find(
+    (p) => p.id === String(selectedChat?.userId)
+  );
 
   return (
     <div className="flex w-full max-w-7xl mx-auto mt-10 p-4 bg-gray-50 rounded-lg shadow-lg">

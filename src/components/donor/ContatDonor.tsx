@@ -1,14 +1,19 @@
 // src/components/donor/ContatDonor.tsx
 import { MessageCircle, Heart, Share2, FlagIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/AuthStore";
+import { chatService } from "../../services/chatService";
+import { chatRepositoryImpl } from "../../data/ChatRepository.impl";
 
 type ContactDonorProps = {
   setOpen: (x: boolean) => void;
   donationSaved: boolean;
   setDonationSaved: (x: boolean) => void;
   copyUrl: () => void;
-  donorId: number; // Nuevo prop para identificar al donante
+  donorId: number;
 };
+
+const service = chatService(chatRepositoryImpl);
 
 export const ContactDonor = ({
   setOpen,
@@ -18,12 +23,24 @@ export const ContactDonor = ({
   donorId,
 }: ContactDonorProps) => {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
 
-  const handleContactDonor = () => {
-    // Lógica para redirigir a la página de chat.
-    // Deberías pasar el ID del donante y el ID del usuario actual para crear o encontrar el chat.
-    // Por ahora, redirigimos a una URL genérica.
-    navigate(`/dashboard/chats?withUser=${donorId}`);
+  const handleContactDonor = async () => {
+    if (!user) {
+      console.error("User not authenticated.");
+      return;
+    }
+    const createChatDto = {
+      userId: Number(user.id),
+      donorId: donorId,
+    };
+
+    try {
+      const chat = await service.createChat(createChatDto);
+      navigate(`/dashboard/chats?chatId=${chat.id}`);
+    } catch (error) {
+      console.error("Failed to create or fetch chat:", error);
+    }
   };
 
   return (

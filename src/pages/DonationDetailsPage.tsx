@@ -1,3 +1,4 @@
+// src/pages/DonationDetailsPage.tsx
 import { DonationInfo } from "../components/Donation/DonationDetails/DonationInfo";
 import { AditionalInformation } from "../components/Donation/DonationDetails/AditionalInformation";
 import { useParams } from "react-router-dom";
@@ -17,22 +18,20 @@ export const DonationDetailsPage = () => {
   const { donationPagination } = useDonationStore();
   const [address, setAddress] = useState<string>("Cargando dirección...");
   const { getFetchAddress } = getAddressFromCoords();
+  const { user } = useAuthStore();
 
-  // Primer useEffect para la carga de datos
   useEffect(() => {
     useAuthStore.getState().fetchAllProfiles();
     useDonationStore.getState().fetchDonations();
   }, []);
 
-  // Buscamos la donación y el usuario
   const donation = donationPagination.data.find(
     (donation) => donation.id === Number(id)
   );
-  const user = users?.find(
+  const userDonor = users?.find(
     (user) => String(user.id) === String(donation?.donorId)
   );
 
-  // **Este useEffect que depende de la donación debe ir después de la lógica de búsqueda de la donación, pero antes de los retornos condicionales.**
   useEffect(() => {
     const fetchAddress = async () => {
       if (donation?.latitude && donation?.longitude) {
@@ -51,12 +50,11 @@ export const DonationDetailsPage = () => {
     }
   }, [donation]);
 
-  // **Ahora, los retornos condicionales pueden ir después de todos los hooks y la lógica de búsqueda de datos.**
   if (!donation) {
     return <div>Cargando información de la donación...</div>;
   }
 
-  if (!user) {
+  if (!userDonor) {
     return <div>Cargando información del donante...</div>;
   }
 
@@ -75,7 +73,6 @@ export const DonationDetailsPage = () => {
   return (
     <div className="bg-[#EAF6EF] grid grid-cols-1 lg:grid-cols-[auto_auto] gap-8 2xl:gap-0 p-8 items-start">
       <div className="space-y-8 justify-self-center">
-        {/* Button back*/}
         <button
           onClick={() => window.history.back()}
           className="text-sm text-gray-500 cursor-pointer">
@@ -87,7 +84,7 @@ export const DonationDetailsPage = () => {
           setDonationSaved={saveDonation}
           copyUrl={copyUrl}
           direction={address}
-          userDonor={user}
+          userDonor={userDonor}
         />
         <AditionalInformation donation={donation} address={address} />
       </div>
@@ -98,13 +95,14 @@ export const DonationDetailsPage = () => {
           donationSaved={donationSaved}
           setDonationSaved={saveDonation}
           copyUrl={copyUrl}
+          donorId={donation.donorId}
         />
-        <AboutDonor user={user} />
+        <AboutDonor user={userDonor} />
         <ReportForm
           open={reportFormOpen}
           setOpen={setReportFormOpen}
           idDonationRecived={Number(id)}
-          idUserRecived={1}
+          idUserRecived={Number(user?.id)}
         />
       </div>
     </div>
