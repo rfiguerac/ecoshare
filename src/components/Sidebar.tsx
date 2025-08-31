@@ -1,6 +1,8 @@
 import * as LucideIconsAll from "lucide-react";
 import { Link } from "react-router-dom";
 import React from "react";
+import { useDonationStore } from "../store/DonationStore";
+import { useAuthStore } from "../store/AuthStore";
 
 interface Props {
   isOpen: boolean;
@@ -13,6 +15,9 @@ const LucideIcons = Object.fromEntries(
 ) as Record<string, React.ComponentType<any>>;
 
 export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
+  const { donationPagination } = useDonationStore();
+  const { user } = useAuthStore();
+
   const menuItems = [
     { name: "Dashboard", path: "/dashboard", icon: "Home" },
     { name: "Donations", path: "/dashboard/donations", icon: "HeartHandshake" },
@@ -29,6 +34,14 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     { name: "Reports", path: "/dashboard/reports", icon: "BarChart" },
     { name: "Settings", path: "/dashboard/settings", icon: "Settings" },
   ];
+
+  const numberOfPendingRequests = () => {
+    if (!user) return 0;
+    const userId = Number(user.id);
+    return donationPagination.data.filter(
+      (tx) => tx.status === "Reserved" && tx.donorId === userId
+    ).length;
+  };
 
   return (
     <>
@@ -48,13 +61,19 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
             {menuItems.map((item) => {
               const Icon = LucideIcons[item.icon];
               return (
-                <li key={item.path}>
+                <li key={item.path} className="relative">
                   <Link
                     to={item.path}
-                    className="flex items-center gap-2 rounded-lg hover:bg-primary hover:text-white transition-all"
+                    className="flex items-center gap-2 rounded-lg hover:bg-primary hover:text-white transition-all p-2"
                     onClick={() => setIsOpen(false)}>
                     {Icon && <Icon size={20} />}
-                    {item.name}
+                    <span>{item.name}</span>
+                    {item.name === "Requested" &&
+                      numberOfPendingRequests() !== 0 && (
+                        <span className="badge badge-warning ">
+                          {numberOfPendingRequests()}
+                        </span>
+                      )}
                   </Link>
                 </li>
               );
