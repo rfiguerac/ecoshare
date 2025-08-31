@@ -1,11 +1,18 @@
 import React, { useState, useMemo } from "react";
 import { Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 
+interface CustomButton {
+  label: string;
+  className?: string;
+  icon?: React.ReactNode;
+  onClick: (row: any) => void;
+}
 interface TableProps {
   headers: { key: string; label: string }[];
   dataTable: any[];
   onEdit?: (itemToEdit: any) => void;
   onDelete?: (id: any) => void;
+  customButtons?: CustomButton[];
   idKey?: string;
   defaultItemsPerPage?: number;
   pageSizeOptions?: number[];
@@ -23,6 +30,7 @@ export const Table: React.FC<TableProps> = ({
   pageSizeOptions = [5, 10, 20],
   showDeleteButton = true,
   showEditButton = true,
+  customButtons = [],
 }) => {
   const [sortConfig, setSortConfig] = useState<{
     key: string;
@@ -120,6 +128,15 @@ export const Table: React.FC<TableProps> = ({
                   ))}
                   <td className="p-4 text-center">
                     <div className="flex justify-center space-x-2">
+                      {customButtons?.map((button, index) => (
+                        <button
+                          key={index}
+                          className={`btn btn-sm ${button.className}`}
+                          onClick={() => button.onClick(row)}>
+                          {button.icon}
+                          {button.label}
+                        </button>
+                      ))}
                       {showEditButton && (
                         <button
                           className="btn btn-sm btn-info"
@@ -171,6 +188,15 @@ export const Table: React.FC<TableProps> = ({
                 </div>
               ))}
               <div className="flex justify-center space-x-2 mt-4">
+                {customButtons?.map((button, index) => (
+                  <button
+                    key={index}
+                    className={`btn btn-sm ${button.className}`}
+                    onClick={button.onClick}>
+                    {button.icon}
+                    {button.label}
+                  </button>
+                ))}
                 {showEditButton && (
                   <button
                     className="btn btn-sm btn-info"

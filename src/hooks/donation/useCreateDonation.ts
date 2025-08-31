@@ -117,7 +117,6 @@ export const useCreateDonation = ({ handleShowModal }: Props) => {
       // 2: Si la donación se creó correctamente, subimos las imágenes
       showToast("Donation created successfully!", "success");
       const uploadedImages = await uploadFile(files, newDonation.id);
-      console.log(uploadedImages);
       if (uploadedImages.images) {
         // Aquí puedes hacer algo con las imágenes subidas, como asociarlas a la donación
         updateDonationImages(newDonation.id, uploadedImages.images);

@@ -43,12 +43,9 @@ export const DonationSearchPage = () => {
 
     // Llamas a tu función aquí según el estado
     if (checked) {
-      console.log("Checkbox marcado");
-
       const { lat, lng } = await getCurrentLocation();
       setMyLocation({ lat, lng });
     } else {
-      console.log("Checkbox desmarcado");
       // llamar función B
     }
   };
@@ -131,7 +128,6 @@ export const DonationSearchPage = () => {
 
         {/* Filtro por distancia*/}
         <div className="form-control w-full md:w-1/2">
-
           <div className="flex items-center mb-2">
             <input
               type="checkbox"
@@ -161,7 +157,6 @@ export const DonationSearchPage = () => {
             <span>50 km</span>
           </div> */}
         </div>
-
       </div>
 
       {/* Listado de resultados */}

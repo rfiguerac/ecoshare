@@ -8,6 +8,7 @@ import { useAuthStore } from "../store/AuthStore";
 
 import { useDonationTransaction } from "../hooks/donation/useDonationTransaction";
 import { formatISODate } from "../utils/formatISODate";
+import { Gift } from "lucide-react";
 
 export const DashboardRequestedDonations = () => {
   const { donationPagination, fetchDonations } = useDonationStore();
@@ -31,7 +32,7 @@ export const DashboardRequestedDonations = () => {
     fetchCategories();
   }, [fetchCategories]);
 
-  const handleEdit = async (donation: Donation) => {
+  const handleDonated = async (donation: Donation) => {
     const transactionToUpdate = transactions.find(
       (transaction) => Number(transaction.donationId) === Number(donation.id)
     );
@@ -93,8 +94,16 @@ export const DashboardRequestedDonations = () => {
               ? formatISODate("" + donation.createdAt)
               : undefined,
           }))}
-        onEdit={handleEdit}
         onDelete={handleDelete}
+        showEditButton={false}
+        customButtons={[
+          {
+            label: "Donated",
+            className: "btn-primary",
+            icon: <Gift />,
+            onClick: handleDonated,
+          },
+        ]}
       />
       <p className="px-4 pt-8 text-xl">
         <strong>Donations completed:</strong>

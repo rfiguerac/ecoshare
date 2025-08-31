@@ -22,7 +22,6 @@ export const DashboardCategory = () => {
     const confirmDelete = window.confirm(
       "¿Seguro que quieres eliminar esta categoría?"
     );
-    console.log(confirmDelete);
     if (confirmDelete) {
       const res = await deleteCategory(String(id));
       if (res) {
