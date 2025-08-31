@@ -215,7 +215,7 @@ export const Navbar = ({ isOpenMenu, setIsOpenMenu }: Props) => {
                   </button>
                 </li>
                 <li>
-                  <Link to="/dashboard/chat">
+                  <Link to="/dashboard/chats">
                     {" "}
                     <Mail size={18} /> Messages
                   </Link>

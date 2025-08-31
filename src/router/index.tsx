@@ -46,7 +46,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
 export default function AppRouter() {
   return (
     <BrowserRouter>
-    <ScrollToTop />
+      <ScrollToTop />
       <Routes>
         {/* Rutas públicas */}
         <Route path="/" element={<MainLayout />}>
