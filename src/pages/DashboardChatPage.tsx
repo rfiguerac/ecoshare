@@ -4,8 +4,11 @@ import { useChatMessageStore } from "../store/ChatMessageStore";
 import { useAuthStore } from "../store/AuthStore";
 import { socket } from "../App";
 import { useChatStore } from "../store/ChatStore";
-import type { ChatMessage } from "../domain/interfaces/ChatMessage";
-import type { SendMessage } from "../domain/interfaces/ChatMessage"; // Importar SendMessage
+
+import type {
+  ChatMessage,
+  SendMessage,
+} from "../domain/interfaces/ChatMessage"; // Importe ChatMessage y SendMessage
 
 export const DashboardChatPage = () => {
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
@@ -13,8 +16,7 @@ export const DashboardChatPage = () => {
 
   const { user, allProfiles } = useAuthStore();
   const { chats, fetchAllChats, markChatAsRead } = useChatStore();
-  const { messages, fetchMessagesByChatId, sendMessage } =
-    useChatMessageStore();
+  const { messages, fetchMessagesByChatId, addMessage } = useChatMessageStore();
 
   useEffect(() => {
     fetchAllChats();
@@ -25,20 +27,22 @@ export const DashboardChatPage = () => {
     if (selectedChatId) {
       fetchMessagesByChatId(selectedChatId);
       markChatAsRead(selectedChatId);
+      socket.emit("join_chat", selectedChatId);
     }
-  }, [selectedChatId, fetchMessagesByChatId, markChatAsRead]);
 
-  useEffect(() => {
-    socket.on("receive_message", (message: ChatMessage) => {
-      if (selectedChatId === message.chatId) {
-        useChatMessageStore.getState().addMessage(message);
-      }
+    // Listener para mensajes entrantes
+    socket.on("message_from_server", (message: ChatMessage) => {
+      // Añadir el mensaje a la vista del receptor
+      addMessage(message);
     });
 
     return () => {
-      socket.off("receive_message");
+      if (selectedChatId) {
+        socket.emit("leave_chat", selectedChatId);
+      }
+      socket.off("message_from_server");
     };
-  }, [selectedChatId]);
+  }, [selectedChatId, fetchMessagesByChatId, markChatAsRead, addMessage]);
 
   const selectedChat = chats.find((chat) => chat.id === selectedChatId);
 
@@ -69,11 +73,17 @@ export const DashboardChatPage = () => {
       receiverId: Number(receiverId),
     };
 
-    await sendMessage(messageData);
-    socket.emit("send_message", messageData);
-    setNewMessage("");
-  };
+    // La función sendMessage en el store ahora se encarga de añadir el mensaje a la vista del remitente
+    const createdMessage = await useChatMessageStore
+      .getState()
+      .sendMessage(messageData);
 
+    if (createdMessage) {
+      // Emitir el mensaje a través de WebSockets después de que se haya guardado
+      socket.emit("send_message", createdMessage);
+      setNewMessage("");
+    }
+  };
   if (selectedChatId === null) {
     return (
       <div className="flex w-full max-w-7xl mx-auto mt-10 p-4 bg-gray-50 rounded-lg shadow-lg">

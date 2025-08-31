@@ -12,6 +12,10 @@ export const chatRepositoryImpl: ChatMessageRepository = {
     // La lógica para crear o encontrar el chat debe estar en otro lugar
     // o ser manejada por la API de backend de manera implícita.
     // Aquí solo se envía el mensaje.
-    await ecoshareApi.post(`/chat-messages/send-message`, message);
+    const response = await ecoshareApi.post(
+      `/chat-messages/send-message`,
+      message
+    );
+    return response.data;
   },
 };

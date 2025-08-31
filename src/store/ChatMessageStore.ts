@@ -15,7 +15,7 @@ interface ChatMessageState {
   loading: boolean;
   error: string | null;
   fetchMessagesByChatId: (chatId: number) => Promise<void>;
-  sendMessage: (message: SendMessage) => Promise<void>;
+  sendMessage: (message: SendMessage) => Promise<ChatMessage | undefined>;
   addMessage: (message: ChatMessage) => void;
 }
 
@@ -40,12 +40,14 @@ export const useChatMessageStore = create<ChatMessageState>((set) => ({
 
   sendMessage: async (message: SendMessage) => {
     try {
-      await service.sendMessage(message);
+      const createdMessage = await service.sendMessage(message);
+      return createdMessage;
     } catch (error: any) {
       set({
         error: "Error al enviar el mensaje: " + error.message,
       });
       console.error(error);
+      return undefined;
     }
   },
 
