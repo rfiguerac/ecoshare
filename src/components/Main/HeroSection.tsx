@@ -5,12 +5,13 @@ import { useDonationStore } from '../../store/DonationStore';
 
 
 
+
 const carouselImages = [
-  "https://plus.unsplash.com/premium_photo-1665311515452-a9f54c4266c9?q=80&w=1675&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2213&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1681987448179-4a93b7975018?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1609054841737-9feb7029bd7b?q=80&w=1562&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-];
+  "/images/carousel/groceries.jpg",
+  "/images/carousel/clothes2.jpg",
+  "/images/carousel/book.jpg",
+  "/images/carousel/appliances.jpg"
+]
 
 const HeroSection = () => {
   const { donationPagination } = useDonationStore();

@@ -12,17 +12,25 @@ const service = chatMessageService(repo);
 
 interface ChatMessageState {
   messages: ChatMessage[];
+  activeChatId: number | null;
   loading: boolean;
   error: string | null;
+  setActiveChatId: (chatId: number | null) => void;
   fetchMessagesByChatId: (chatId: number) => Promise<void>;
   sendMessage: (message: SendMessage) => Promise<ChatMessage | undefined>;
   addMessage: (message: ChatMessage) => void;
 }
 
-export const useChatMessageStore = create<ChatMessageState>((set) => ({
+export const useChatMessageStore = create<ChatMessageState>((set, get) => ({
   messages: [],
+  activeChatId: null,
   loading: false,
   error: null,
+
+  setActiveChatId: (chatId: number | null) => {
+    // Al cambiar de chat, limpiamos los mensajes anteriores
+    set({ activeChatId: chatId, messages: [] });
+  },
 
   fetchMessagesByChatId: async (chatId: number) => {
     set({ loading: true, error: null });
@@ -30,11 +38,7 @@ export const useChatMessageStore = create<ChatMessageState>((set) => ({
       const data = await service.getMessagesByChatId(chatId);
       set({ messages: data, loading: false });
     } catch (error: any) {
-      set({
-        loading: false,
-        error: "Error al obtener los mensajes: " + error.message,
-      });
-      console.error(error);
+      set({ loading: false, error: "Error al obtener los mensajes." });
     }
   },
 
@@ -42,27 +46,21 @@ export const useChatMessageStore = create<ChatMessageState>((set) => ({
     message: SendMessage
   ): Promise<ChatMessage | undefined> => {
     try {
-      // Modificado para que el servicio devuelva el mensaje creado
-      const createdMessage = await service.sendMessage(message);
-
-      // El store ya se encarga de añadir el mensaje a la vista
-      set((state) => ({
-        messages: [...state.messages, createdMessage],
-        error: null,
-      }));
-      return createdMessage;
+      return await service.sendMessage(message);
     } catch (error: any) {
-      set({
-        error: "Error al enviar el mensaje: " + error.message,
-      });
-      console.error(error);
+      set({ error: "Error al enviar el mensaje." });
       return undefined;
     }
   },
 
+  // ✅ Esta función es llamada por el listener central en App.tsx
   addMessage: (message: ChatMessage) => {
-    set((state) => ({
-      messages: [...state.messages, message],
-    }));
+    const { activeChatId } = get();
+    // Solo añade el mensaje si el chat correspondiente está abierto en la UI
+    if (activeChatId === message.chatId) {
+      set((state) => ({
+        messages: [...state.messages, message],
+      }));
+    }
   },
 }));
