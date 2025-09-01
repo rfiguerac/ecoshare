@@ -49,7 +49,7 @@ export const ReportsTable = ({reportsRecived, deleteDonation, reportRevised}: Re
                     }
                   }}
                 >
-                  Reviwed
+                  Reviewed
                 </button>
               </td>
             </tr>

@@ -1,8 +1,9 @@
 export interface Report {
-    id?: number,
-    userId: number,
+    id: number,
     description: string,
-    idDonation: number,
+    reporterId: number,
+    donationId: number,
+    isReviewed: boolean,
     createdAt?: Date;
     updatedAt?: Date;
 }
