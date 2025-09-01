@@ -17,7 +17,6 @@ export const CardDonation = (props: CardDonationProps) => {
   return (
     <Link to={`/donation/${props.donation.id}`}>
       <div className="group border border-gray-200 bg-white rounded-2xl flex flex-col w-48 h-96 md:w-56 lg:w-64 shadow-sm hover:shadow-lg hover:border-green-400 transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer flex-shrink-0">
-        
         {/* Image + Category */}
         <figure className="relative w-full h-56 overflow-hidden rounded-t-2xl">
           <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
@@ -41,15 +40,17 @@ export const CardDonation = (props: CardDonationProps) => {
           <h2 className="text-base md:text-lg font-semibold text-gray-800 group-hover:text-green-600 transition-colors duration-300 line-clamp-1">
             {title}
           </h2>
-          <p className="text-gray-500 text-sm line-clamp-2 mt-1">
+          <p className="text-gray-500 text-sm line-clamp-1 mt-1">
             {description}
           </p>
 
           {/* Status / Expiry */}
           <div className="mt-3">
-            {props.donation.status === "Available" && props.donation.expiryDate ? (
+            {props.donation.status === "Available" &&
+            props.donation.expiryDate ? (
               <div className="text-xs font-medium text-red-500 bg-red-100 px-3 py-1 rounded-full">
-                Expires on {new Date(props.donation.expiryDate).toLocaleDateString()}
+                Expires on{" "}
+                {new Date(props.donation.expiryDate).toLocaleDateString()}
               </div>
             ) : (
               <div className="text-xs font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
