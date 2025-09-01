@@ -1,69 +1,84 @@
-# React + TypeScript + Vite
+# 🌍 EcoShare - Plataforma de Donación de Bienes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+EcoShare es una aplicación web cliente-servidor que conecta **donantes** y **receptores** de bienes no usados (alimentos, muebles, ropa, libros y más).  
+Su objetivo es fomentar la **donación responsable** y la **reutilización de recursos**, construyendo una comunidad solidaria y comprometida.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Características principales
+- Registro y autenticación de usuarios.
+- Publicación de donaciones con imágenes, estado y categoría.
+- Búsqueda avanzada con filtros y geolocalización.
+- Chat interno en tiempo real entre donantes y receptores.
+- Panel administrativo para gestión de usuarios, donaciones y reportes.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tecnologías utilizadas
+**Frontend**
+- React + TypeScript  
+- Tailwind CSS + DaisyUI  
+- Vite  
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Backend**
+- Node.js + Express  
+- Prisma (ORM) + PostgreSQL  
+- WebSockets (chat y notificaciones)  
+- Docker (contenedores y despliegue)  
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+**Servicios externos** 
+- Geolocalización (Leaflet API)
+- Zustan 
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📂 Estructura del proyecto
+- ecoshare/ → Frontend (React + TS)
+- ecosharebackend/ → Backend (Node + Express + Prisma)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ⚙️ Instalación y uso
+
+### 1. Clonar repositorios
+- git clone https://github.com/rfiguerac/ecoshare.git
+- git clone https://github.com/rfiguerac/ecosharebackend.git
+
+### 2. Connfiguración del backend
+- cd ecosharebackend
+- cp .env.template .env   # Configura tus variables de entorno
+- npm install
+- npm run dev
+La API estará disponible en: http://localhost:3002
+
+### 3. Configuración del frontend
+- cd ecoshare
+- npm install
+- npm run dev
+La app estará disponible en: http://localhost:5173
+
+---
+
+## 📂  Endpoints
+- POST /auth/register → Registro de usuario
+- POST /auth/login → Inicio de sesión
+- GET /donations → Listar donaciones
+- POST /donations → Crear donación
+- POST /chat/message → Enviar mensaje
+- GET /admin/users → Gestión de usuarios (admin)
+
+---
+
+## 📂  Roadmap
+**Etapa 1 (MVP):** Registro/login, perfiles, donaciones básicas, búsqueda, chat y panel admin.
+**Etapa 2:** Alertas personalizadas, moderación avanzada, métricas y mejoras UX/UI.
+**Etapa 3:** Escalabilidad, seguridad avanzada y despliegue en la nube.
+
+---
+
+## 📂  Contribución 
+- Crea un fork del repositorio.
+- Crea una rama (feature/nueva-funcionalidad).
+- Haz commit siguiendo Conventional Commits.
+- Envía un Pull Request a la rama dev.
+
