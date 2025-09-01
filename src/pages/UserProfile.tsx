@@ -32,7 +32,7 @@ export const UserProfile = () => {
     return (
         users && users.length > 0 ? (
             <>
-                <UserInfo user={user!} />
+                <UserInfo profileUser={user!} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
                     {donationCards}
                 </div>
