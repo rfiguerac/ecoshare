@@ -3,6 +3,7 @@ import { create } from "zustand";
 import type { Chat } from "../domain/interfaces/Chat";
 import { chatRepositoryImpl } from "../data/ChatRepository.impl";
 import { chatService } from "../services/chatService";
+import { ecoshareApi } from "../api/ecoshareApi";
 
 const repo = chatRepositoryImpl;
 const service = chatService(repo);
@@ -12,7 +13,7 @@ interface ChatState {
   loading: boolean;
   error: string | null;
   fetchAllChats: () => Promise<void>;
-  markChatAsRead: (chatId: number) => void;
+  markChatAsRead: (chatId: number) => Promise<void>;
   updateChatWithNewMessage: (
     chatId: number,
     lastMessage: string,
@@ -35,17 +36,27 @@ export const useChatStore = create<ChatState>((set) => ({
         loading: false,
         error: "Error al obtener los chats: " + error.message,
       });
-      console.error(error);
     }
   },
 
-  markChatAsRead: (chatId: number) => {
+  markChatAsRead: async (chatId: number) => {
     set((state) => ({
       chats: state.chats.map((chat) =>
         chat.id === chatId ? { ...chat, isRead: true } : chat
       ),
     }));
+    try {
+      await ecoshareApi.put(`/chats/${chatId}/read`);
+    } catch (error) {
+      console.error("Failed to mark chat as read on server:", error);
+      set((state) => ({
+        chats: state.chats.map((chat) =>
+          chat.id === chatId ? { ...chat, isRead: false } : chat
+        ),
+      }));
+    }
   },
+
   updateChatWithNewMessage: (
     chatId: number,
     lastMessage: string,
@@ -59,6 +70,7 @@ export const useChatStore = create<ChatState>((set) => ({
             lastMessage,
             lastMessageSenderId: senderId,
             isRead: false,
+            updatedAt: new Date(),
           };
         }
         return chat;
