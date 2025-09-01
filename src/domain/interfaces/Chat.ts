@@ -5,6 +5,7 @@ export interface Chat {
   donorId: number;
   isRead: boolean;
   lastMessage: string;
+  lastMessageSenderId?: number; // Propiedad nueva
   createdAt?: Date;
   updatedAt?: Date;
 }

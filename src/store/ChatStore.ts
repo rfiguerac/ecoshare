@@ -13,6 +13,11 @@ interface ChatState {
   error: string | null;
   fetchAllChats: () => Promise<void>;
   markChatAsRead: (chatId: number) => void;
+  updateChatWithNewMessage: (
+    chatId: number,
+    lastMessage: string,
+    senderId: number
+  ) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -39,6 +44,25 @@ export const useChatStore = create<ChatState>((set) => ({
       chats: state.chats.map((chat) =>
         chat.id === chatId ? { ...chat, isRead: true } : chat
       ),
+    }));
+  },
+  updateChatWithNewMessage: (
+    chatId: number,
+    lastMessage: string,
+    senderId: number
+  ) => {
+    set((state) => ({
+      chats: state.chats.map((chat) => {
+        if (chat.id === chatId) {
+          return {
+            ...chat,
+            lastMessage,
+            lastMessageSenderId: senderId,
+            isRead: false,
+          };
+        }
+        return chat;
+      }),
     }));
   },
 }));

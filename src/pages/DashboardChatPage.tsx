@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { SendHorizonal } from "lucide-react";
+import { ArrowDown, ArrowUp, SendHorizonal } from "lucide-react";
 import { useChatMessageStore } from "../store/ChatMessageStore";
 import { useAuthStore } from "../store/AuthStore";
 import { socket } from "../App";
@@ -21,6 +21,7 @@ export const DashboardChatPage = () => {
     fetchAllChats,
     markChatAsRead,
     loading: chatsLoading,
+    updateChatWithNewMessage,
   } = useChatStore();
   const { messages, fetchMessagesByChatId, addMessage } = useChatMessageStore();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -47,21 +48,40 @@ export const DashboardChatPage = () => {
       socket.emit("join_chat", selectedChatId);
     }
 
-    const handleMessage = (message: ChatMessage) => {
-      if (message.senderId !== Number(user?.id)) {
-        addMessage(message);
-      }
-    };
-
-    socket.on("message_from_server", handleMessage);
-
     return () => {
       if (selectedChatId) {
         socket.emit("leave_chat", selectedChatId);
       }
-      socket.off("message_from_server", handleMessage);
     };
-  }, [selectedChatId, fetchMessagesByChatId, markChatAsRead, addMessage, user]);
+  }, [selectedChatId, fetchMessagesByChatId, markChatAsRead]);
+
+  // Manejador del socket para mensajes entrantes y actualizaciones del inbox
+  useEffect(() => {
+    const handleNewMessage = (message: ChatMessage) => {
+      // Si el chat actualmente seleccionado coincide con el chat del mensaje entrante
+      // y el remitente no eres tú, agrega el mensaje a la vista.
+      if (
+        message.chatId === selectedChatId &&
+        message.senderId !== Number(user?.id)
+      ) {
+        addMessage(message);
+      }
+
+      // Siempre actualiza la lista de chats en la bandeja de entrada para mostrar el último mensaje,
+      // sin importar si lo enviaste o lo recibiste.
+      updateChatWithNewMessage(
+        message.chatId,
+        message.message,
+        message.senderId
+      );
+    };
+
+    socket.on("message_from_server", handleNewMessage);
+
+    return () => {
+      socket.off("message_from_server", handleNewMessage);
+    };
+  }, [user, addMessage, updateChatWithNewMessage, selectedChatId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -97,8 +117,6 @@ export const DashboardChatPage = () => {
       receiverId: Number(receiverId),
     };
 
-    // La función sendMessage del store ya incluye el mensaje en el estado,
-    // por lo que no es necesario agregarlo aquí manualmente
     const createdMessage = await useChatMessageStore
       .getState()
       .sendMessage(messageData);
@@ -110,20 +128,31 @@ export const DashboardChatPage = () => {
   };
 
   if (selectedChatId === null) {
+    const userChats = chats.filter(
+      (chat) =>
+        chat.userId === Number(user.id) || chat.donorId === Number(user.id)
+    );
+
     return (
       <div className="flex w-full max-w-7xl mx-auto mt-10 p-4 bg-gray-50 rounded-lg shadow-lg">
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Inbox</h1>
           <div className="space-y-4">
-            {chats.map((chat) => {
-              let userChat = allProfiles.find(
-                (user) => String(user.id) === String(chat.userId)
+            {userChats.map((chat) => {
+              const otherUserId =
+                chat.userId === Number(user.id) ? chat.donorId : chat.userId;
+              const otherUser = allProfiles.find(
+                (profile) => Number(profile.id) === otherUserId
               );
-              if (user.id === userChat?.id) {
-                userChat = allProfiles.find(
-                  (user) => String(user.id) === String(chat.donorId)
+
+              // Determina el icono según quién envió el último mensaje
+              const lastMessageIcon =
+                chat.lastMessageSenderId === Number(user.id) ? (
+                  <ArrowUp size={16} className="mr-1 text-gray-500" />
+                ) : (
+                  <ArrowDown size={16} className="mr-1 text-green-500" />
                 );
-              }
+
               return (
                 <div
                   key={chat.id}
@@ -138,7 +167,7 @@ export const DashboardChatPage = () => {
                       className={`font-semibold ${
                         chat.isRead ? "text-gray-800" : "text-gray-900"
                       }`}>
-                      {userChat?.name || "User"}
+                      {otherUser?.name || "User"}
                     </span>
                     <span className="text-sm text-gray-500">
                       {chat.createdAt
@@ -147,11 +176,12 @@ export const DashboardChatPage = () => {
                     </span>
                   </div>
                   <p
-                    className={`text-sm ${
+                    className={`flex items-center text-sm ${
                       chat.isRead
                         ? "text-gray-600"
                         : "text-gray-800 font-medium"
                     }`}>
+                    {chat.lastMessageSenderId && lastMessageIcon}
                     {chat.lastMessage}
                   </p>
                 </div>
