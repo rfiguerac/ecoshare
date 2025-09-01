@@ -18,7 +18,24 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
   const { donationPagination } = useDonationStore();
   const { user } = useAuthStore();
 
-  const menuItems = [
+  const menuItemUser = [
+    { name: "Dashboard", path: "/dashboard", icon: "Home" },
+    //{ name: "Donations", path: "/dashboard/donations", icon: "HeartHandshake" },
+    { name: "My Donations", path: "/dashboard/my-donations", icon: "Heart" },
+    { name: "Received", path: "/dashboard/recieved-donations", icon: "Gift" },
+    {
+      name: "Requested",
+      path: "/dashboard/requested-donations",
+      icon: "Handshake",
+    },
+    //{ name: "Users", path: "/dashboard/users", icon: "User" },
+    //{ name: "Categories", path: "/dashboard/categories", icon: "Grid" },
+    { name: "Messages", path: "/dashboard/chats", icon: "MessageCircle" },
+    //{ name: "Reports", path: "/dashboard/reports", icon: "BarChart" },
+    { name: "Settings", path: "/dashboard/settings", icon: "Settings" },
+  ];
+
+  const menuItemAdmin = [
     { name: "Dashboard", path: "/dashboard", icon: "Home" },
     { name: "Donations", path: "/dashboard/donations", icon: "HeartHandshake" },
     { name: "My Donations", path: "/dashboard/my-donations", icon: "Heart" },
@@ -34,6 +51,8 @@ export const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     { name: "Reports", path: "/dashboard/reports", icon: "BarChart" },
     { name: "Settings", path: "/dashboard/settings", icon: "Settings" },
   ];
+
+  const menuItems = user?.role === "Admin" ? menuItemAdmin : menuItemUser;
 
   const numberOfPendingRequests = () => {
     if (!user) return 0;
